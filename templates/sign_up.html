@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <style>
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        input{
+            width: 200px;
+        }
+        button{
+            width: fit-content;
+        }
+    </style>
+</head>
+<body style="text-align: center;">
+    <h1>SIGN UP</h1>
+    <form action="/register" method='POST'>
+        <input type="text" id="username" name="username" placeholder="UserName" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="password" id="re-password" placeholder="Re-password" required>
+        <button type="submit" id="submit" onclick="valid(event)">Enter</button>
+    </form>
+    <p>Already have an account! <a href="/sign_in">Login now</a></p>
+    <script src="../static/sign_up.js"></script>
+</body>
+</html>
