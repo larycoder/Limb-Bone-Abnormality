@@ -11,7 +11,7 @@ create table User(
 );
 create table File(
 	id int(10) auto_increment primary key,
-    data text,
+    data BLOB,
     date datetime,
     user_id int(10),
     foreign key(user_id) references User(id)

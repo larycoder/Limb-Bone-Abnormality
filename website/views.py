@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, render_template,request,flash,jsonify
+from werkzeug.security import generate_password_hash as generate_file
 from flask_login import  login_required, current_user
 from .models import File
 from . import db
@@ -6,23 +7,24 @@ import json
 
 views = Blueprint('views', __name__)
 
-
-
 @views.route('/home', methods = ['GET', 'POST'])
 @login_required
 def home():
-    if current_user is None or not current_user.is_authenticated:
-        return redirect('/login')
     if request.method == 'POST':
-        file = request.form.get('file')
+        file = request.files['inputFile'] 
 
-        if len(file) < 1:
-            flash('File is invalid!', category = 'error')
+        if not file or file.filename == '':
+            flash('No file selected!', category='error')
         else:
-            new_file = File(data=file, user_id = current_user.id)
+            file_data = file.read()
+            # file_data=generate_file(file_data, method='pbkdf2:sha256')
+            # Add file into database
+            new_file = File(data=file_data, user_id=current_user.id)
             db.session.add(new_file)
             db.session.commit()
-            flash('Upload file success!', category = 'success')
+
+            flash('File uploaded successfully!', category='success')
+
     return render_template('home.html', user=current_user)
 
 @views.route('/delete-file', methods=['POST'])
