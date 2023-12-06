@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 align="center">My Files</h1>
+<ul class="list-group list-group-flush" id="files">
+    {% for file in user.files %}
+    <li class="list-group-item">{{ file.data }}
+        <button type="button" class="close" onClick="deleteFile('{{ file.id }}')">
+        <span aria-hidden="true">&times;</span></button>
+    </li>
+    {% endfor %}
+</ul>
+<form action="" method="post">
+    <textarea name="file" id="file" class="form-control"></textarea>
+    <br>
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Add file</button>
+    </div>
+</form>
+{% endblock %}
