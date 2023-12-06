@@ -13,17 +13,15 @@ def home():
     if request.method == 'POST':
         file = request.files['inputFile'] 
 
-        if not file or file.filename == '':
-            flash('No file selected!', category='error')
-        else:
-            file_data = file.read()
-            # file_data=generate_file(file_data, method='pbkdf2:sha256')
-            # Add file into database
-            new_file = File(data=file_data, user_id=current_user.id)
-            db.session.add(new_file)
-            db.session.commit()
+        file_data = file.read()
+        file_data=generate_file(file_data, method='pbkdf2:sha256')
 
-            flash('File uploaded successfully!', category='success')
+        # Add file into database
+        new_file = File(data=file_data, user_id=current_user.id)
+        db.session.add(new_file)
+        db.session.commit()
+
+        flash('File uploaded successfully!', category='success')
 
     return render_template('home.html', user=current_user)
 
