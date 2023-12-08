@@ -3,6 +3,17 @@
 
 {% block content %}
 <h1 align="center">My Files</h1>
+<!-- Display folder -->
+<ul class="list-group list-group-flush" id="files">
+    {% for folder in folders %}
+    <li class="list-group-item">{{ folder.name }}
+        <button type="button" class="close" onClick="deleteFolder('{{ folder.id }}')">
+        <span aria-hidden="true">&times;</span></button>
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Display file -->
 <ul class="list-group list-group-flush" id="files">
     {% for file in user.files %}
     <li class="list-group-item">{{ file.data }}
@@ -11,13 +22,20 @@
     </li>
     {% endfor %}
 </ul>
+<!-- Create new file -->
 <form action="" method="post" enctype="multipart/form-data">
     <!-- <label for="file"></label> -->
     <input type="file" id="inputFile" name="inputFile" accept=".txt, .fastq">
+    <input type="hidden" id="folderId" name="folderId" value="">
     <br>
     <div align="center">
         <button type="submit" onclick="uploadFile()" class="btn btn-primary">Add file</button>
     </div>
+</form>
+<!-- Create new folder -->
+<form action="" method="post">
+    <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
+    <button type="submit" class="btn btn-primary">Create Folder</button>
 </form>
 <div id="result"></div>
 {% endblock %}

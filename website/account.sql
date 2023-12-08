@@ -15,7 +15,8 @@ create table User(
 create table Folder(
 	id INT(10) AUTO_INCREMENT PRIMARY KEY,
 	path TEXT,
-	date DATETIME DEFAULT current_timestamp,
+  name TEXT,
+	date DATETIME,
 	user_id INT(10),
 	FOREIGN KEY(user_id) REFERENCES User(id)
 );
@@ -23,7 +24,8 @@ create table Folder(
 create table File(
 	id int(10) auto_increment primary key,
     path text,
-    date datetime default current_timestamp,
+    data text,
+    date datetime,
     user_id int(10),
     folder_id int(10),
     foreign key(user_id) references User(id),
