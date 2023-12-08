@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="../static/admin.css">
+    <h1 align="center">Welcome back, admin</h1>
+
+    <h2>User List</h2>
+    <table align="center">
+    <thead>
+        <tr>
+        <th>UserName</th>
+        <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customer in user %}
+        <tr>
+            <td>{{ customer.username }}</td>
+            <td>{{ customer.email }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

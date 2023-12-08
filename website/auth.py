@@ -24,11 +24,22 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(username=username).first()
-        if user:
+        admin=User.query.filter(User.role!=1).all()
+        role=user.role
+        print(role)
+        if role==2:
+            if user:
+                if check_password_hash(user.password, password):
+                    flash('Logged in successfully!', category='success')
+                    login_user(user, remember=True)
+                    return redirect(url_for('views.home'))
+                else:
+                    flash('Incorrect password! Try again!', category='error')
+        elif role==1:
             if check_password_hash(user.password, password):
-                flash('Logged in successfully!', category='success')
-                login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                    flash('Logged in successfully!', category='success')
+                    login_user(user, remember=True)
+                    return render_template('admin.html',user=admin)
             else:
                 flash('Incorrect password! Try again!', category='error')
         else:
