@@ -7,9 +7,9 @@ drop table if exists Folder;
 create table User(
 	role int default 2,
 	id int(10) auto_increment primary key,
-    email text,
-    username text,
-    password text
+  email text,
+  username text,
+  password text
 );
 
 create table Folder(

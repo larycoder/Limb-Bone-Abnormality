@@ -7,20 +7,24 @@
     <h1 align="center">Welcome back, admin</h1>
 
     <h2>User List</h2>
-    <table align="center">
-    <thead>
-        <tr>
-        <th>UserName</th>
-        <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for customer in user %}
-        <tr>
-            <td>{{ customer.username }}</td>
-            <td>{{ customer.email }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-    </table>
+    <form action="/delete-user" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in user %}
+                <tr>
+                    <td>{{customer.username}}</td>
+                    <td>{{customer.email}}</td>
+                    <td><button id="rm_btn" onClick="deleteUser({{customer.id}})">X</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <script src="../static/admin.js"></script>
 {% endblock %}

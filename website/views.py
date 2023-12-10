@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template,request,flash,jsonify
 from werkzeug.security import generate_password_hash as generate_file
 from flask_login import  login_required, current_user
-from .models import File,Folder
+from .models import File,Folder,User
 from . import db
 import json
 
@@ -40,9 +40,17 @@ def home():
             flash('File uploaded successfully!', category='success')
          # Fetch user's folders and files from the database
     folders = Folder.query.filter_by(user_id=current_user.id).all()
+    # print(f"folder: {folders}")
+    # print("Hello Na")
     files = File.query.filter_by(user_id=current_user.id).all()
-
+    # print(f"file: {files}")
     return render_template('home.html', user=current_user, folders=folders, files=files)
+
+@views.route('/admin')
+@login_required
+def admin():
+    admin=User.query.filter(User.role!=1).all()
+    return render_template('admin.html',user=admin)
 
 @views.route('/delete-file', methods=['POST'])
 def delete_file():
@@ -61,6 +69,30 @@ def delete_file():
     except Exception as e:
         print(f"Error deleting file: {e}")
         return jsonify({'error': 'An error occurred while deleting the file.'}), 500
+    
+@views.route('/delete-user', methods=['POST'])
+def rm_user():
+    try:
+        user_data = json.loads(request.data)
+        rm_user = user_data['userId']
+        # print(f"User+data: {user_data}")
+        # print(f"rm: {rm_user}")
+        if current_user.role==1:
+            user_to_delete=User.query.get(rm_user)
+            # print(f"user: {user_to_delete}")
+            if user_to_delete:
+                # db.session.delete(user_to_delete)
+                # db.session.commit()
+                db.session.delete(user_to_delete)
+                db.session.commit()
+                return jsonify({})
+            else:
+                raise ValueError(f"User with id {rm_user} not found")
+        else:
+            raise ValueError("You do not have permission to delete this user.")
+    except Exception as e:
+        print(f"Error removing user: {e}")
+        return jsonify({'error': 'An error occurred while removing the user.'}), 500
     
 @views.route('/delete-folder', methods=['POST'])
 def delete_folder():
