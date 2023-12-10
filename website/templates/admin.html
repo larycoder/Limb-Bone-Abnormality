@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{customer.username}}</td>
                     <td>{{customer.email}}</td>
-                    <td><button id="rm_btn" onClick="deleteUser({{customer.id}})">X</button></td>
+                    <td><button id="rm_btn" onClick="deleteUser('{{ customer.id }}')">X</button></td>
                 </tr>
                 {% endfor %}
             </tbody>
