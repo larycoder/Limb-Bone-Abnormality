@@ -23,17 +23,16 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         user = User.query.filter_by(username=username).first()
-        role=user.role
-        if role==2:
-            if user:
+        if user:
+            if user.role==2:
                 if check_password_hash(user.password, password):
                     flash('Logged in successfully!', category='success')
                     login_user(user, remember=True)
                     return redirect(url_for('views.home'))
                 else:
                     flash('Incorrect password! Try again!', category='error')
-        elif role==1:
-            if check_password_hash(user.password, password):
+            elif user.role==1:
+                if check_password_hash(user.password, password):
                     flash('Logged in successfully!', category='success')
                     login_user(user, remember=True)
                     return redirect(url_for('views.admin'))
