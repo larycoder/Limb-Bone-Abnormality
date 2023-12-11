@@ -1,0 +1,14 @@
+button{
+    border: 0px;
+    background-color: #fff0;
+}
+
+button:focus{
+    outline: 0px;
+}
+
+#password_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
