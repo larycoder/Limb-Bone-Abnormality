@@ -9,7 +9,8 @@ create table User(
 	id int(10) auto_increment primary key,
   email text,
   username text,
-  password text
+  password text,
+  folder_user text
 );
 
 create table Folder(

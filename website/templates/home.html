@@ -2,26 +2,51 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<style>
+    table{
+        table-layout: fixed;
+        width: 100%;
+    }
+    table td, th{
+        word-wrap: break-word;
+    }
+    th{
+        text-align: left;
+    }
+</style>
 <h1 align="center">My Files</h1>
-<!-- Display folder -->
-<ul class="list-group list-group-flush" id="files">
-    {% for folder in folders %}
-    <li class="list-group-item">{{ folder.name }}
-        <button type="button" class="close" onClick="deleteFolder('{{ folder.id }}')">
-        <span aria-hidden="true">&times;</span></button>
-    </li>
-    {% endfor %}
-</ul>
 
-<!-- Display file -->
-<ul class="list-group list-group-flush" id="files">
-    {% for file in user.files %}
-    <li class="list-group-item">{{ file.data }}
-        <button type="button" class="close" onClick="deleteFile('{{ file.id }}')">
-        <span aria-hidden="true">&times;</span></button>
-    </li>
-    {% endfor %}
-</ul>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Size</th>
+            </tr>
+        </thead>
+        <tbody>
+  
+            {% for obj in name_folder %}
+            <tr>
+                <td>
+                    <a href="{{ obj['fLink'] }}">
+                        <span>
+                            <i class="{{ obj['fIcon'] }}" style="margin-right: 0.3em;"></i>
+                            {{ obj['name'] }}
+                        </span></td>
+                    </a>
+                <td>{{ obj['mTime'] }}</td>
+                <td>{{ obj['size'] }}</td>     
+                <td>
+                    <button type="button" class="close" onClick="deleteFile('{{ obj.name }}')">
+                        <span aria-hidden="true">&times;</span></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<!-- </ul> -->
 <!-- Create new file -->
 <form action="" method="post" enctype="multipart/form-data">
     <!-- <label for="file"></label> -->

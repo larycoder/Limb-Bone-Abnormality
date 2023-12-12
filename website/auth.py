@@ -3,6 +3,7 @@ from .models import User
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+import os
 # Hash function work
 # x ->y
 # f(x) = x + 1
@@ -70,7 +71,15 @@ def sign_up():
         elif len(password) < 7:
             flash('Password must be greater than 7 characters', category = 'error')
         else:
-            new_user = User(email=email, username=username, password=generate_password_hash(password, method='pbkdf2:sha256'))
+            # Create a folder contain of the data for each user
+            folder_path = os.path.join('C:/folder_data', username)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+                print('Created folder successs')
+            else:
+                print('Folder already exists')
+
+            new_user = User(email=email, username=username, password=generate_password_hash(password, method='pbkdf2:sha256'), folder_user = username)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)

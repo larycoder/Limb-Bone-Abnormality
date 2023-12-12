@@ -8,6 +8,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), nullable= False)
     username = db.Column(db.String(50))
     password = db.Column(db.String(50))
+    folder_user = db.Column(db.String(50))
 
 class Folder(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -15,14 +16,14 @@ class Folder(db.Model):
     path = db.Column(db.String(50), nullable = False)
     date = db.Column(db.DateTime(timezone = True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user=db.relationship('User')
+    user = db.relationship('User')
 
 class File(db.Model):
     id = db.Column(db.Integer, primary_key= True)
     path = db.Column(db.String(50), nullable = False)
     data = db.Column(db.String(50), nullable = False)
     date = db.Column(db.DateTime(timezone= True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     folder_id = db.Column(db.Integer, db.ForeignKey('folder.id'))
     folder=db.relationship('Folder')
-    user=db.relationship('User')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User")
