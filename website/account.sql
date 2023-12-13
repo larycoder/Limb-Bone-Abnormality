@@ -24,13 +24,13 @@ create table Folder(
 
 create table File(
 	id int(10) auto_increment primary key,
-    path text,
-    data text,
-    date datetime,
-    user_id int(10),
-    folder_id int(10),
-    foreign key(user_id) references User(id),
-    foreign key(folder_id) references Folder(id)
+  path text,
+  name text,
+  date datetime,
+  user_id int(10),
+  folder_id int(10),
+  foreign key(user_id) references User(id),
+  foreign key(folder_id) references Folder(id)
 )auto_increment = 1;
 
 INSERT INTO user (role,id,email,username, password) VALUES
