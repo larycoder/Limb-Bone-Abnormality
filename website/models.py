@@ -21,7 +21,7 @@ class Folder(db.Model):
 class File(db.Model):
     id = db.Column(db.Integer, primary_key= True)
     path = db.Column(db.String(50), nullable = False)
-    data = db.Column(db.String(50), nullable = False)
+    name = db.Column(db.String(50), nullable = False)
     date = db.Column(db.DateTime(timezone= True), default=func.now())
     folder_id = db.Column(db.Integer, db.ForeignKey('folder.id'))
     folder=db.relationship('Folder')
