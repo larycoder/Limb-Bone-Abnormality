@@ -9,12 +9,13 @@ import shutil
 import datetime as dt
 import pathlib
 from werkzeug.utils import safe_join
+
 views = Blueprint('views', __name__)
+
 @views.route('/home', methods = ['GET', 'POST'],defaults = {"reqPath": ""})
 @views.route("/home/<path:reqPath>")
 @login_required
 def home(reqPath):
-    
     if request.method == 'POST':
         # Check if the folder name is provided
         if 'folderName' in request.form:
@@ -42,25 +43,24 @@ def home(reqPath):
          # Check if the folder exists
         if 'inputFile' in request.files:
             file = request.files['inputFile']
+            print(f"file: {file}")
+            print(f"file name: {file.filename}")
             if file.filename == '':
                 flash('No file selected!', category='error')
             else:
                 # Create the user's folder path
-                user_file_path = os.path.join('C:/folder_data', current_user.folder_user)
-                if not os.path.exists(user_file_path):
-                    os.makedirs(user_file_path)
-                    print('Created user folder successfully')
-                else:
-                    print('User folder already exists')
+                user_file_path = f'C:/folder_data/{current_user.folder_user}'
+                if os.path.exists(user_file_path):
+                    # Save the uploaded file to the user's folder
+                    file_path = os.path.join(user_file_path, file.filename)
+                    file.save(file_path)
 
-                # Save the uploaded file to the user's folder
-                file_path = os.path.join(user_file_path, file.filename)
-                file.save(file_path)
-
-                # Add the file to the database
-                new_file = File(data=file.filename,path = file_path ,user_id=current_user.id)
-                db.session.add(new_file)
-                db.session.commit()
+                    # Add the file to the database
+                    new_file = File(name=file.filename,path = file_path ,user_id=current_user.id)
+                    db.session.add(new_file)
+                    db.session.commit()
+                # else:
+                #     print('User folder already exists')
 
             flash('File uploaded successfully!', category='success')
          # Fetch user's folders and files from the database
@@ -103,24 +103,40 @@ def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
 
-@views.route('/delete-file', methods=['POST'])
+@views.route('/delete', methods=['POST'])
 def delete_file():
     try:
-        file = json.loads(request.data)
-        fileId = file['fileId']
-        file = File.query.get(fileId)
+        event = json.loads(request.data)
+        name = event['name']
+        print(f"name: {name}")
+        folder=Folder.query.filter_by(name=name).first()
+        file = File.query.filter_by(name=name).first()
+        print(f"file: {file}")
+        print(f"file name: {file.name}")
+        print(f"file path: {file.path}")
         if file:
             if file.user_id == current_user.id:
+                file_to_delete=file.path
                 # Delete the file from the user's folder
-                if os.path.exists(file.data):
-                    os.remove(file.data)
+                if os.path.exists(file_to_delete):
+                    os.remove(file_to_delete)
                     print('File deleted from folder successfully')
+                    # Delete the file entry from the database
+                    db.session.delete(file)
+                    db.session.commit()
                 else:
                     print('File not found in folder')
 
-                # Delete the file entry from the database
-                db.session.delete(file)
-                db.session.commit()
+        elif folder:
+            if folder.user_id==current_user.id:
+                folder_to_delete=folder.path
+                if os.path.exists(folder_to_delete):
+                    shutil.rmtree(folder_to_delete)
+                    print('Folder deleted successfully')
+                    db.session.delete(folder)
+                    db.session.commit()
+                else:
+                    print('Folder can not find')
         else:
             raise ValueError("File not found")
 
@@ -152,43 +168,19 @@ def rm_user():
     except Exception as e:
         print(f"Error removing user: {e}")
         return jsonify({'error': 'An error occurred while removing the user.'}), 500
-    
-@views.route('/delete-folder', methods=['POST'])
-def delete_folder():
-    try:
-        folder = json.loads(request.data)
-        folder_id = folder['folderId']
-        folder = Folder.query.get(folder_id)
-        if folder:
-            if folder.user_id == current_user.id:
-                if os.path.exists(folder.path):
-                    shutil.rmtree(folder.path)
-                    print("Remove folder successfully")
-                else:
-                    print("Folder not found!")
-                db.session.delete(folder)
-                db.session.commit()
-        else:
-            raise ValueError("Folder not found")
-
-        return jsonify({})
-    except Exception as e:
-        print(f"Error deleting folder: {e}")
-        return jsonify({'error': 'An error occurred while deleting the folder.'}), 500
-    
-
-
 
 def getTimeStampString(tSec: float) -> str:
     tObj = dt.datetime.fromtimestamp(tSec)
     tStr = dt.datetime.strftime(tObj, '%Y-%m-%d %H:%M:%S')
     return tStr
+
 def getReadableByteSize(num, suffix = 'B') -> str:
     for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num,unit,suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Y', suffix)
+
 def getIconClassForFileName(fName):
     fileExt = pathlib.Path(fName).suffix
     fileExt = fileExt[1:] if fileExt.startswith(".") else fileExt

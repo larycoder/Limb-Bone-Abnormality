@@ -1,17 +1,8 @@
-function deleteFile(fileId){
-    fetch('/delete-file',{
+function deleteFile(name){
+    fetch('/delete',{
         method: 'POST',
-        body: JSON.stringify({fileId: fileId}),
+        body: JSON.stringify({name: name}),
     }).then((_res) =>{
-        window.location.href = "/home";
-    });
-}
-
-function deleteFolder(folderId) {
-    fetch('/delete-folder', {
-        method: 'POST',
-        body: JSON.stringify({ folderId: folderId }),
-    }).then((_res) => {
         window.location.href = "/home";
     });
 }
