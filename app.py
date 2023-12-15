@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3307/Drive'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3307/Account'
 app.config['CREATE FOLDER FOR USER'] = 'C:/folder_data'
 db.init_app(app)
 login_manager = LoginManager()
