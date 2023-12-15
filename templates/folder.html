@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Folder: {{ folder.name }}{% endblock %}
+
+{% block content %}
+<h1>Folder: {{ folder.name }}</h1>
+
+<!-- Display files -->
+<h2>Files:</h2>
+<ul>
+  {% for subfile in subfiles %}
+    <li><a href="{{ url_for('get_file', file_id=subfile.id) }}">{{ subfile.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<h2>Folders:</h2>
+<ul>
+    {% for subfolder in subfolders %}
+    <li><a href="{{ url_for('get_folder', folder_id=subfolder.id) }}">{{ subfolder.name }}</a></li>
+    {% endfor %}
+</ul>
+
+
+<!-- Create new file -->
+<form action="/folder/{{ folder.id }}" method="post" enctype="multipart/form-data">
+    <input type="file" id="inputFile" name="inputFile" accept=".txt, .fastq">
+
+    <button type="submit" class="btn btn-primary">Add File</button>
+</form>
+
+<!-- Create new folder -->
+<form action="" method="post">
+    <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
+
+    <button type="submit" class="btn btn-primary">Create Folder</button>
+</form>
+
+{% endblock %}

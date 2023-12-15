@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome, {{ current_user.username }}!</h1>
+
+<!-- Display folders -->
+<h2>Folders:</h2>
+<ul>
+  {% for folder in folders %}
+  <li><a href="{{ url_for('folder', folder_id=folder.id) }}">{{ folder.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<!-- Display files -->
+<h2>Files:</h2>
+<ul>
+  {% for file in files %}
+  <li><a href="{{ url_for('file', file_id=file.id) }}">{{ file.name }}</a></li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

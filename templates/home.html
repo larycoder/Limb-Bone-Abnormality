@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome, {{ user.username }}!</h1>
+
+
+<h2>Files:</h2>
+<ul>
+  {% for file in files %}
+    {% if file.folder_id is none and file.user_id == 1 %}
+        <li><a href="{{ url_for('get_file', file_id=file.id) }}">{{ file.name }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+<h2>Folders:</h2>
+<ul>
+    {% for folder in folders %}
+      {% if folder.parent_folder_id is none %}
+          <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}">{{ folder.name }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+<!-- Upload file -->
+<form action="/upload-file" method="post" enctype="multipart/form-data">
+    <input type="file" id="inputFile" name="inputFile" accept=".txt, .fastq">
+
+    <button type="submit" class="btn btn-primary">Add File</button>
+</form>
+
+<!-- Create new folder -->
+<form action="/folder" method="post">
+    <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
+
+    <button type="submit" class="btn btn-primary">Create Folder</button>
+</form>
+
+{% endblock %}

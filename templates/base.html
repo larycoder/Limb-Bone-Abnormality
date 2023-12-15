@@ -15,17 +15,15 @@
     crossorigin="anonymous"
   />
     <title>{% block title %}Home{% endblock %}</title>
-
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg bg-primary">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon" style="color: black;"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
-                {% if user.is_authenticated %}
+                {% if current_user.is_authenticated %}
                 <a href="/logout" class="nav-item nav-link " id="logout" style="color: white;">Log Out</a>
                 <a href="/home" class="nav-item nav-link" id="home" style="color: white;">Home</a>
                 {% else %}
@@ -56,7 +54,6 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
-
     <div class="container">
         {% block content %}
         {% endblock %}
@@ -76,7 +73,6 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"
   ></script>
-
   <script type="text/javascript"
   src="{{url_for('static', filename= 'index.js')}}">
     
