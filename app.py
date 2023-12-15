@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for, redirect, request, flash,send_file
+import json
+from flask import Flask, jsonify, render_template, url_for, redirect, request, flash,send_file
 from flask_login import login_required, logout_user, LoginManager, current_user, login_user
 from function.connect import db
 from function.models import User,Folder,File
@@ -7,8 +8,8 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3307/Drive'
-app.config['CREATE FOLDER FOR USER'] = 'C:/folder_data'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3307/account'
+app.config['CREATE FOLDER FOR USER'] = 'D:/Limb-Bone-Abnormality/folder_data'
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -25,20 +26,24 @@ def start():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        
-            username = request.form.get('username')
-            password = request.form.get('password')
-            user = User.query.filter_by(username=username).first()
-            if user:
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = User.query.filter_by(username=username).first()
+        if user:
+            role=user.role
+            if role==2:
                 if check_password_hash(user.password, password):
                     flash('Logged in successfully!', category='success')
                     login_user(user, remember=True)
                     return redirect(url_for('home'))
                 else:
                     flash('Incorrect password! Try again!', category='error')
-            else:
-                flash('User does not exist!', category='error')
-    return render_template("login.html", user=current_user)
+            elif role==1:
+                login_user(user,remember=False)
+                return redirect(url_for("admin"))
+        else:
+            flash('User does not exist!', category='error')
+    return render_template("login.html")
 
 @app.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -88,7 +93,9 @@ def sign_up():
 @login_required
 def home():
     folders = Folder.query.filter_by(user_id=current_user.id).all()
+    print(f"folder: {folders}")
     files = File.query.filter_by(user_id = current_user.id).all()
+    print(f"file: {files}")
     return render_template("home.html",folders = folders, user = current_user, files = files)
 @app.route('/logout')
 @login_required
@@ -162,7 +169,7 @@ def get_folder(folder_id):
         if 'inputFile' in request.files:
             sub_file = request.files['inputFile']
             print(sub_file.filename)
-
+            
             if sub_file.filename == '':
                 flash("No file selected!", category='error')
             else:
@@ -178,8 +185,7 @@ def get_folder(folder_id):
                 sub_file.save(file_path)
 
                 # Add the file to the database
-                parent_folder_id = folder.parent_folder_id
-                new_file = File(name=sub_file.filename, path=file_path, user_id=current_user.id, folder_id=parent_folder_id)
+                new_file = File(name=sub_file.filename, path=file_path, user_id=current_user.id, folder_id=folder.id)
                 db.session.add(new_file)
                 db.session.commit()
 
@@ -225,6 +231,37 @@ def get_file(file_id):
     file = File.query.get_or_404(file_id)
     print(file.folder.path)
     
+# Admin
+@app.route('/admin')
+def admin():
+    admin=User.query.filter(User.role!=1).all()
+    return render_template('admin.html',user=admin)
+
+@app.route('/delete-user', methods=['POST'])
+def rm_user():
+    try:
+        user_data = json.loads(request.data)
+        rm_user = user_data['userId']
+        print(f"User data: {user_data}")
+        print(f"rm: {rm_user}")
+        print(f"current user: {current_user}")
+        print(f"current user name: {current_user.username}")
+        print(f"role: {current_user.role}")
+        if current_user.role==1:
+            user_to_delete=User.query.filter_by(id=rm_user).first()
+            # print(f"user: {user_to_delete}")
+            if user_to_delete:
+                os.removedirs(f"D:/Limb-Bone-Abnormality/folder_data/{user_to_delete.username}")
+                db.session.delete(user_to_delete)
+                db.session.commit()
+                return jsonify({})
+            else:
+                raise ValueError(f"User with id {rm_user} not found")
+        else:
+            raise ValueError("You do not have permission to delete this user.")
+    except Exception as e:
+        print(f"Error removing user: {e}")
+        return jsonify({'error': 'An error occurred while removing the user.'}), 500
 
 
 if __name__ == '__main__':
