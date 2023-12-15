@@ -8,7 +8,7 @@ create table User(
     role int default 2,
     id int(10) auto_increment primary key,
     email text,
-    username text,
+    username text UNIQUE,
     password text
 );
 create table Folder(

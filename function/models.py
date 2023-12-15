@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy.sql  import func
 
 class User(db.Model, UserMixin):
+    role = db.Column(db.Integer, default = 2)
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(50))
     username = db.Column(db.String(50))
