@@ -1,4 +1,5 @@
 import json
+import shutil
 from flask import Flask, jsonify, render_template, url_for, redirect, request, flash,send_file
 from flask_login import login_required, logout_user, LoginManager, current_user, login_user
 from function.connect import db
@@ -232,7 +233,7 @@ def get_file(file_id):
     print(file.folder.path)
     
 # Admin
-@app.route('/admin')
+@app.route('/admin', methods=['GET','POST'])
 def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
@@ -249,12 +250,18 @@ def rm_user():
         print(f"role: {current_user.role}")
         if current_user.role==1:
             user_to_delete=User.query.filter_by(id=rm_user).first()
+            file_to_delete=File.query.filter_by(user_id=rm_user).all()
+            folder_to_delete=Folder.query.filter_by(user_id=rm_user).all()
             # print(f"user: {user_to_delete}")
             if user_to_delete:
-                os.removedirs(f"D:/Limb-Bone-Abnormality/folder_data/{user_to_delete.username}")
+                for file_obj in file_to_delete:
+                    db.session.delete(file_obj)
+                for folder_obj in folder_to_delete:
+                    db.session.delete(folder_obj)
                 db.session.delete(user_to_delete)
                 db.session.commit()
-                return jsonify({})
+                shutil.rmtree(f"D:/Limb-Bone-Abnormality/folder_data/{user_to_delete.username}")
+                return "Success"
             else:
                 raise ValueError(f"User with id {rm_user} not found")
         else:
