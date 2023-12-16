@@ -9,6 +9,10 @@
 <ul>
   {% for subfile in subfiles %}
     <li><a href="{{ url_for('get_file', file_id=subfile.id) }}">{{ subfile.name }}</a></li>
+    <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
   {% endfor %}
 </ul>
 
@@ -16,6 +20,9 @@
 <ul>
     {% for subfolder in subfolders %}
     <li><a href="{{ url_for('get_folder', folder_id=subfolder.id) }}">{{ subfolder.name }}</a></li>
+    <button type="button" class="close" onclick="deleteFolder('{{ folder.id }}')">
+      <span aria-hidden="true">&times;</span>
+    </button>
     {% endfor %}
 </ul>
 

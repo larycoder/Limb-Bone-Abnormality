@@ -10,6 +10,9 @@
   {% for file in files %}
     {% if file.folder_id is none %}
         <li><a href="{{ url_for('get_file', file_id=file.id) }}">{{ file.name }}</a></li>
+        <button type="button" class="close" onclick="deleteF('{{ file.id }}')">
+          <span aria-hidden="true">&times;</span>
+        </button>
     {% endif %}
   {% endfor %}
 </ul>
@@ -18,6 +21,9 @@
     {% for folder in folders %}
       {% if folder.parent_folder_id is none %}
           <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}">{{ folder.name }}</a></li>
+          <button type="button" class="close" onclick="deleteFolder('{{ folder.id }}')">
+            <span aria-hidden="true">&times;</span>
+          </button>
       {% endif %}
     {% endfor %}
   </ul>

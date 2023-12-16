@@ -140,7 +140,6 @@ def folder():
 def get_folder(folder_id):
     folder = Folder.query.get_or_404(folder_id)
     file = File.query.filter_by(folder_id=folder.id).first()
-    print(folder.id)
     
 
     if request.method == 'POST':
@@ -169,7 +168,6 @@ def get_folder(folder_id):
 
         if 'inputFile' in request.files:
             sub_file = request.files['inputFile']
-            print(sub_file.filename)
             
             if sub_file.filename == '':
                 flash("No file selected!", category='error')
@@ -230,7 +228,12 @@ def upload_file():
 @login_required
 def get_file(file_id):
     file = File.query.get_or_404(file_id)
-    print(file.folder.path)
+    file_path = file.path
+
+    with open(file_path, 'r') as file_obj:
+        file_contents = file_obj.read()
+
+    return render_template('file.html', file=file, file_contents=file_contents)
     
 # Admin
 @app.route('/admin', methods=['GET','POST'])
@@ -269,6 +272,88 @@ def rm_user():
     except Exception as e:
         print(f"Error removing user: {e}")
         return jsonify({'error': 'An error occurred while removing the user.'}), 500
+    
+@app.route('/delete', methods = ['POST'])
+def delete():
+    try:
+
+        even = json.loads(request.data)
+        id = even['Id']
+        folder=Folder.query.filter_by(id = id, user_id=current_user.id).first()
+        file = File.query.filter_by(id = id, user_id=current_user.id).first()
+        if file:
+            if file.user_id == current_user.id and file.folder_id is None:
+                file_to_delete=file.path
+                # Delete the file from the user's folder
+                if os.path.exists(file_to_delete):
+                    os.remove(file_to_delete)
+                    print('File deleted from folder successfully')
+                    # Delete the file entry from the database
+                    db.session.delete(file)
+                    db.session.commit()
+                else:
+                    print('File not found in folder')
+        elif folder:
+            if folder.user_id==current_user.id:
+                folder_to_delete=folder.path
+                if os.path.exists(folder_to_delete):
+                    shutil.rmtree(folder_to_delete)
+                    print('Folder deleted successfully')
+                    db.session.delete(folder)
+                    db.session.commit()
+                else:
+                    print('Folder can not find')
+
+        else:
+            raise ValueError("File not found")
+
+        return jsonify({})
+    except Exception as e:
+        print(f"Error deleting file: {e}")
+        return jsonify({'error': 'An error occurred while deleting the file.'}), 500
+    
+@app.route('/delete-subfile', methods=['POST'])
+def delete_subfile():
+    try:
+        event = json.loads(request.data)
+        file_id = event['Id']
+        file = File.query.filter_by(id=file_id, user_id=current_user.id).first()
+
+        if file:
+            if file.user_id == current_user.id:
+                folder = Folder.query.get(file.folder_id)
+                if folder and is_file_in_folder(file, folder):
+                    file_to_delete = file.path
+                    if os.path.exists(file_to_delete):
+                        os.remove(file_to_delete)
+                        print('File deleted from folder successfully')
+                        db.session.delete(file)
+                        db.session.commit()
+                    else:
+                        print('File not found in folder')
+                else:
+                    print('You do not have permission to delete this file')
+            else:
+                print('You do not have permission to delete this file')
+        else:
+            raise ValueError('File not found')
+
+        return jsonify({})
+    except Exception as e:
+        print(f"Error deleting file: {e}")
+        return jsonify({'error': 'An error occurred while deleting the file.'}), 500
+    
+
+def is_file_in_folder(file, folder):
+    # Check if the file's folder matches the specified folder or any of its subfolders
+    if file.folder_id == folder.id:
+        return True
+    elif folder.subfolders:
+        for subfolder in folder.subfolders:
+            if is_file_in_folder(file, subfolder):
+                return True
+    return False
+
 
 
 if __name__ == '__main__':
