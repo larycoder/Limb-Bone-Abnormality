@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="../static/login.css">
 <form action="" method="post">
     <h3 align="center">Login</h3>
     <div class="form-group">
@@ -13,10 +14,12 @@
         <label for="password">Password</label>
         <div id="password_container">
             <input type="password" class="form-control" id="password" name="password", placeholder="Enter password">
+            <span id="togglePassword">Show</span>
         </div>
     </div>
 
     <br>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<script src="../static/login.js"></script>
 {% endblock %}

@@ -8,7 +8,7 @@
 <h2>Files:</h2>
 <ul>
   {% for file in files %}
-    {% if file.folder_id is none and file.user_id == 1 %}
+    {% if file.folder_id is none %}
         <li><a href="{{ url_for('get_file', file_id=file.id) }}">{{ file.name }}</a></li>
     {% endif %}
   {% endfor %}
