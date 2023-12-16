@@ -3,5 +3,11 @@
 
 {% block content %}
 <h1>{{ file.name }}</h1>
-<p>{{ file_contents }}</p>
+{%for i in file_contents%}
+    {%if i==''%}
+        <p></p>
+    {%else%}
+        <span>{{ i }}</span>
+    {%endif%}
+{%endfor%}
 {% endblock %}

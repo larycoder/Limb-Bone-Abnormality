@@ -230,10 +230,11 @@ def get_file(file_id):
     file = File.query.get_or_404(file_id)
     file_path = file.path
 
-    with open(file_path, 'r') as file_obj:
+    with open(file_path, 'r', encoding='utf-8') as file_obj:
         file_contents = file_obj.read()
-
-    return render_template('file.html', file=file, file_contents=file_contents)
+        data=file_contents.splitlines()
+        print(data)
+    return render_template('file.html', file=file, file_contents=data)
     
 # Admin
 @app.route('/admin', methods=['GET','POST'])
