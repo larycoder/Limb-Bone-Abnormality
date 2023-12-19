@@ -14,3 +14,11 @@ function deleteSubFile(Id, folder_id){
         window.location.href = "/folder/"+ folder_id;
     });
 }
+function deleteFolder(Id){
+    fetch('/delete-folder',{
+        method: 'POST',
+        body: JSON.stringify({Id: Id}),
+    }).then((_res) =>{
+        window.location.href = "/folder/"+Id;
+    });
+}
