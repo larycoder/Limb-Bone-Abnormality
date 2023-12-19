@@ -352,6 +352,17 @@ def delete_subfile():
         print(f"Error deleting file: {e}")
         return jsonify({'error': 'An error occurred while deleting the file.'}), 500
     
+@app.route('/delete-folder', methods=['POST'])
+def delete_folder():
+    try:
+        event = json.loads(request.data)
+        folder_id = event['Id']
+        delete_folder_recursive(folder_id)
+    except Exception as e:
+        print(f"Error deleting folder: {e}")
+        return jsonify({'error': 'An error occurred while deleting the folder.'}), 500
+    return jsonify({})
+
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders
@@ -363,6 +374,28 @@ def is_file_in_folder(file, folder):
                 return True
     return False
 
+def delete_folder_recursive(folder_id):
+    folder = Folder.query.get(folder_id)
+    if folder is None:
+        return
+
+    # Check if any subfolders have the same parent_folder_id as the current folder
+    subfolders = Folder.query.filter_by(parent_folder_id=folder_id).all()
+    for subfolder in subfolders:
+        delete_folder_recursive(subfolder.id)
+
+    # Delete files in the current folder
+    delete_files_in_folder(folder.id)
+
+    # Delete the current folder
+    db.session.delete(folder)
+    db.session.commit()
+
+def delete_files_in_folder(folder_id):
+    files = File.query.filter_by(folder_id=folder_id).all()
+    for file in files:
+        db.session.delete(file)
+    db.session.commit()
 
 
 if __name__ == '__main__':
