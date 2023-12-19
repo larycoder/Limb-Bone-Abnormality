@@ -232,12 +232,20 @@ def get_file(file_id):
 
     with open(file_path, 'r', encoding='utf-8') as file_obj:
         file_contents = file_obj.read()
-        data=file_contents.splitlines()
-        print(data)
-    return render_template('file.html', file=file, file_contents=data)
+    return render_template('file.html', file=file, file_contents=file_contents)
+    
+@app.route('/file/<file_id>/updateFile', methods=['GET', 'POST'])
+def updateFile(file_id):
+    file=File.query.filter_by(id=file_id).first()
+    print(f"file id: {file.id}")
+    file_path=file.path
+    data=json.loads(request.data)['data']
+    with open(file_path,'w', encoding='utf-8') as file_obj:
+        file_obj.write(data)
+    return jsonify({})
     
 # Admin
-@app.route('/admin', methods=['GET','POST'])
+@app.route('/admin', methods=['POST'])
 def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)

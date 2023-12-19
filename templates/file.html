@@ -2,12 +2,9 @@
 {% block title %}File: {{ file.name }}{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="../static/file.css">
 <h1>{{ file.name }}</h1>
-{%for i in file_contents%}
-    {%if i==''%}
-        <p></p>
-    {%else%}
-        <span>{{ i }}</span>
-    {%endif%}
-{%endfor%}
+<pre contenteditable="true" id="data">{{file_contents}}</pre>
+<button onclick="updateFile({{file.id}})">Save</button>
+<script src="../static/file.js"></script>
 {% endblock %}
