@@ -8,8 +8,9 @@ create table User(
     role int default 2,
     id int(10) auto_increment primary key,
     email text,
-    username text UNIQUE,
-    password text
+    username text,
+    password text,
+    UNIQUE KEY (username(255))
 );
 create table Folder(
     id int(10) auto_increment primary key,
@@ -31,6 +32,6 @@ create table File(
     foreign key(folder_id) references Folder(id)
 );
 
-INSERT INTO user (role,id,email,username, password) VALUES
+INSERT INTO User (role,id,email,username, password) VALUES
 (1,1, 'admin@st.usth.edu.vn', 'admin', 'pbkdf2:sha256:600000$B26CumzGiNyLZl0g$ff5db361b37ec2b8f6b141a25aaef188ff0f7b3acf7d5b641c972821bf182a12');
 
