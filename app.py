@@ -9,8 +9,8 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3307/account'
-app.config['CREATE FOLDER FOR USER'] = 'D:/Limb-Bone-Abnormality/folder_data'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3306/Account'
+app.config['CREATE FOLDER FOR USER'] = '../folder_data'
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -245,7 +245,7 @@ def updateFile(file_id):
     return jsonify({})
     
 # Admin
-@app.route('/admin', methods=['POST'])
+@app.route('/admin', methods=['POST','GET'])
 def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
@@ -272,7 +272,7 @@ def rm_user():
                     db.session.delete(folder_obj)
                 db.session.delete(user_to_delete)
                 db.session.commit()
-                shutil.rmtree(f"D:/Limb-Bone-Abnormality/folder_data/{user_to_delete.username}")
+                shutil.rmtree(f"../folder_data/{user_to_delete.username}")
                 return "Success"
             else:
                 raise ValueError(f"User with id {rm_user} not found")
