@@ -273,7 +273,7 @@ def rm_user():
                 db.session.delete(user_to_delete)
                 db.session.commit()
                 shutil.rmtree(f"../folder_data/{user_to_delete.username}")
-                return "Success"
+                return jsonify({})
             else:
                 raise ValueError(f"User with id {rm_user} not found")
         else:
