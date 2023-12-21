@@ -1,34 +1,38 @@
 drop database if exists Account;
 create database Account;
 use Account;
-drop table if exists User;
-drop table if exists Folder;
-drop table if exists File;
-create table User(
+drop table if exists user;
+
+create table user(
     role int default 2,
     id int(10) auto_increment primary key,
     email text,
-    username text UNIQUE,
-    password text
+    username text,
+    password text,
+    UNIQUE KEY (username(255))
 );
-create table Folder(
+
+drop table if exists folder;
+create table folder(
     id int(10) auto_increment primary key,
     path text,
     name text,
     date datetime,
     user_id int(10),
     parent_folder_id int(10),
-    foreign key(user_id) references User(id)
+    foreign key(user_id) references user(id)
 );
-create table File(
+
+drop table if exists file;
+create table file(
     id int(10) auto_increment primary key,
     path text,
     name text,
     date datetime,
     user_id int(10),
     folder_id int(10),
-    foreign key(user_id) references User(id),
-    foreign key(folder_id) references Folder(id)
+    foreign key(user_id) references user(id),
+    foreign key(folder_id) references folder(id)
 );
 
 INSERT INTO user (role,id,email,username, password) VALUES
