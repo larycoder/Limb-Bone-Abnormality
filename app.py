@@ -140,20 +140,14 @@ def folder():
 def get_folder(folder_id):
     folder = Folder.query.get_or_404(folder_id)
     file = File.query.filter_by(folder_id=folder.id).first()
-    
-
     if request.method == 'POST':
         if 'folderName' in request.form:
             subfolder_name = request.form['folderName']
             if subfolder_name == '':
                 flash('No folder name provided!', category='error')
             else:
-                user_folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                path=os.path.join(user_folder_path,folder.name)
-                print("user_file_path:")
-                print(path)
-                folder_path = os.path.join(path, subfolder_name)
-                print(f"folder path: {folder_path}")
+                user_folder_path = f"{folder.path}"
+                folder_path = os.path.join(user_folder_path, subfolder_name)
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
                     print("Created subfolder successfully")
@@ -175,13 +169,9 @@ def get_folder(folder_id):
             if sub_file.filename == '':
                 flash("No file selected!", category='error')
             else:
-                user_file_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                subfolder_path = folder.path  # Get the subfolder path
-                combined_path = os.path.join(user_file_path, subfolder_path)  # Combine user folder path and subfolder path
-                file_path = os.path.join(combined_path, sub_file.filename)
-
-                if not os.path.exists(combined_path):
-                    os.makedirs(combined_path)
+                user_file_path = f"{folder.path}"
+                print(f"file: {user_file_path}")
+                file_path = os.path.join(user_file_path, sub_file.filename)
 
                 # Save the uploaded file to the specified path
                 sub_file.save(file_path)
