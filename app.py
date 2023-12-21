@@ -149,8 +149,11 @@ def get_folder(folder_id):
                 flash('No folder name provided!', category='error')
             else:
                 user_folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                folder_path = os.path.join(user_folder_path, subfolder_name)
-
+                path=os.path.join(user_folder_path,folder.name)
+                print("user_file_path:")
+                print(path)
+                folder_path = os.path.join(path, subfolder_name)
+                print(f"folder path: {folder_path}")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
                     print("Created subfolder successfully")
@@ -210,6 +213,7 @@ def upload_file():
             else:
                 # Create the user's folder path
                 user_file_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                print(f"path: {user_file_path}")
                 if os.path.exists(user_file_path):
                     # Save the uploaded file to the user's folder
                     file_path = os.path.join(user_file_path, file.filename)
