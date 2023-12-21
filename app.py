@@ -9,8 +9,8 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3307/account'
-app.config['CREATE FOLDER FOR USER'] = 'D:/Limb-Bone-Abnormality/folder_data'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3306/Account'
+app.config['CREATE FOLDER FOR USER'] = '../folder_data'
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -149,8 +149,11 @@ def get_folder(folder_id):
                 flash('No folder name provided!', category='error')
             else:
                 user_folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                folder_path = os.path.join(user_folder_path, subfolder_name)
-
+                path=os.path.join(user_folder_path,folder.name)
+                print("user_file_path:")
+                print(path)
+                folder_path = os.path.join(path, subfolder_name)
+                print(f"folder path: {folder_path}")
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
                     print("Created subfolder successfully")
@@ -210,6 +213,7 @@ def upload_file():
             else:
                 # Create the user's folder path
                 user_file_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                print(f"path: {user_file_path}")
                 if os.path.exists(user_file_path):
                     # Save the uploaded file to the user's folder
                     file_path = os.path.join(user_file_path, file.filename)
@@ -245,7 +249,7 @@ def updateFile(file_id):
     return jsonify({})
     
 # Admin
-@app.route('/admin', methods=['POST'])
+@app.route('/admin', methods=['POST','GET'])
 def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
@@ -272,8 +276,8 @@ def rm_user():
                     db.session.delete(folder_obj)
                 db.session.delete(user_to_delete)
                 db.session.commit()
-                shutil.rmtree(f"D:/Limb-Bone-Abnormality/folder_data/{user_to_delete.username}")
-                return "Success"
+                shutil.rmtree(f"../folder_data/{user_to_delete.username}")
+                return jsonify({})
             else:
                 raise ValueError(f"User with id {rm_user} not found")
         else:
