@@ -6,10 +6,11 @@ from function.connect import db
 from function.models import User,Folder,File
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3306/Account'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3307/Account'
 app.config['CREATE FOLDER FOR USER'] = '../folder_data'
 db.init_app(app)
 login_manager = LoginManager()
@@ -356,6 +357,47 @@ def delete_folder():
         print(f"Error deleting folder: {e}")
         return jsonify({'error': 'An error occurred while deleting the folder.'}), 500
     return jsonify({})
+
+@app.route('/forgot', methods=['GET', 'POST'])
+def forgot():
+    if request.method == 'POST':
+        email = request.form["email"]
+        users = User.query.filter_by(email = email).first()
+        if users:
+            return redirect(url_for('reset_password', email=email))
+        else:
+            flash("The email does not match", category= 'error')
+            return render_template('forgot.html')
+    
+    return render_template('forgot.html')
+
+@app.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    email = request.args.get('email')
+    
+    if request.method == 'POST':
+        # Handle the password reset form submission
+        password = request.form['password']
+        re_password = request.form['re-password']
+        
+        # Validate the password and re_password
+        if password != re_password:
+            flash('Passwords do not match!', category='error')
+        elif len(password) < 7:
+            flash('Password must be greater than 7 characters', category='error')
+        else:
+            # Update the user's password in the database
+            user = User.query.filter_by(email=email).first()
+            if user:
+                hashed_password = generate_password_hash(password)
+                user.password = hashed_password
+                db.session.commit()
+                flash("Your password has been reset successfully.", category='success')
+                return redirect(url_for('login'))
+            else:
+                flash("User not found.", category='error')
+    
+    return render_template('reset_password.html', email=email)
 
 
 def is_file_in_folder(file, folder):
