@@ -10,7 +10,7 @@ import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3307/Account'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Account.db'
 app.config['CREATE FOLDER FOR USER'] = '../folder_data'
 db.init_app(app)
 login_manager = LoginManager()
