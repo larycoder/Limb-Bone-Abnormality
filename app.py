@@ -411,7 +411,7 @@ def is_file_in_folder(file, folder):
     return False
 
 def delete_folder_recursive(folder_id):
-    folder = Folder.query.get(folder_id)
+    folder = Folder.query.filter_by(id=folder_id).first()
     if folder is None:
         return
 
@@ -424,6 +424,7 @@ def delete_folder_recursive(folder_id):
     delete_files_in_folder(folder.id)
 
     # Delete the current folder
+    shutil.rmtree(folder.path)
     db.session.delete(folder)
     db.session.commit()
 
