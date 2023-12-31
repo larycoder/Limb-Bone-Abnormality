@@ -399,6 +399,12 @@ def reset_password():
     
     return render_template('reset_password.html', email=email)
 
+@app.route('/download/<file_id>')
+def download_file(file_id):
+    file = File.query.get_or_404(file_id)
+    file_path = file.path
+    print(file_path)
+    return send_file(file_path, as_attachment=True, mimetype='application/pdf')
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders
