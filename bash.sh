@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PERL5LIB=/work/users/ngocnt/tools/vcftools/vcftools-vcftools-581c231/src/perl
 java="/work/users/ngocnt/tools/java-8/bin/java"
 TOOLS_PATH="/work/users/ngocnt/tools"
@@ -15,3 +17,7 @@ humandb="/work/users/ngocnt/tools/annovar/annovar/humandb"
 G_REF="/work/users/ngocnt/referencegenome/hg38.fa"
 vcftools="/work/users/ngocnt/tools/vcftools/vcftools-vcftools-581c231/bin/vcftools"
 table_annovar="$TOOLS_PATH/annovar/annovar/table_annovar.pl"
+
+
+
+
