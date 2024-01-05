@@ -2,6 +2,8 @@ form{
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    top: 60px;
 }
 
 .form-group{
@@ -12,10 +14,9 @@ form{
 .form-control:focus,
 .form-control{
     width: 60%;
-    background-color: lightgray;
-    box-shadow: 0 1px 2px 2px lightgray;
+    border: 1px solid lightgray;
     outline: 0;
-    border-color: transparent;
+    border-radius: 8px;
 }
 
 .btn:hover,
@@ -30,6 +31,7 @@ form{
 #re-password,
 #password{
     width: 92%;
+   border: none;
 }
 
 #re-togglePassword,
@@ -46,11 +48,8 @@ form{
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: lightgray;
     width: 60%;
-    background-color: lightgray;
-    box-shadow: 0 1px 2px 2px lightgray;
     outline: 0;
-    border-color: transparent;
-    border-radius: 0.25rem;
+    border: 1px solid lightgray;
+    border-radius: 8px;
 }

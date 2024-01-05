@@ -11,13 +11,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: lightgray;
-    width: 60%;
-    background-color: lightgray;
-    box-shadow: 0 1px 2px 2px lightgray;
-    outline: 0;
-    border-color: transparent;
     border-radius: 0.25rem;
+    width: 60%;
+    outline: 0;
+    border: 1px solid lightgray;
+    border-radius: 8px;
 }
 
 form{
@@ -36,14 +34,14 @@ form{
 .form-control:focus,
 .form-control{
     width: 60%;
-    background-color: lightgray;
-    box-shadow: 0 1px 2px 2px lightgray;
     outline: 0;
-    border-color: transparent;
+    border: 1px solid lightgray;
+    border-radius: 8px;
 }
 
 #password{
     width: 92%;
+    border: none;
 }
 
 .btn{
