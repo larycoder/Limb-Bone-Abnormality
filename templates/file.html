@@ -6,5 +6,6 @@
 <h1>{{ file.name }}</h1>
 <pre contenteditable="true" id="data">{{file_contents}}</pre>
 <button onclick="updateFile('{{file.id}}')">Save</button>
+<a href="{{url_for('download_file', file_id=file.id)}}"><button>Download</button></a>
 <script src="../static/file.js"></script>
 {% endblock %}
