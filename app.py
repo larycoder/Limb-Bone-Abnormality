@@ -32,17 +32,17 @@ def login():
         password = request.form.get('password')
         user = User.query.filter_by(username=username).first()
         if user:
-            role=user.role
-            if role==2:
-                if check_password_hash(user.password, password):
-                    flash('Logged in successfully!', category='success')
-                    login_user(user, remember=True)
-                    return redirect(url_for('home'))
-                else:
-                    flash('Incorrect password! Try again!', category='error')
-            elif role==1:
-                login_user(user,remember=False)
-                return redirect(url_for("admin"))
+            if check_password_hash(user.password, password):
+                role=user.role
+                if role==2:
+                        flash('Logged in successfully!', category='success')
+                        login_user(user, remember=True)
+                        return redirect(url_for('home'))
+                elif role==1:
+                    login_user(user,remember=False)
+                    return redirect(url_for("admin"))
+            else:
+                flash('Incorrect password! Try again!', category='error')
         else:
             flash('User does not exist!', category='error')
     return render_template("login.html")
@@ -405,6 +405,14 @@ def download_file(file_id):
     file_path = file.path
     print(file_path)
     return send_file(file_path, as_attachment=True, mimetype='application/pdf')
+
+@app.route('/execute/<file_id>')
+def execute_fatsq(file_id):
+    file = File.query.get_or_404(file_id)
+    file_path = file.path
+    file_name = file.name
+    print(file_path)
+    print(file_name)
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders
