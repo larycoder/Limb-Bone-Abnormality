@@ -16,6 +16,7 @@ form{
     width: 60%;
     border: 1px solid lightgray;
     outline: 0;
+    box-shadow: none;
 }
 
 .btn:hover,

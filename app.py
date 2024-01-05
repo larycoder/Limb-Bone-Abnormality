@@ -432,7 +432,7 @@ def execute_fatsq():
     db.session.commit()
 
     # Return a response indicating the execution is complete
-    return "Fatsq file executed and output saved in output.csv"
+    return jsonify({"folder_id": folder_id})
 
 # @app.route('/executeSubF', methods = ['POST'])
 # def execute_fatsq_subF():

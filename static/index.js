@@ -58,9 +58,19 @@ function executeF(Id){
     fetch('/execute',{
         method: 'POST',
         body: JSON.stringify({Id: Id}),
-    }).then((_res) =>{
-        window.location.href = "/home";
-    });
+    }).then((response) =>{
+        if(!response.ok){
+            throw new Error("HTTP error! Status:",response.status);
+        }
+        return response.json();
+    }).then(data=>{
+        if(data["folder_id"]==null){
+            window.location.href="/home";
+        }
+        else{
+            window.location.href=`/folder/${data["folder_id"]}`
+        }
+    })
 }
 
 function executeSubF(Id,folder_id){
