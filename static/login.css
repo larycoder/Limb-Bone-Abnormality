@@ -1,16 +1,58 @@
-span{
-    border: 0px;
-    background-color: #fff0;
+#togglePassword {
     cursor: pointer;
+    border: 0;
     user-select: none;
-    width: 40px;
+    width: fit-content;
+    background-color: transparent;
     position: relative;
-    left: 5px;
 }
 
 #password_container{
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    background-color: lightgray;
+    width: 60%;
+    background-color: lightgray;
+    box-shadow: 0 1px 2px 2px lightgray;
+    outline: 0;
+    border-color: transparent;
+    border-radius: 0.25rem;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 60px;
+}
+
+.form-group{
+    width: 80%;
+    margin-left: 35%;
+}
+
+.form-control:focus,
+.form-control{
+    width: 60%;
+    background-color: lightgray;
+    box-shadow: 0 1px 2px 2px lightgray;
+    outline: 0;
+    border-color: transparent;
+}
+
+#password{
+    width: 92%;
+}
+
+.btn{
+    width: 49%;
+    margin-left: 3%;
+}
+
+.reset_pass:hover,
+.reset_pass{
+    color: #37352FA6;
+    margin-left: 3%;
 }

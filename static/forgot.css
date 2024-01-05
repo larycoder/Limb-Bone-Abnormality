@@ -1,0 +1,28 @@
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-group{
+    width: 80%;
+    margin-left: 35%;
+}
+
+.form-control:focus,
+.form-control{
+    width: 60%;
+    background-color: lightgray;
+    box-shadow: 0 1px 2px 2px lightgray;
+    outline: 0;
+    border-color: transparent;
+}
+
+.btn:hover,
+.btn:focus,
+.btn{
+    width: 49%;
+    outline: 0;
+    margin-left: 3%;
+    color: white;
+}

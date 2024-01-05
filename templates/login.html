@@ -3,7 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="../static/login.css">
 <form action="" method="post">
-    <h3 align="center">Login</h3>
+    <h1 align="center">Login</h1>
     <div class="form-group">
         <label for="username">Username</label>
         <input type="username" class="form-control" id="username" name="username", placeholder="Enter username">
@@ -20,7 +20,7 @@
 
     <br>
     <button type="submit" class="btn btn-primary">Login</button> <br>
-    <a href="{{url_for('forgot')}}">Forgot password ?</a>
+    <a href="{{url_for('forgot')}}" class="reset_pass">Forgot password ?</a>
 </form>
 <script src="../static/login.js"></script>
 {% endblock %}

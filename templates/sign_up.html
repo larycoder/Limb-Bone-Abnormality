@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Sign up{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="../static/sign_up.css">
 <form action="" method="post">
-    <h3 align="center">Sign Up</h3>
+    <h1 align="center">Create an account</h1>
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email", placeholder="Enter email">
-        
+
     </div>
     <div class="form-group">
         <label for="username">Username</label>
@@ -15,16 +16,20 @@
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password", placeholder="Enter password">
-
+        <div id="password_container">
+            <input type="password" class="form-control" id="password" name="password", placeholder="Enter password">
+            <span id="togglePassword">Show</span>
+        </div>
     </div>
     <div class="form-group">
         <label for="re-password">Confirm Password</label>
-        <input type="password" class="form-control" id="re-password" name="re-password", placeholder="Enter re-password">
-
+        <div id="password_container">
+            <input type="password" class="form-control" id="re-password" name="re-password", placeholder="Enter password">
+            <span id="re-togglePassword">Show</span>
+        </div>
     </div>
     <br>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
+<script src="../static/sign_up.js"></script>
 {% endblock %}
