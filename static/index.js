@@ -53,3 +53,21 @@ function deleteSubFolder(Id, parent_folder_id) {
         console.error(error);
     });
 }
+
+function executeF(Id){
+    fetch('/execute',{
+        method: 'POST',
+        body: JSON.stringify({Id: Id}),
+    }).then((_res) =>{
+        window.location.href = "/home";
+    });
+}
+
+function executeSubF(Id,folder_id){
+    fetch('/executeSubF',{
+        method: 'POST',
+        body: JSON.stringify({Id: Id}),
+    }).then((_res) =>{
+        window.location.href = "/folder/"+ folder_id;
+    });
+}

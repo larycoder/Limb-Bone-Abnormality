@@ -6,7 +6,7 @@ from function.connect import db
 from function.models import User,Folder,File
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import uuid
+import subprocess
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
@@ -406,13 +406,57 @@ def download_file(file_id):
     print(file_path)
     return send_file(file_path, as_attachment=True, mimetype='application/pdf')
 
-@app.route('/execute/<file_id>')
-def execute_fatsq(file_id):
-    file = File.query.get_or_404(file_id)
+@app.route('/execute', methods = ['POST'])
+def execute_fatsq():
+    event = json.loads(request.data)
+    id = event['Id']
+    file = File.query.filter_by(id = id).first()
     file_path = file.path
     file_name = file.name
     print(file_path)
     print(file_name)
+    command = f"./whole_genome_script_for_server.sh {file_name} > {file_name}.csv"
+
+    # Execute the command
+    subprocess.run(command, shell=True)
+
+    output_file_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+    shutil.move(f"{file_name}.csv", output_file_path)
+
+    # Add the output file to the database
+    new_file = File(name=f"{file_name}.csv", path=output_file_path, user_id=current_user.id)
+    db.session.add(new_file)
+    db.session.commit()
+
+    # Return a response indicating the execution is complete
+    return "Fatsq file executed and output saved in output.csv"
+
+@app.route('/executeSubF', methods = ['POST'])
+def execute_fatsq_subF():
+    event = json.loads(request.data)
+    id = event['Id']
+    file = File.query.filter_by(id = id).first()
+    folder = Folder.query.filter_by(id = file.folder_id).first()
+    file_path = file.path
+    file_name = file.name
+    print(file_path)
+    print(file_name)
+    command = f"./whole_genome_script_for_server.sh {file_name} > {file_name}.csv"
+
+    # Execute the command
+    subprocess.run(command, shell=True)
+
+    user_file_path = f"{folder.path}"
+    print(f"file: {user_file_path}")
+    output_file_path = os.path.join(user_file_path, f"{file_name}.csv")
+
+    # Add the output file to the database
+    new_file = File(name=f"{file_name}.csv", path=output_file_path, user_id=current_user.id,folder_id=folder.id)
+    db.session.add(new_file)
+    db.session.commit()
+
+    # Return a response indicating the execution is complete
+    return "Fatsq file executed and output saved in output.csv"
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders
