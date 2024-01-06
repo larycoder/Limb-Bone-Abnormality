@@ -13,6 +13,7 @@ function deleteSubFile(Id, folder_id){
     }).then((_res) =>{
         window.location.href = "/folder/"+ folder_id;
     });
+
 }
 function deleteFolder(Id) {
     fetch('/delete-folder', {
