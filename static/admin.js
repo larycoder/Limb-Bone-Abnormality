@@ -3,6 +3,6 @@ function deleteUser(customerId){
         method: 'POST',
         body: JSON.stringify({userId: customerId}),
     }).then((_res) =>{
-        window.location.href = "/admin";
+        window.location.reload();
     });
 }

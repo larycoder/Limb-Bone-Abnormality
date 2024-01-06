@@ -72,7 +72,9 @@ def sign_up():
                 if not os.path.exists(folder_path):
                     os.makedirs(folder_path)
                     print('Created folder successs')
-                    print(folder_path)
+                    source_file_path="whole_genome_script_for_server.sh"
+                    destination_folder_path=folder_path
+                    copy_and_paste_file(source_file_path, destination_folder_path)
                 else:
                     print('Folder already exists')
                 new_user = User(
@@ -149,15 +151,13 @@ def get_folder(folder_id):
             if sub_file.filename == '':
                 flash("No file selected!", category='error')
             else:
-                user_file_path = f"{folder.path}"
-                print(f"file: {user_file_path}")
-                file_path = os.path.join(user_file_path, sub_file.filename)
-
+                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                path+=f"/{sub_file.filename}"
                 # Save the uploaded file to the specified path
-                sub_file.save(file_path)
+                sub_file.save(path)
 
                 # Add the file to the database
-                new_file = File(name=sub_file.filename, path=file_path, user_id=current_user.id, folder_id=folder.id)
+                new_file = File(name=sub_file.filename, path=path, user_id=current_user.id, folder_id=folder.id)
                 db.session.add(new_file)
                 db.session.commit()
 
@@ -482,6 +482,23 @@ def delete_files_in_folder(folder_id):
         db.session.delete(file)
     db.session.commit()
 
+def copy_and_paste_file(source_file, destination_folder):
+    try:
+        if os.path.isfile(source_file):
+            if not os.path.exists(destination_folder):
+                os.makedirs(destination_folder)
+
+            # create full path to the right dictionary 
+            destination_path = os.path.join(destination_folder, os.path.basename(source_file))
+
+            # Paste to the folder path
+            shutil.copy2(source_file, destination_path)
+
+            print(f"Sao chép thành công tệp tin {source_file} vào {destination_path}")
+        else:
+            print(f"Tệp tin {source_file} không tồn tại.")
+    except Exception as e:
+        print(f"Lỗi: {e}")
 
 if __name__ == '__main__':
     with app.app_context():
