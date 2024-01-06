@@ -1,12 +1,85 @@
-{% extends "base.html" %}
-{% block title %}File: {{ file.name }}{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  crossorigin="anonymous"
+/>
+<link rel="stylesheet" href="../static/home.css">
+  <title>File</title>
+</head>
+<body>
 
-{% block content %}
+  <nav class="navbar navbar-expand-lg bg-primary">
+    <a href="/home" class="nav-item nav-link" id="home" style="color: white;">Home</a>
+    
+    <div class="navbar-nav ml-auto">
+      <div class="menu_account">
+        <div class="icon_account">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3C14.7614 3 17 5.23858 17 8C17 9.88196 15.9603 11.5211 14.4239 12.3742C17.5815 13.3762 19.8902 16.2864 19.9962 19.7508L20 20V21H19V20L18.9959 19.7593C18.8691 16.0048 15.7855 13 12 13C8.21455 13 5.1309 16.0048 5.00406 19.7593L5 20V21H4V20L4.00381 19.7508C4.1098 16.2864 6.41847 13.3762 9.57667 12.3736C8.03975 11.5211 7 9.88196 7 8C7 5.23858 9.23858 3 12 3ZM12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4Z" fill="#1A1A1A"/>
+          </svg>
+        </div>
+  
+        <div class="name_account" data-toggle="dropdown">
+          <p class="nav-link">{{ user.username }}</p>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a href="/logout" class="dropdown-item" id="logout">Log Out</a>
+            <a class="dropdown-item" href="/forgot" id="reset">Reset Password</a>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </nav>
 <link rel="stylesheet" href="../static/file.css">
 <h1>{{ file.name }}</h1>
 <pre contenteditable="true" id="data">{{file_contents}}</pre>
 <button onclick="updateFile('{{file.id}}')">Save</button>
 <button type="button" class="execute-button" onclick="executeF('{{ file.id }}')">Execute</button>
 <a href="{{url_for('download_file', file_id=file.id)}}"><button>Download</button></a>
-<script src="../static/file.js"></script>
-{% endblock %}
+<script
+src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+crossorigin="anonymous"
+></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+crossorigin="anonymous"
+></script>
+<script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+crossorigin="anonymous"
+></script>
+<script type="text/javascript"
+src="{{url_for('static', filename= 'index.js')}}">
+
+</script>
+<script>
+  $(document).ready(function() {
+    $('.name_account').dropdown();
+
+    $('#logout').click(function(e) {
+      e.preventDefault();
+      window.location.href = "/logout";
+    });
+
+    $('#reset').click(function(e){
+      e.preventDefault();
+      window.location.href = "/forgot";
+    });
+  });
+</script>
+</body>
+</html>
