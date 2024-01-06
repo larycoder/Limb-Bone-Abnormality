@@ -142,27 +142,6 @@ def get_folder(folder_id):
     folder = Folder.query.get_or_404(folder_id)
     file = File.query.filter_by(folder_id=folder.id).first()
     if request.method == 'POST':
-        if 'folderName' in request.form:
-            subfolder_name = request.form['folderName']
-            if subfolder_name == '':
-                flash('No folder name provided!', category='error')
-            else:
-                user_folder_path = f"{folder.path}"
-                folder_path = os.path.join(user_folder_path, subfolder_name)
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-                    print("Created subfolder successfully")
-                else:
-                    print("Subfolder already exists")
-
-                # Add subfolder to the database
-                new_folder = Folder(path=folder_path, name=subfolder_name, user_id=current_user.id, parent_folder_id = folder.id)
-                db.session.add(new_folder)
-                db.session.commit()
-
-                flash("Subfolder created successfully", category='success')
-
-
 
         if 'inputFile' in request.files:
             sub_file = request.files['inputFile']
@@ -187,6 +166,7 @@ def get_folder(folder_id):
 
     subfolders = Folder.query.filter_by(parent_folder_id=folder.id).all()
     subfiles = File.query.filter_by(folder_id=folder.id).all()
+ 
     return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = subfiles, user = current_user)
         
 
