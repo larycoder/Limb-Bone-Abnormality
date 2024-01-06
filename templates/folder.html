@@ -42,45 +42,34 @@
       </div>
     </div>
   </nav>
-<div class="form">
-  <h2>Folder: {{ folder.name }}</h2>
+  <div class="form">
+    <h2>Folder: {{ folder.name }}</h2>
+    
     <!-- Display files -->
     <h2>Files:</h2>
     <ul>
       {% for subfile in subfiles %}
-        <div class="file-list">
-          <li><a href="{{ url_for('get_file', file_id=subfile.id) }}">{{ subfile.name }}</a></li>
-          <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-    
-        </div>
+      <div class="file-list">
+        <li><a href="{{ url_for('get_file', file_id=subfile.id) }}">{{ subfile.name }}</a></li>
+        <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       {% endfor %}
     </ul>
-    
-    <h2>Folders:</h2>
-    <ul>
-        {% for subfolder in subfolders %}
-          <div class="file-list">
-            <li><a href="{{ url_for('get_folder', folder_id=subfolder.id) }}">{{ subfolder.name }}</a></li>
-            <button type="button" class="close" onclick="deleteSubFolder('{{ subfolder.id }}','{{ subfolder.parent_folder_id }}')">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-    
-        {% endfor %}
-    </ul>
-    
-    
-    
-    
-    <!-- Create new folder -->
-    <form action="" method="post">
-        <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
-    
-        <button type="submit" class="btn btn-primary">Create Folder</button>
+  
+    <!-- Create new file -->
+    <form action="/folder/{{ folder.id }}" method="post" enctype="multipart/form-data" id="uploadForm">
+      <div id="fileInputContainer">
+        {% if subfiles|length >= 2 %}
+          <button type="button" class="execute-button" onclick="executeF('{{ file.id }}')">Execute</button>
+        {% else %}
+          <input type="file" id="inputFile" name="inputFile" accept=".txt, .fastq">
+          <button type="submit" class="btn btn-primary">Add File</button>
+        {% endif %}
+      </div>
     </form>
-</div>
+  </div>
 
 <script
 src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -116,5 +105,6 @@ src="{{url_for('static', filename= 'index.js')}}">
     });
   });
 </script>
+
 </body>
 </html>
