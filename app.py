@@ -187,7 +187,7 @@ def get_folder(folder_id):
 
     subfolders = Folder.query.filter_by(parent_folder_id=folder.id).all()
     subfiles = File.query.filter_by(folder_id=folder.id).all()
-    return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = subfiles)
+    return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = subfiles, user = current_user)
         
 
 @app.route('/upload-file', methods=['POST', 'GET'])
@@ -227,7 +227,7 @@ def get_file(file_id):
 
     with open(file_path, 'r', encoding='utf-8') as file_obj:
         file_contents = file_obj.read()
-    return render_template('file.html', file=file, file_contents=file_contents)
+    return render_template('file.html', file=file, file_contents=file_contents, user = current_user)
     
 @app.route('/file/<file_id>/updateFile', methods=['GET', 'POST'])
 def updateFile(file_id):
@@ -433,6 +433,16 @@ def execute_fatsq():
 
     # Return a response indicating the execution is complete
     return jsonify({"folder_id": folder_id})
+
+@app.route('/upload')
+def upload():
+    return render_template('upload_file.html', user = current_user)
+@app.route('/sub-upload/<folder_id>')
+def subupload(folder_id):
+    folder = Folder.query.get_or_404(folder_id)
+    print("Hello")
+    print(folder.id)
+    return render_template('upload_subfile.html', user = current_user, folder = folder)
 
 # @app.route('/executeSubF', methods = ['POST'])
 # def execute_fatsq_subF():
