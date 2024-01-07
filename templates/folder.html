@@ -21,8 +21,6 @@
 
   <nav class="navbar navbar-expand-lg bg-primary">
     <a href="/home" class="nav-item nav-link" id="home" style="color: white;">Home</a>
-    <a href="{{url_for('subupload', folder_id = folder.id)}}" class="nav-item nav-link" id="home" style="color: white;">Upload file</a>
-    
     <div class="navbar-nav ml-auto">
       <div class="menu_account">
         <div class="icon_account">
@@ -48,23 +46,43 @@
     <!-- Display files -->
     <h2>Files:</h2>
     <ul>
-      {% for subfile in subfiles %}
-      <div class="file-list">
-        <li><a href="{{ url_for('get_file', file_id=subfile.id) }}">{{ subfile.name }}</a></li>
-        <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+      {% set sorted_subfiles = subfiles | sort(attribute='name') %}
+
+      {% for subfile in sorted_subfiles %}
+        <div class="file-list">
+          <li><a href="{{ url_for('get_file', file_id=subfile.id) }}">{{ subfile.name }}</a></li>
+          <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       {% endfor %}
+      
     </ul>
   
     <!-- Create new file -->
     <form action="/folder/{{ folder.id }}" method="post" enctype="multipart/form-data" id="uploadForm">
       <div id="fileInputContainer">
         {% if subfiles|length >= 2 %}
-          <button type="button" class="execute-button" onclick="executeF('{{ file.id }}')">Execute</button>
+          <button type="button" class="btn-primary btn execute-button" onclick="executeF('{{ file.id }}')">Execute</button>
         {% else %}
-          <input type="file" id="inputFile" name="inputFile" accept=".txt, .fastq">
+        <ul>
+          {%if subfiles|length==0%}
+          <div class="file-list">
+            <li><input type="file" id="inputFile1" name="inputFile1" accept=".txt, .fastq"></li>
+          </div>
+          <div class="file-list">
+            <li><input type="file" id="inputFile2" name="inputFile2" accept=".txt, .fastq"></li>
+          </div>
+          {%elif subfiles[0].name.endswith("_2.fastq.gz")%}
+          <div class="file-list">
+            <li><input type="file" id="inputFile1" name="inputFile1" accept=".txt, .fastq"></li>
+          </div>
+          {%elif subfiles[0].name.endswith("_1.fastq.gz")%}
+          <div class="file-list">
+            <li><input type="file" id="inputFile2" name="inputFile2" accept=".txt, .fastq"></li>
+          </div>
+          {%endif%}
+        </ul>
           <button type="submit" class="btn btn-primary">Add File</button>
         {% endif %}
       </div>

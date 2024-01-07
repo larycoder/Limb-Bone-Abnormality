@@ -42,11 +42,12 @@
     </div>
   </nav>
 <link rel="stylesheet" href="../static/file.css">
-<h1>{{ file.name }}</h1>
-<pre contenteditable="true" id="data">{{file_contents}}</pre>
-<button onclick="updateFile('{{file.id}}')">Save</button>
-<button type="button" class="execute-button" onclick="executeF('{{ file.id }}')">Execute</button>
-<a href="{{url_for('download_file', file_id=file.id)}}"><button>Download</button></a>
+<div class="form">
+  <h1>{{ file.name }}</h1>
+  <pre contenteditable="true" id="data">{{file_contents}}</pre>
+  <button onclick="updateFile('{{file.id}}')">Save</button>
+  <a href="{{url_for('download_file', file_id=file.id)}}"><button>Download</button></a>
+</div>
 <script
 src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

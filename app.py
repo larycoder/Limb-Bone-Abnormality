@@ -101,10 +101,12 @@ def home():
     files = File.query.filter_by(user_id = current_user.id).all()
     print(f"file: {files}")
     return render_template("home.html",folders = folders, user = current_user, files = files)
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash("Log out success")
     return redirect(url_for('login'))
 
 @app.route('/folder', methods = ['POST'])
@@ -126,7 +128,6 @@ def folder():
 
                 #Create a folder name for user
                 folder_path = os.path.join(user_folder_path, folder_name)
-                os.makedirs(folder_path)
 
                 # Add folder to database
                 new_folder = Folder(path = folder_path,name= folder_name, user_id = current_user.id)
@@ -145,19 +146,39 @@ def get_folder(folder_id):
     file = File.query.filter_by(folder_id=folder.id).first()
     if request.method == 'POST':
 
-        if 'inputFile' in request.files:
-            sub_file = request.files['inputFile']
+        if 'inputFile1' in request.files:
+            sub_file = request.files['inputFile1']
             
             if sub_file.filename == '':
                 flash("No file selected!", category='error')
             else:
+                file_name=f"{folder.name}_1.fastq.gz"
                 path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                path+=f"/{sub_file.filename}"
+                path+=f"/{file_name}"
                 # Save the uploaded file to the specified path
                 sub_file.save(path)
 
                 # Add the file to the database
-                new_file = File(name=sub_file.filename, path=path, user_id=current_user.id, folder_id=folder.id)
+                new_file = File(name=file_name, path=path, user_id=current_user.id, folder_id=folder.id)
+                db.session.add(new_file)
+                db.session.commit()
+
+                flash('Subfile uploaded successfully!', category='success')
+
+        if 'inputFile2' in request.files:
+            sub_file = request.files['inputFile2']
+            
+            if sub_file.filename == '':
+                flash("No file selected!", category='error')
+            else:
+                file_name=f"{folder.name}_2.fastq.gz"
+                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                path+=f"/{file_name}"
+                # Save the uploaded file to the specified path
+                sub_file.save(path)
+
+                # Add the file to the database
+                new_file = File(name=file_name, path=path, user_id=current_user.id, folder_id=folder.id)
                 db.session.add(new_file)
                 db.session.commit()
 
@@ -169,7 +190,6 @@ def get_folder(folder_id):
  
     return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = subfiles, user = current_user)
         
-
 @app.route('/upload-file', methods=['POST', 'GET'])
 @login_required
 def upload_file():
@@ -461,18 +481,12 @@ def is_file_in_folder(file, folder):
 def delete_folder_recursive(folder_id):
     folder = Folder.query.filter_by(id=folder_id).first()
     if folder is None:
-        return
-
-    # Check if any subfolders have the same parent_folder_id as the current folder
-    subfolders = Folder.query.filter_by(parent_folder_id=folder_id).all()
-    for subfolder in subfolders:
-        delete_folder_recursive(subfolder.id)
+        return jsonify({"Status":"Fail"})
 
     # Delete files in the current folder
     delete_files_in_folder(folder.id)
 
     # Delete the current folder
-    shutil.rmtree(folder.path)
     db.session.delete(folder)
     db.session.commit()
 
