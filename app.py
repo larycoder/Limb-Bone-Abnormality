@@ -75,6 +75,8 @@ def sign_up():
                     source_file_path="whole_genome_script_for_server.sh"
                     destination_folder_path=folder_path
                     copy_and_paste_file(source_file_path, destination_folder_path)
+                    source_file_path="hg38.fa"
+                    copy_and_paste_file(source_file_path, destination_folder_path)
                 else:
                     print('Folder already exists')
                 new_user = User(
@@ -250,29 +252,21 @@ def rm_user():
     try:
         user_data = json.loads(request.data)
         rm_user = user_data['userId']
-        print(f"User data: {user_data}")
-        print(f"rm: {rm_user}")
-        print(f"current user: {current_user}")
-        print(f"current user name: {current_user.username}")
-        print(f"role: {current_user.role}")
-        if current_user.role==1:
-            user_to_delete=User.query.filter_by(id=rm_user).first()
-            file_to_delete=File.query.filter_by(user_id=rm_user).all()
-            folder_to_delete=Folder.query.filter_by(user_id=rm_user).all()
-            # print(f"user: {user_to_delete}")
-            if user_to_delete:
-                for file_obj in file_to_delete:
-                    db.session.delete(file_obj)
-                for folder_obj in folder_to_delete:
-                    db.session.delete(folder_obj)
-                db.session.delete(user_to_delete)
-                db.session.commit()
-                shutil.rmtree(f"../folder_data/{user_to_delete.username}")
-                return jsonify({})
-            else:
-                raise ValueError(f"User with id {rm_user} not found")
+        user_to_delete=User.query.filter_by(id=rm_user).first()
+        file_to_delete=File.query.filter_by(user_id=rm_user).all()
+        folder_to_delete=Folder.query.filter_by(user_id=rm_user).all()
+        # print(f"user: {user_to_delete}")
+        if user_to_delete:
+            for file_obj in file_to_delete:
+                db.session.delete(file_obj)
+            for folder_obj in folder_to_delete:
+                db.session.delete(folder_obj)
+            db.session.delete(user_to_delete)
+            db.session.commit()
+            shutil.rmtree(f"../folder_data/{user_to_delete.username}")
+            return jsonify({})
         else:
-            raise ValueError("You do not have permission to delete this user.")
+            raise ValueError(f"User with id {rm_user} not found")
     except Exception as e:
         print(f"Error removing user: {e}")
         return jsonify({'error': 'An error occurred while removing the user.'}), 500

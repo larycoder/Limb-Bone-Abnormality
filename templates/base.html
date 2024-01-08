@@ -25,12 +25,12 @@
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if message=="Logged in successfully!"%}
+                {% if current_user.role==1%}
+                    <a href="/logout" class="nav-item nav-link " id="logout" style="color: white;">Log Out</a>
+                {% elif message=="Logged in successfully!"%}
                     {% if current_user.role==2%}
                         <a href="/logout" class="nav-item nav-link " id="logout" style="color: white;">Log Out</a>
                         <a href="/home" class="nav-item nav-link" id="home" style="color: white;">Home</a>
-                    {% elif current_user.role==1%}
-                        <a href="/logout" class="nav-item nav-link " id="logout" style="color: white;">Log Out</a>
                     {%endif%}
                 {% else %}
                     <a href="/login" class="nav-item nav-link " id="login" style="color: white;">Login</a>
