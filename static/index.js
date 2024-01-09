@@ -65,14 +65,10 @@ function executeF(Id){
         }
         return response.json();
     }).then(data=>{
-        if(data["folder_id"]==null){
-            window.location.href="/home";
-        }
-        else{
-            window.location.href=`/folder/${data["folder_id"]}`
-        }
-    })
-}
+        window.location.href="/folder/"+ Id;})
+    }
+
+
 
 function executeSubF(Id,folder_id){
     fetch('/executeSubF',{

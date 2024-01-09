@@ -90,3 +90,7 @@ html{
 .hide{
   display: none;
 }
+
+.ouput-file{
+  padding-top: 10%;
+}
