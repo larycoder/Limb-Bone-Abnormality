@@ -3,6 +3,7 @@ html{
 }
 .navbar{
     background-color: #00194C;
+    width: 100%;
 }
 .menu_account{
     display: flex;

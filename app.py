@@ -24,7 +24,11 @@ def load_user(id):
 
 @app.route('/')
 def start():
-    return redirect(url_for('login'))
+    return redirect(url_for('homepage'))
+
+@app.route('/homepage')
+def homepage():
+    return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -108,7 +112,7 @@ def home():
 def logout():
     logout_user()
     flash("Log out success")
-    return redirect(url_for('login'))
+    return redirect(url_for('homepage'))
 
 @app.route('/folder', methods = ['POST'])
 @login_required
@@ -244,10 +248,10 @@ def get_file(file_id):
         table_html = selected_df.to_html(classes='table table-striped', index=False)
 
         # Render template với dữ liệu HTML
-        return render_template('display_columns.html', table_html=table_html, columns=df.columns)
+        return render_template('display_columns.html', table_html=table_html, columns=df.columns, user = current_user, file = file)
 
     # Nếu là request GET, hiển thị form chọn cột
-    return render_template('select_columns.html', columns=df.columns)
+    return render_template('select_columns.html', columns=df.columns,user = current_user)
 
 
     
