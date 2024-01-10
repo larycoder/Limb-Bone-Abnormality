@@ -99,9 +99,7 @@ def sign_up():
 @login_required
 def home():
     folders = Folder.query.filter_by(user_id=current_user.id).all()
-    print(f"folder: {folders}")
     files = File.query.filter_by(user_id = current_user.id).all()
-    print(f"file: {files}")
     return render_template("home.html",folders = folders, user = current_user, files = files)
 
 @app.route('/logout')
@@ -121,7 +119,6 @@ def folder():
                 flash('No folder name provied!', category= 'error')
             else:
                 user_folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                print(user_folder_path)
                 if not os.path.exists(user_folder_path):
                     os.makedirs(user_folder_path)
                     print("Created folder successfully")
@@ -189,8 +186,14 @@ def get_folder(folder_id):
 
     subfolders = Folder.query.filter_by(parent_folder_id=folder.id).all()
     subfiles = File.query.filter_by(folder_id=folder.id).all()
- 
-    return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = subfiles, user = current_user)
+    output=[]
+    files=[]
+    for file in subfiles:
+        if file.name.endswith(".csv"):
+            output.append(file)
+        else:
+            files.append(file)
+    return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = files, output=output, user = current_user)
         
 @app.route('/upload-file', methods=['POST', 'GET'])
 @login_required
@@ -405,22 +408,21 @@ def execute_fatsq():
     event = json.loads(request.data)
     id = event['Id']
     folder = Folder.query.filter_by(id = id).first()
-    files = File.query.filter_by(folder_id = folder.id).all()
+    files = File.query.filter_by(folder_id = folder.id).order_by(File.name).all()
+
     file_names = []
     for file in files:
-        print(file.path)
         file_names.append(file.path)
     if len(file_names) >= 2:
-        file1_name = file_names[0]  
-        file2_name = file_names[1]  
+        file1_name = file_names[0].split("_1")
+        file2_name = file_names[1].split("_2")
     else:
         # Handle case when there are not enough files
         return jsonify({"error": "Not enough files in the folder"})
     
     output_file_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}",f"{folder.name}.csv")
-    print(output_file_path)
     folder_id = folder.id
-    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {file1_name} {file2_name} > {output_file_path}"
+    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {file1_name[0]} {file2_name[0]} > {output_file_path}"
 
     # Execute the command
     subprocess.run(command, shell=True)
@@ -437,33 +439,7 @@ def upload():
 @app.route('/sub-upload/<folder_id>')
 def subupload(folder_id):
     folder = Folder.query.get_or_404(folder_id)
-    print("Hello")
-    print(folder.id)
     return render_template('upload_subfile.html', user = current_user, folder = folder)
-
-# @app.route('/executeSubF', methods = ['POST'])
-# def execute_fatsq_subF():
-#     event = json.loads(request.data)
-#     id = event['Id']
-#     file = File.query.filter_by(id = id).first()
-#     folder = Folder.query.filter_by(id = file.folder_id).first()
-#     file_name = file.name
-#     print(f"folder: {folder.id}")
-#     command = f"./whole_genome_script_for_server.sh {file_name} > {file_name}.csv"
-
-#     # Execute the command
-#     subprocess.run(command, shell=True)
-
-#     user_file_path = f"{folder.path}"
-#     output_file_path = os.path.join(user_file_path, f"{file_name}.csv")
-
-#     # Add the output file to the database
-#     new_file = File(name=f"{file_name}.csv", path=output_file_path, user_id=current_user.id,folder_id=folder.id)
-#     db.session.add(new_file)
-#     db.session.commit()
-
-#     # Return a response indicating the execution is complete
-#     return "Fatsq file executed and output saved in output.csv"
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders
@@ -505,11 +481,11 @@ def copy_and_paste_file(source_file, destination_folder):
             # Paste to the folder path
             shutil.copy2(source_file, destination_path)
 
-            print(f"Sao chép thành công tệp tin {source_file} vào {destination_path}")
+            print("Create file successfully")
         else:
-            print(f"Tệp tin {source_file} không tồn tại.")
+            print("Fail to create a file")
     except Exception as e:
-        print(f"Lỗi: {e}")
+        print(f"Error: {e}")
 
 if __name__ == '__main__':
     with app.app_context():
