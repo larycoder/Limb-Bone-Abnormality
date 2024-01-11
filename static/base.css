@@ -4,6 +4,7 @@ body{
 .navbar{
     position: sticky;
     top: 0;
+    z-index: 1000;
 }
 a, a:hover{
     text-decoration: none;
@@ -82,4 +83,27 @@ p{
     line-height: 20px; 
     padding: 0 20px 20px 20px;
     cursor: pointer;
+}
+
+.arrow {
+    font-size: 24px;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+
+#index .arrow {
+    transform: rotate(180deg);
+}
+
+
+
+#pipeline .arrow {
+    display: inline-block;
+    transform: rotate(90deg);
+    transform-origin: center;
+}
+
+#demo .arrow {
+    transform: rotate(180deg); 
 }
