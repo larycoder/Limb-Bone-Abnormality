@@ -8,6 +8,9 @@
 
             <h2>Display Selected Columns</h2>
             {{ table_html | safe }}
+
+        <a href="{{url_for('download_file', file_id=file.id)}}"><button>Download</button></a>
+        <a href="{{url_for('download_file', file_id=file.id)}}"><button>Download preview</button></a>
     </div>
 {% endblock %}
 

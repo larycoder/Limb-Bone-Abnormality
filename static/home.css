@@ -1,3 +1,13 @@
+:root {
+  --primary: #007bff;
+  --secondary: #bfc0c0;
+  --white: #fff;
+  --text-clr: #222222;
+  --header-clr: #25273d;
+  --next-btn-hover: #0044ff;
+  --back-btn-hover: #8b8c8c;
+}
+
 body{
     font-family: Source Sans Pro;
 }
@@ -95,3 +105,30 @@ body{
 .ouput-file{
   padding-top: 10%;
 }
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.step {
+  list-style: none;
+  width: 300px;
+  height: 15px;
+  border: 1px solid black;
+  border-radius: 5%;
+}
+.step1,.step2,.step3{
+  background-color: var(--primary);
+}
+
+.header .ul {
+  display: flex;
+}
+
+.header .ul .step {
+  margin-right: 0; 
+  margin-top: 20px;
+  position: relative;
+}
+

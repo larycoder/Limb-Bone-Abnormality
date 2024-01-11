@@ -3,6 +3,26 @@
 {% block content %}
 
   <div class="form">
+
+        <div class="header">
+          <ul class="ul">
+              <li class="active step step1">
+                  <div class="pipeline">
+
+                  </div>
+              </li>
+              <li class="step step2">
+                  <div class="pipeline">
+
+                  </div>
+              </li>
+              <li class="step step3">
+                  <div class="pipeline">
+
+                  </div>
+              </li>
+          </ul>
+      </div>
     <br>
     <h2>Folder: {{ folder.name }}</h2>
     
@@ -27,7 +47,7 @@
  <form action="/folder/{{ folder.id }}" method="post" enctype="multipart/form-data" id="uploadForm">
   <div id="fileInputContainer">
 	  {% if subfiles|length>=2 %}
-      <button type="button" class="btn-primary btn execute-button" onclick="executeF('{{ folder.id }}')">Execute</button>
+      <button type="button" class="btn-primary btn execute-button" id="addFileBtn" onclick="executeF('{{ folder.id }}')">Execute</button>
     {% else %}
     <ul>
       {%if subfiles|length==0%}
@@ -69,5 +89,6 @@
       </ul>
     </div>
   </div>
+
 {% endblock %}
 
