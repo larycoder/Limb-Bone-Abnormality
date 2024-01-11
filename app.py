@@ -28,6 +28,9 @@ def start():
 @app.route('/demo')
 def demo():
     return render_template('upload_3circles.html')
+@app.route('/pipeline')
+def pipeline():
+    return render_template('pipeline.html')
 @app.route('/homepage')
 def homepage():
     return render_template('index.html')
