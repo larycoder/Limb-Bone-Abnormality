@@ -1,0 +1,30 @@
+body {
+    font-family: Source Sans Pro;
+    background-color: #f8f9fa;
+}
+
+h2 {
+    color: #007bff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    max-height: 100px; /* Set a maximum height for each table cell */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Display an ellipsis (...) when text overflows */
+
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
