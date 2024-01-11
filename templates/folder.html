@@ -41,10 +41,11 @@
     </div>
   </nav>
   <div class="form">
+    <br>
     <h2>Folder: {{ folder.name }}</h2>
     
     <!-- Display files -->
-    <h2>Files:</h2>
+    <h2>Input Files:</h2>
     <ul>
       {% set sorted_subfiles = subfiles | sort(attribute='name') %}
   

@@ -1,22 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}HomePage{% endblock %}
-
 {% block content %}
-
 <div class="container">
-
     <div class="form mt-4 text-center mx-auto">
         <h1 class="begin">We optimize the data processing workflow.</h1>
         <p>A website supports processing sequence data of Limb Bone Abnormality patients</p>
     </div>
     <div class="form mt-4 text-center mx-auto">
-
         <h1 class="begin">Introduction</h1>
         <p>Limb bone abnormalities present significant obstacles in the field of medical genetics, 
             both in terms of diagnosis and treatment. To tackle these challenges, 
             a specialized bioinformatics software has been created with the goal of offering a comprehensive platform for the analysis 
             and interpretation of sequence data associated with limb bone abnormalities.</p>
-        
     </div>
     <div class="form mt-4 text-center mx-auto">
         <div class="IO">
@@ -53,51 +48,44 @@
     </div>
     <div class="box">
         <div class="tool-box">
-            <p class="font-tool name"><strong>Trimomatic 0.39</strong></p>
             <a href="https://bioinformaticshome.com/tools/rna-seq/descriptions/Trimmomatic.html#gsc.tab=0" target="_blank">
-                <p class="font-tool content">trim and crop Illumina (FASTQ) data as well as to remove adapters</p>
+                <p class="font-tool name"><strong>Trimomatic 0.39</strong></p>
+                <p class="font-tool content">Trim and crop Illumina (FASTQ) data as well as to remove adapters</p>
             </a>
             </div>
         <div class="tool-box">
-            <p class="font-tool name"><strong>Genome Analysis Toolkit</strong></p>
             <a href="https://gatk.broadinstitute.org/hc/en-us" target="_blank">
-                <p class="font-tool content">include tools for variant calling, recalibration,  downstream processing</p>
+                <p class="font-tool name"><strong>Genome Analysis Toolkit</strong></p>
+                <p class="font-tool content">Include tools for variant calling, recalibration,  downstream processing</p>
             </a>
         </div>
         <div class="tool-box">
-            <p class="font-tool name"><strong>ANNOVAR</strong></p>
             <a href="https://annovar.openbioinformatics.org/en/latest/" target="_blank">
-                <p class="font-tool content">utilize update-to-date information to functionally annotate genetic variants detected from diverse genomes</p>
+                <p class="font-tool name"><strong>Annovar</strong></p>
+                <p class="font-tool content">Utilize update-to-date information to functionally annotate genetic variants detected from diverse genomes</p>
             </a>
         </div>
 
     </div>
     <div class="box">
         <div class="tool-box">
-            <p class="font-tool name"><strong>VCFTOOLS</strong></p>
             <a href="https://vcftools.sourceforge.net/" target="_blank">
-                <p class="font-tool content">manipulate and filter Variant Call Format (VCF) files</p>
+                <p class="font-tool name"><strong>VCFtools</strong></p>
+                <p class="font-tool content">Manipulate and filter Variant Call Format (VCF) files</p>
             </a>
         </div>
         <div class="tool-box">
-            <p class="font-tool name"><strong>Picard</strong></p>
             <a href="https://broadinstitute.github.io/picard/command-line-overview.html" target="_blank">
-                <p class="font-tool content">mark duplicate reads, sort, index BAM(Binary Alignment Map) files</p>
+                <p class="font-tool name"><strong>Picard</strong></p>
+                <p class="font-tool content">Mark duplicate reads, sort, index BAM(Binary Alignment Map) files</p>
             </a>
         </div>
         <div class="tool-box">
-            <p class="font-tool name"><strong>FastQC</strong></p>
             <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank">
-                <p class="font-tool content">check the quality of DNA</p>
+                <p class="font-tool name"><strong>FastQC</strong></p>
+                <p class="font-tool content">Check the quality of DNA</p>
             </a>
         </div>
     </div>
-
-    <a href="{{url_for('pipeline')}}" class="arrow" id="pipeline">Go to Pipeline &#10132;</a>
-
 </div>
-
-
-
 {% endblock %}
-

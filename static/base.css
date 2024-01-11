@@ -39,13 +39,15 @@ p{
 
 }
 
-.tool-box{
+.tool-box a{
     display: flex;
     flex-direction: column;
-    width: 293.02px;
-    height: 120px;
-    justify-content: center;
     align-items: center;
+}
+
+.tool-box{
+    width: 293.02px;
+    height: 130px;
     flex-shrink: 0;
     border-radius: 4px;
     border: 1px solid #E8E8E8;
@@ -59,13 +61,9 @@ p{
     
 }
 .font-tool{
-
-    justify-content: center;
-    flex-shrink: 0;
     color: #1A1A1A;
     font-size: 16px;
     font-style: normal;
-
 }
 .name{
     width: fit-content;
@@ -77,7 +75,7 @@ p{
 }
 .content{
     width: fit-content;
-    height: fit-content;
+    height: max-content;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px; 

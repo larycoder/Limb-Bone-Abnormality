@@ -54,8 +54,10 @@
             background-color: #0056b3;
         }
         .box{
-            margin-left: 36%;
-            margin-top: 3%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 2%;
         }
     </style>
 </head>
@@ -83,7 +85,7 @@
     </nav>
     <div class="box">
         <form method="post">
-            <h2>Select Columns to Display</h2>
+            <h1>Select Columns to Display</h2>
             <label for="columns">Choose columns to display:</label>
             <br>
             {% for column in columns %}

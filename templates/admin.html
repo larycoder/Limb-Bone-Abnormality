@@ -3,6 +3,7 @@
 {% block title %}Admin{% endblock %}
 
 {% block content %}
+    <br>
     <h1 align="center">Welcome back, admin</h1>
 
     <h2>User List</h2>
@@ -12,18 +13,43 @@
                 <tr>
                     <th>UserName</th>
                     <th>Email</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for customer in user %}
                 <tr>
-                    <td>{{customer.username}}</td>
-                    <td>{{customer.email}}</td>
-                    <td><button id="rm_btn" onClick="deleteUser('{{ customer.id }}')">X</button></td>
+                    <td>{{ customer.username }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td><button id="rm_btn" onclick="deleteUser('{{ customer.id }}')">Delete</button></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
     </form>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+    
+        #rm_btn {
+            background-color: #ff6666;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+    </style>
+    
     <script src="../static/admin.js"></script>
 {% endblock %}
