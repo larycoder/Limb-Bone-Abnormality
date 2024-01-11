@@ -448,7 +448,8 @@ def execute_fatsq():
     
     output_file_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}",f"{folder.name}.csv")
     folder_id = folder.id
-    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {file1_name[0]} {file2_name[0]} > {output_file_path}"
+    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {folder.name} > {output_file_path}"
+    command = f"screen -dm -S {folder.name} bash -c '{command}'"
 
     # Execute the command
     subprocess.run(command, shell=True)

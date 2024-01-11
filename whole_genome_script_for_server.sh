@@ -5,6 +5,10 @@
 #GLOBAL SETTING#
 ################
 
+sample_id = $1
+# Prepare environment
+conda activate student10
+
 java="java"
 TOOLS_PATH="/home/student10"
 #REF_PATH="/data/hgl/AQ/H_refgenome"
@@ -31,7 +35,7 @@ echo -e "\e[31m ======================= \e[0m"
 
 #Get sample name and sample information
 
-sample_id=$1
+#sample_id=$1
 
 #$java -jar $trimmomatic"trimmomatic-0.39.jar" PE \
 trimmomatic PE \
