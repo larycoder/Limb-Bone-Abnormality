@@ -25,7 +25,9 @@ def load_user(id):
 @app.route('/')
 def start():
     return redirect(url_for('homepage'))
-
+@app.route('/demo')
+def demo():
+    return render_template('upload_3circles.html')
 @app.route('/homepage')
 def homepage():
     return render_template('index.html')
