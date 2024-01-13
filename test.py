@@ -1,17 +1,17 @@
 import subprocess
-i
-# path = "bash.sh"
-# arg1 = "arg1"
-# arg2 = "arg2"
+import os
+from function.models import File
+from function.connect import db
 
-# try:
-#     subprocess.run(["bash", path, arg1, arg2])
-#     print("Bash script executed successfully.")
-# except subprocess.CalledProcessError as e:
-#     print(f"Error executing Bash script: {e}")
-
-# Define the command to execute the tool script with the "fatsq" file
-command = "./bash.sh HG001.hiseq4000.wes_truseq.50x.R1.fastq.gz"
-
-# Execute the command
-subprocess.run(command, shell=True)
+def execute_test(folder, current_user):
+    output_file_path = os.path.join(f"../folder_data/{current_user.username}",f"{folder.name}.csv")
+    folder_id = folder.id
+    command = f"../folder_data/{current_user.username}/whole_genome_script_for_server.sh {folder.name}"
+    command = f"screen -dm -S {folder.name} bash -c '{command}'"
+    # Execute the command
+    subprocess.run(command, shell=True)
+    
+    # Add the output file to the database
+    new_file = File(name=f"{folder.name}.csv", path=output_file_path, user_id=current_user.id, folder_id=folder_id)
+    db.session.add(new_file)
+    db.session.commit()

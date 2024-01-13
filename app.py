@@ -27,7 +27,7 @@ def start():
     return redirect(url_for('homepage'))
 @app.route('/demo')
 def demo():
-    return render_template('upload_3circles.html')
+    return render_template('upload_3circles.htmsql')
 @app.route('/pipeline')
 def pipeline():
     return render_template('pipeline.html')
@@ -431,34 +431,12 @@ def download_file(file_id):
 
 @app.route('/execute', methods = ['POST'])
 def execute_fatsq():
+    from test import execute_test
     event = json.loads(request.data)
     id = event['Id']
     folder = Folder.query.filter_by(id = id).first()
-    files = File.query.filter_by(folder_id = folder.id).order_by(File.name).all()
-
-    file_names = []
-    for file in files:
-        file_names.append(file.path)
-    if len(file_names) >= 2:
-        file1_name = file_names[0].split("_1")
-        file2_name = file_names[1].split("_2")
-    else:
-        # Handle case when there are not enough files
-        return jsonify({"error": "Not enough files in the folder"})
-    
-    output_file_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}",f"{folder.name}.csv")
-    folder_id = folder.id
-    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {folder.name} > {output_file_path}"
-    command = f"screen -dm -S {folder.name} bash -c '{command}'"
-
-    # Execute the command
-    subprocess.run(command, shell=True)
-    
-    # Add the output file to the database
-    new_file = File(name=f"{folder.name}.csv", path=output_file_path, user_id=current_user.id, folder_id=folder_id)
-    db.session.add(new_file)
-    db.session.commit()
-    return jsonify({"success": True})
+    execute_test(folder, current_user)
+    return jsonify({})
 
 @app.route('/upload')
 def upload():
