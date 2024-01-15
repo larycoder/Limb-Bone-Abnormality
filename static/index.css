@@ -4,6 +4,7 @@
     width: 100%;
     background-size: 100%;
     background-repeat: no-repeat;
+    overflow: hidden;
 }
 a, a:hover{
     text-decoration: none;
@@ -66,6 +67,7 @@ p{
     border: 1px solid #E8E8E8;
     background: #FAFAFA;
     margin: 2%;
+    margin-bottom: 0px;
 }
 
 .tool-box:hover{
