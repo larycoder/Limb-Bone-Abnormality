@@ -6,11 +6,11 @@ function checkURL(){
     arr.forEach((value) => {
         if(value===url_now){
             let btn=document.getElementById(value);
-            btn.classList.add("active")
+            btn.classList.add("energetic")
         }
         else{
             let btn=document.getElementById(value);
-            btn.classList.remove("active")
+            btn.classList.remove("energetic")
         }
     });
 }
