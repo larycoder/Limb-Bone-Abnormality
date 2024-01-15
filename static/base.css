@@ -1,107 +1,37 @@
+:root {
+    --primary: #007bff;
+    --secondary: #bfc0c0;
+    --white: #fff;
+    --text-clr: #222222;
+    --header-clr: #25273d;
+    --next-btn-hover: #0044ff;
+    --back-btn-hover: #8b8c8c;
+  }
+
 body{
     font-family: Source Sans Pro;
 }
 .navbar{
     position: sticky;
     top: 0;
-    z-index: 1000;
-}
-a, a:hover{
-    text-decoration: none;
-}
-.form{
-    padding-bottom: 3%;
-}
-.para{
-    padding-bottom: 5%;
-}
-p{
-    color: #1A1A1A;
-    text-align: center;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 28px;
-}
-.IO{
-    display: flex;
-    gap: 100px;
-    justify-content: center;
-}
-.input,.output{
-    display: flex;
-    flex-direction: column;
-    
+    border-bottom: 2px solid black;
 }
 
-.box{
-    display: flex;
+.nav-right{
+    position: absolute;
+    right: 0;
 
 }
-
-.tool-box a{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.nav-link-spacing{
+    margin-right: 10px;
+    color: black;
+    font-weight: normal;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.tool-box{
-    width: 293.02px;
-    height: 130px;
-    flex-shrink: 0;
+.nav-link-spacing:hover {
+    background-color: #05F;
     border-radius: 4px;
-    border: 1px solid #E8E8E8;
-    background: #FAFAFA;
-    margin: 2%;
-}
-
-.tool-box:hover{
-    background-color: #f2f0f0;
-    box-shadow: 20px 12px 27px -8px darkgrey;
-    
-}
-.font-tool{
-    color: #1A1A1A;
-    font-size: 16px;
-    font-style: normal;
-}
-.name{
-    width: fit-content;
-    height: fit-content;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 24px; 
-    padding-top: 20px;
-}
-.content{
-    width: fit-content;
-    height: max-content;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px; 
-    padding: 0 20px 20px 20px;
-    cursor: pointer;
-}
-
-.arrow {
-    font-size: 24px;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-
-#index .arrow {
-    transform: rotate(180deg);
-}
-
-
-
-#pipeline .arrow {
-    display: inline-block;
-    transform: rotate(90deg);
-    transform-origin: center;
-}
-
-#demo .arrow {
-    transform: rotate(180deg); 
+    font-weight: bold;
+    color: #fff;
 }

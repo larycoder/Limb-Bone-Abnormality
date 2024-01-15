@@ -1,42 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}HomePage{% endblock %}
+{% block title %}Homepage{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="form mt-4 text-center mx-auto">
-    <h1>Web app supports processing sequence data of Limb Bone Abnormality patients </h1>
-    </div>
-    <div class="form mt-4 text-center mx-auto">
-        <div class="IO">
-            <div class="input">
-                <h1 class="begin">Input</h1>
-                <p class="para">File FastQ</p>
-                
-            </div>
-            <div class="output">
-                <h1 class="begin">Output</h1>
-                <p class="para">File CSV</p>
 
-            </div>
-            
-        </div>
+<div class="header">
+    <link rel="stylesheet" href="../static/index.css">
+    <div class="form text-center mx-auto range">
+    <h1 class="title"><strong>Processing of Data for <br> Limb Bone Abnormality Sequences </strong></h1>
+    </div>
+    <div class="form mt-4 text-center mx-auto text">
+        <p class="text1">Explore genetic insights effortlessly on our dedicated platform, meticulously crafted for limb bone abnormality sequence processing.
+                Tailored for precision, our space streamlines analysis, offering a seamless experience for researchers and healthcare professionals. 
+                Welcome to the new era of genetic exploration in the field of data science and technology!</p>
     </div>
 
-    <div class="form mt-4 text-center mx-auto">
-        <h1 class="begin">Real-Life Applications:</h1>
-        <ul>
-            <p>Early Detection</p>
-            <li>The software streamlines the process of identifying limb bone abnormalities at an early stage with precision, 
-                allowing healthcare professionals to promptly implement appropriate interventions and personalized treatment plans.</li>
-            <br>
-            <p>Advancements in Research</p>
-            <li>Scientists and researchers can leverage the software to conduct thorough investigations into the genetic foundations of limb bone abnormalities.
-                 This contributes to the wider scientific knowledge and understanding of these conditions.</li>
-        </ul>
-    </div>
-
-    <div class="form mt-4 text-center mx-auto">
-        <h1 class="begin">Bioinformatic tools</h1>
-        <p>5 bioinformatic tools are used for the analysis of limb bone abnormality patient sequence data</p>
+    <div class="form  text-center mx-auto">
+        <h1 class="begin"><strong>Bioinformatic tools</strong></h1>
     </div>
     <div class="box">
         <div class="tool-box">
@@ -79,6 +57,9 @@
             </a>
         </div>
     </div>
-    <a href="{{url_for('pipeline')}}" class="arrow" id="pipeline">&#10132; Go to Pipeline</a>
+
 </div>
+
 {% endblock %}
+
+
