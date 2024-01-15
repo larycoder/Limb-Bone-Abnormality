@@ -27,7 +27,7 @@ def start():
     return redirect(url_for('homepage'))
 @app.route('/demo')
 def demo():
-    return render_template('upload_3circles.htmsql')
+    return render_template('upload_3circles.html')
 @app.route('/pipeline')
 def pipeline():
     return render_template('pipeline.html')
