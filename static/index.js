@@ -1,3 +1,20 @@
+function checkURL(){
+    let arr=['ourstory', 'aboutus', 'pipeline', 'demo']
+    var currentURL=window.location.href;
+    url=currentURL.split("/")
+    url_now=url[url.length-1]
+    arr.forEach((value) => {
+        if(value===url_now){
+            let btn=document.getElementById(value);
+            btn.classList.add("active")
+        }
+        else{
+            let btn=document.getElementById(value);
+            btn.classList.remove("active")
+        }
+    });
+}
+
 function deleteF(Id){
     fetch('/delete',{
         method: 'POST',

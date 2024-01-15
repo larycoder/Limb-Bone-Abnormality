@@ -36,3 +36,10 @@ body{
     font-weight: bold;
     color: #fff;
 }
+
+.active{
+    background-color: #05F;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #fff;
+}

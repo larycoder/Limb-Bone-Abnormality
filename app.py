@@ -34,6 +34,13 @@ def pipeline():
 @app.route('/homepage')
 def homepage():
     return render_template('index.html')
+@app.route('/ourstory')
+def ourstory():
+    return render_template('ourstory.html')
+@app.route("/aboutus")
+def about_us():
+    return render_template('about_us.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
