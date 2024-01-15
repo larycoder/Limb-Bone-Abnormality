@@ -26,6 +26,7 @@
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
                 {% with messages = get_flashed_messages(with_categories=true) %}
+                <img src="/static/images/usth.png" alt="usth logo">
                 {% if current_user.role==1%}
                     <a href="/logout" class="nav-item nav-link " id="logout" style="color: black;">Log Out</a>
                 {% elif message=="Logged in successfully!"%}
@@ -43,7 +44,7 @@
                 </div>
                 <div class="navbar-nav nav-right">
                     <a href="/login" class="nav-item nav-link nav-link-spacing" id="login" >Login</a>
-                    <a href="/sign-up" class="nav-item nav-link nav-link-spacing" id="sign_up" >Sign Up</a>
+                    <a href="/sign-up" class="nav-item nav-link nav-link-spacing" id="sign-up" >Sign Up</a>
                 </div>
                 {% endif %}
             </div>

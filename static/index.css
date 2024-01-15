@@ -6,7 +6,8 @@
     background-size: 100%;
     background-repeat: no-repeat;
     overflow: hidden;
-    min-height: 105vh;
+    height: fit-content;
+    padding-bottom: 1%;
 }
 a, a:hover{
     text-decoration: none;
@@ -18,9 +19,9 @@ a, a:hover{
 .title{
     padding-top: 5%;
     text-align: center;
-    font-size: 80px;
+    font-size: 65px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 700px;
     line-height: 80px;
 }
 .range{

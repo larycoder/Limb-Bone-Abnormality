@@ -3,9 +3,12 @@
 {% block title %}Admin{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="../static/admin.css">
+<body>
+    
     <br>
     <h1 align="center">Welcome back, admin</h1>
-
+    
     <h2>User List</h2>
     <form action="" method="POST">
         <table>
@@ -21,35 +24,35 @@
                 <tr>
                     <td>{{ customer.username }}</td>
                     <td>{{ customer.email }}</td>
-                    <td><button id="rm_btn" onclick="deleteUser('{{ customer.id }}')">Delete</button></td>
+                    <td>
+                        <button id="rm_btn" onclick="deleteUser('{{ customer.id }}')">Delete</button>
+                        <button id="change_role" onclick="changeRole('{{ customer.id }}')">Change role</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        
     </form>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-    
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-    
-        #rm_btn {
-            background-color: #ff6666;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-    </style>
-    
-    <script src="../static/admin.js"></script>
+    <br>
+    <h2>Create new user</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="create_user">
+                <td><input type="text" placeholder="Enter username"></td>
+                <td><input type="text" placeholder="Enter email"></td>
+                <td><input type="password" id="password" placeholder="Enter password"><span id="togglePassword">Show</span></td>
+                <td><button id="create_new_user">Create</button></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+<script src="../static/admin.js"></script>
 {% endblock %}
