@@ -1,58 +1,110 @@
-body {
-    font-family: Source Sans Pro;
-    margin: 0;
-}
 
-.boxx{
-    display: flex;
-
+.fastq{
+    margin-left: 7%;
 
 }
-.box-left {
-
+.title{
+    text-align: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 80px; 
 }
-.box-rigth{
-    padding: 20px;
 
-}
+
+
+
 .pipeline {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.number{
+    list-style: none;
+}
+
+.pipeline .step {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 50px 20px;
 }
 
-.step {
-    text-align: center;
-    padding: 20px;
-    border: 2px solid #007bff;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    margin: 0 0 20px;
-    width: 80%;
+.pipeline .step .number {
+    margin-right: 50px;
     position: relative;
 }
 
-.step::before {
-    content: '';
+.pipeline .step .number:last-child {
+    margin-right: 0;
+}
+
+.pipeline .step .number:before {
+    content: "";
     position: absolute;
-    top: -20px;
+    top: 55%;
     left: 50%;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 20px 20px 0;
-    border-color: #007bff transparent transparent;
-    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: var(--secondary);
 }
 
-.step:last-child::after {
-    content: none;
+.pipeline .step .number:last-child:before {
+    display: none;
 }
 
-h3 {
-    color: #007bff;
+.pipeline .step .number div {
+    padding: 80px;
+    border-radius: 50%;
 }
-#pipeline {
+
+.pipeline .step .number .text-step {
+    width: 50px;
+    height: 50px;
+    background: var(--secondary);
+    color: var(--white);
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+}
+
+.content{
+    position: absolute;
+    top: 0;
+    padding: 50px;
+    margin: 0 2%;
+}
+.text{
+    padding: 1%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.content-title{
+    color: #000;
+    font-family: Source Sans Pro;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 60.5px;
+
+}
+.content-text{
+    color: #444;
+    font-family: Source Sans Pro;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 39px;
+
+}
+.content .text:nth-child(odd){
+    position: relative;
     text-align: right;
+    padding: 1%;
+    right: 5%;
+}
+.content .text:nth-child(even){
+    position: relative;
+    left: 52%;
+    padding: 2%;
+
 }
