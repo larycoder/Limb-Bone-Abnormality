@@ -32,7 +32,7 @@ body{
 
 }
 
-.nav-link-spacing:hover:not(:first-child){
+.nav-link-spacing:hover:not(.logo){
     background-color: #05F;
     border-radius: 4px;
     color: #fff;
@@ -44,5 +44,5 @@ body{
 .energetic{
     background-color: #05F;
     border-radius: 4px;
-    color: #fff;
+    color: #fff!important;
 }
