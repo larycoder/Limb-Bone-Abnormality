@@ -6,78 +6,92 @@
     --header-clr: #25273d;
     --next-btn-hover: #0044ff;
     --back-btn-hover: #8b8c8c;
+    --before: #0055FF;
 }
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style: none;
-    outline: none;
-    font-family: "Source Sans Pro";
-}
-
-body {
-    color: var(--text-clr);
-    font-size: 16px;
-    position: relative;
-}
-
-.header {
-
+.input{
     display: flex;
-    justify-content: center;
+    gap: 20px;
 }
 
-.header ul {
-    display: flex;
+.input .step_1{
+    color: var(--before);
+    border-radius: 15px;
+    border: 1px solid var(--before);
+    padding: 5px;
+    height: fit-content;
 }
 
-.header ul li {
-    margin-right: 50px;
-    position: relative;
-}
-
-.header ul li:last-child {
-    margin-right: 0;
-}
-
-.header ul li:before {
+.input::before{
     content: "";
     position: absolute;
-    top: 40%;
-    transform: translateY(-50%);
-    left: 55px;
+    border-left: 1px solid black;
+    height: 310px;
+    left: 166px;
+    top: 135px;
+}
+
+.input .text{
+    width: 45%;
+}
+.input .title{
+    position: relative;
+    left: 16px;
+}
+
+.input .content{
+    margin-top: 5%;
     width: 100%;
-    height: 2px;
-    background: var(--secondary);
+    position: relative;
+    left: 16px;
 }
 
-.header ul li:last-child:before {
-    display: none;
+.input .img{
+    margin-top: 5px;
+    width: 45%;
+}
+.img img{
+    width: 100%;
 }
 
-.header ul li div {
+.output{
+    position: relative;
+    top: 38px;
+    display: flex;
+    gap: 20px;
+}
+
+.output .step_2{
+    border-radius: 15px;
+    border: 1px solid var(--before);
     padding: 5px;
-    border-radius: 50%;
+    height: fit-content;
 }
 
-.header ul li p {
-    width: 50px;
-    height: 50px;
-    background: var(--secondary);
-    color: var(--white);
-    text-align: center;
-    line-height: 50px;
-    border-radius: 50%;
+.output .text{
+    width: 45%;
+}
+.output .title{
+    position: relative;
+    left: 16px;
 }
 
-.header ul li.active:before {
-    background: var(--primary);
+.output .content{
+    margin-top: 5%;
+    width: 100%;
+    position: relative;
+    left: 16px;
 }
 
-.header ul li.active p {
-    background: var(--primary);
+.output .img{
+    width: 45%;
+}
+.img img{
+    width: 100%;
+}
+.header{
+    margin: 2% 10%;
+    display: flex;
+    flex-direction: column;
 }
 
 .form_wrap {
