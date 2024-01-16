@@ -5,7 +5,7 @@
 <div class="header">
     <link rel="stylesheet" href="../static/index.css">
     <div class="form text-center mx-auto range">
-    <h1 class="title"><strong>Processing of Data for <br> Limb Bone Abnormality Sequences </strong></h1>
+    <h1 class="title">Processing of Data for <br> Limb Bone Abnormality Sequences</h1>
     </div>
     <div class="form mt-4 text-center mx-auto text">
         <p class="text1">Explore genetic insights effortlessly on our dedicated platform, meticulously crafted for limb bone abnormality sequence processing.
@@ -19,19 +19,19 @@
     <div class="box">
         <div class="tool-box">
             <a href="https://bioinformaticshome.com/tools/rna-seq/descriptions/Trimmomatic.html#gsc.tab=0" target="_blank">
-                <p class="font-tool name"><strong>Trimomatic 0.39</strong></p>
+                <p class="font-tool name">Trimomatic 0.39</p>
                 <p class="font-tool content">Trim and crop Illumina (FASTQ) data as well as to remove adapters</p>
             </a>
             </div>
         <div class="tool-box">
             <a href="https://gatk.broadinstitute.org/hc/en-us" target="_blank">
-                <p class="font-tool name"><strong>Genome Analysis Toolkit</strong></p>
+                <p class="font-tool name">Genome Analysis Toolkit</p>
                 <p class="font-tool content">Include tools for variant calling, recalibration,  downstream processing</p>
             </a>
         </div>
         <div class="tool-box">
             <a href="https://annovar.openbioinformatics.org/en/latest/" target="_blank">
-                <p class="font-tool name"><strong>Annovar</strong></p>
+                <p class="font-tool name">Annovar</p>
                 <p class="font-tool content">Utilize update-to-date information to functionally annotate genetic variants detected from diverse genomes</p>
             </a>
         </div>
@@ -40,19 +40,19 @@
     <div class="box">
         <div class="tool-box">
             <a href="https://vcftools.sourceforge.net/" target="_blank">
-                <p class="font-tool name"><strong>VCFtools</strong></p>
+                <p class="font-tool name">VCFtools</p>
                 <p class="font-tool content">Manipulate and filter Variant Call Format (VCF) files</p>
             </a>
         </div>
         <div class="tool-box">
             <a href="https://broadinstitute.github.io/picard/command-line-overview.html" target="_blank">
-                <p class="font-tool name"><strong>Picard</strong></p>
+                <p class="font-tool name">Picard</p>
                 <p class="font-tool content">Mark duplicate reads, sort, index BAM(Binary Alignment Map) files</p>
             </a>
         </div>
         <div class="tool-box">
             <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank">
-                <p class="font-tool name"><strong>FastQC</strong></p>
+                <p class="font-tool name">FastQC</p>
                 <p class="font-tool content">Check the quality of DNA</p>
             </a>
         </div>
@@ -64,10 +64,10 @@
     <div class="box-accuracy">
         <div class="accuracy-box">
             <img src="/static/images/dart.png" alt="dart">
-            <h3 class="accuracy-title">95% accuracy</h3>
-            <p class="accuracy-text">Our bioinformatics tools delivered impressive performance, 
-                revealing a remarkable mapping accuracy of 95%. 
-                These robust results underscore the reliability and effectiveness of our website.</p>
+                <h3 class="accuracy-title">95% accuracy</h3>
+                <p class="accuracy-text">Our bioinformatics tools delivered impressive performance, 
+                    revealing a remarkable mapping accuracy of 95%. 
+                    These robust results underscore the reliability and effectiveness of our website.</p>
         </div>
         <div class="accuracy-box">
             <img src="/static/images/Web designers working on website design.png" alt="dart">
@@ -97,20 +97,21 @@
     </div>
 </div>
 <footer class="footer">
-    <img src="/static/images/usth.png" alt="" class="img-logo">
+    <img src="../static/images/background_image.jpg" alt="Backgournd" class="bg_footer">
+    <img src="/static/images/usth_footer.png" alt="" class="img-logo">
     <div class="box-footer">
         <div class="footer-left">
             <h3 class="footer-title">Site map</h3>
-            <p class="footer-text">Our Story</p>
-            <p class="footer-text">Bioinformatics Pipeline</p>
-            <p class="footer-text">Demo</p>
+            <a href="{{url_for('ourstory')}}" id="ourstory"><p class="footer-text">Our Story</p></a>
+            <a href="{{url_for('pipeline')}}" id="pipeline"><p class="footer-text">Bioinformatics Pipeline</p></a>
+            <a href="{{url_for('demo')}}" id="demo"><p class="footer-text">Demo</p></a>
         </div>
         <div class="content-right">
             <h3 class="footer-title">Get in touch</h3>
             <p class="footer-text">A21 building, Vietnam Academy of Science <br> 
                 and Technology, 18 Hoang Quoc Viet, Cau Giay,<br> Hanoi</p>
             <p class="footer-text">+84-24 37 91 69 60</p>
-            <p class="footer-text">officeusth@usth.edu.vn</p>
+            <a href="mailto:officeusth@usth.edu.vn"><p class="footer-text">officeusth@usth.edu.vn</p></a>
         </div>
     </div>
 </footer>

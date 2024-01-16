@@ -6,10 +6,17 @@
     --header-clr: #25273d;
     --next-btn-hover: #0044ff;
     --back-btn-hover: #8b8c8c;
+    --hover: #27408B;
   }
 
 body{
-    font-family: Source Sans Pro;
+    font-family: sans-serif;
+}
+.navbar-nav img{
+    width: 100%;
+}
+.navbar .logo{
+    width: 10%;
 }
 .navbar{
     position: sticky;
@@ -29,11 +36,10 @@ body{
     color: black;
     font-weight: normal;
     height: fit-content;
-
 }
 
 .nav-link-spacing:hover:not(.logo){
-    background-color: #05F;
+    background-color: var(--hover);
     border-radius: 4px;
     color: #fff;
     margin-right: 30px;
@@ -42,7 +48,7 @@ body{
 }
 
 .energetic{
-    background-color: #05F;
+    background-color: var(--hover);
     border-radius: 4px;
     color: #fff!important;
 }
