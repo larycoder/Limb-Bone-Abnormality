@@ -17,11 +17,10 @@ a, a:hover{
 
 }
 .title{
-    padding-top: 5%;
     text-align: center;
     font-size: 65px;
     font-style: normal;
-    font-weight: 700px;
+    font-weight: 700;
     line-height: 80px;
 }
 .range{
@@ -127,7 +126,7 @@ p{
 }
 .accuracy-title{
     color: #1A1A1A;
-    font-size: 40px;
+    /* font-size: 40px; */
     font-style: normal;
     font-weight: 600;
     line-height: 52px;
@@ -192,7 +191,8 @@ p{
 }
 .img-logo{
     padding-left: 15%;
-    padding-top: 10%;
+    padding-top: 8%;
+    padding-bottom: 5%;
     transition: all;
 }
 .box-footer{

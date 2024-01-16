@@ -14,7 +14,6 @@ body{
 .navbar{
     position: sticky;
     top: 0;
-    /* border-bottom: 2px solid black; */
     z-index: 9999999;
     width: 100%;
     min-height: 5vh;
@@ -33,17 +32,17 @@ body{
 
 }
 
-.nav-link-spacing:hover {
+.nav-link-spacing:hover:not(:first-child){
     background-color: #05F;
     border-radius: 4px;
-    font-weight: bold;
     color: #fff;
+    margin-right: 30px;
+    font-weight: normal;
+    height: fit-content;
 }
 
 .energetic{
     background-color: #05F;
     border-radius: 4px;
-    font-weight: bold;
     color: #fff;
-    max-height: 5vh;
 }

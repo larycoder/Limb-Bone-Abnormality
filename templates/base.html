@@ -26,8 +26,8 @@
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
                 {% with messages = get_flashed_messages(with_categories=true) %}
-                <img src="/static/images/usth.png" alt="usth logo">
                 {% if current_user.role==1%}
+                    <img src="/static/images/usth.png" alt="usth logo">
                     <a href="/logout" class="nav-item nav-link " id="logout" style="color: black;">Log Out</a>
                 {% elif message=="Logged in successfully!"%}
                     {% if current_user.role==2%}
