@@ -7,15 +7,23 @@ form{
 }
 
 .form-group{
-    width: 80%;
-    margin-left: 35%;
+    width: 45%;
+
+}
+.form-control:focus,
+.form-control{
+    width: 100%;
+    border: 1px solid lightgray;
+    outline: 0;
+    border-radius: 8px;
+    box-shadow: none;
 }
 
 .btn:hover,
 .btn:focus,
 .btn{
-    width: 49%;
+    width: 45%;
     outline: 0;
-    margin-left: 3%;
+
     color: white;
 }

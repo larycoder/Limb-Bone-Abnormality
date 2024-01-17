@@ -15,14 +15,30 @@ body{
     max-width: 70%;
     margin: 0 auto;
 }
+.head{
+  display: flex;
+  justify-content: space-between;
+}
 .file-list {
     position: relative;
     padding: 10px;
     border-bottom: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
   }
-
+.title{
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+.link, .link:hover{
+  color: #000;
+  text-decoration: none;
+}
   .file-list ul {
     margin: 0;
     padding: 0;
@@ -46,50 +62,4 @@ body{
     font-size: 30px;
     display: block;
   }
-
-.upload_file{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 90vh; 
-    height: 90vh;
-    border-radius: 4px;
-    border: 1px dashed #69F;
-    background: #E5EEFF;
-    margin: 0 auto;
-}
-
-.hide{
-  display: none;
-}
-
-.ouput-file{
-  padding-top: 10%;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-}
-
-.step {
-  list-style: none;
-  width: 300px;
-  height: 15px;
-  border: 1px solid black;
-  border-radius: 5%;
-}
-.step1,.step2,.step3{
-  background-color: var(--primary);
-}
-
-.header .ul {
-  display: flex;
-}
-
-.header .ul .step {
-  margin-right: 0; 
-  margin-top: 20px;
-  position: relative;
-}
 

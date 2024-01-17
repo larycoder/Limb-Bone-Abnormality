@@ -1,29 +1,25 @@
 {% extends 'home.html' %}
 {% block title %}Folder{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="../static/home.css">
+<link rel="stylesheet" href="../static/folder.css">
   <div class="form">
 
-        <div class="header">
-          <ul class="ul">
-              <li class="active step step1">
-                  <div class="pipeline">
-
-                  </div>
-              </li>
-              <li class="step step2">
-                  <div class="pipeline">
-
-                  </div>
-              </li>
-              <li class="step step3">
-                  <div class="pipeline">
-
-                  </div>
-              </li>
-          </ul>
+    <div class="step">
+      <div class="pipeline">
+        <div class="retangular"></div>
+        <div class="triangle"></div>
       </div>
-    <br>
+      <div class="pipeline">
+        <div class="retangular"></div>
+        <div class="triangle"></div>
+      </div>
+      <div class="pipeline">
+        <div class="retangular"></div>
+        <div class="triangle"></div>
+      </div>
+
+    </div>
+
     <h2>Folder: {{ folder.name }}</h2>
     
     <!-- Display files -->

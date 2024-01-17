@@ -36,13 +36,9 @@ form{
     border: none;
 }
 
+.btn:hover,
+.btn:focus,
 .btn{
     width: 50%;
-
-}
-
-.reset_pass:hover,
-.reset_pass{
-    color: #37352FA6;
-
+    color: white;
 }

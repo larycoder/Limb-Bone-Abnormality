@@ -1,5 +1,5 @@
 function checkURL(){
-    let arr=['ourstory', 'pipeline', 'demo','login','sign-up','admin','add_user']
+    let arr=['ourstory', 'pipeline', 'demo','login','sign-up','admin','add_user','home']
     var currentURL=window.location.href;
     url=currentURL.split("/")
     url_now=url[url.length-1]
@@ -23,11 +23,11 @@ document.getElementById("icon").onclick=(event)=>{
     event.preventDefault()
     if(passwordInput.type === "password"){
         passwordInput.type = "text";
-        toggleButton.src="../static/images/eye-show.png";
+        toggleButton.src="../static/images/eye-close.png";
     } 
     else{
         passwordInput.type = "password";
-        toggleButton.src="../static/images/eye-close.png";
+        toggleButton.src="../static/images/eye-show.png";
     }
 }
 
@@ -37,10 +37,10 @@ document.getElementById("re-icon").onclick=(event)=>{
     event.preventDefault()
     if(passwordInput.type === "password"){
         passwordInput.type = "text";
-        toggleButton.src="../static/images/eye-show.png";
+        toggleButton.src="../static/images/eye-close.png";
     } 
     else{
         passwordInput.type = "password";
-        toggleButton.src="../static/images/eye-close.png";
+        toggleButton.src="../static/images/eye-show.png";
     }
 }

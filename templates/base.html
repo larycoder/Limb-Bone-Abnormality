@@ -26,10 +26,10 @@
         <div class="collapse navbar-collapse" id="navbar">
                 {% if current_user.role==1%}
                     <div class="navbar-nav">
-                        <a href="{{url_for('admin')}}" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
-                        <a href="{{url_for('ourstory')}}" class="nav-item nav-link nav-link-spacing" id="admin">Admin</a>
+                        <a href="" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
+                        <a href="{{url_for('admin')}}" class="nav-item nav-link nav-link-spacing" id="admin">Admin</a>
                         <a href="{{url_for('pipeline')}}" class="nav-item nav-link nav-link-spacing " id="add_user">Add user</a>
-                        <a href="{{url_for('demo')}}" class="nav-item nav-link nav-link-spacing " id="demo" >Demo</a>
+
                     </div>
                     <div class="nav-right">
                         <div class="menu_account">
@@ -51,10 +51,10 @@
                 
                 {% elif current_user.role==2%}
                         <div class="navbar-nav">
-                            <a href="{{url_for('home')}}" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
-                            <a href="{{url_for('ourstory')}}" class="nav-item nav-link nav-link-spacing" id="ourstory">About us</a>
-                            <a href="{{url_for('pipeline')}}" class="nav-item nav-link nav-link-spacing " id="pipeline"> Bioinformatics Pipelines </a>
-                            <a href="{{url_for('demo')}}" class="nav-item nav-link nav-link-spacing " id="demo" >Demo</a>
+                            <a href="" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
+                            <a href="{{url_for('home')}}" class="nav-item nav-link nav-link-spacing" id="home">Home</a>
+
+
                         </div>
                         <div class="nav-right">
                             <div class="menu_account">

@@ -1,55 +1,70 @@
 {% extends 'base.html' %}
-{% block title %}PineLine{% endblock %}
+{% block title %}Demo{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="../static/demo.css">
     <div class="header">
-        <div class="input">
-            <span class="step_1">01</span>
-            <div class="text">
-                <span class="title"><b>Input two FASTQ files</b></span>
-                <p class="content">Requirement: Please note that it is mandatory to input two FASTQ files in one folder in the designated section. This specific requirement is crucial for the 
-                    proper functioning of the biological tool. Failure to include these files or placing them incorrectly may result in the tool's inability to execute or yield 
-                    inaccurate results. Ensure both FASTQ files are present and correctly located to facilitate the accurate and successful execution of the tool.</p>
-            </div>
-            <div class="img">
-                <img src="../static/images/input.jpg" alt="Input file fastq" class="input_img">
-            </div>
+        <ul class="step">
+            <li class="number">
+                <div>
+                    <p class="text-step">1</p>
+                </div>
+            </li>
+            <li class="number">
+                <div>
+                    <p class="text-step">2</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="text ">
+            <h3 class="content-title step-1">Input two FASTQ files</h3>
+            <p class="content-text step-1">Requirement: Please note that it is mandatory to input two FASTQ files in one folder in the
+                 designated section. This specific requirement is crucial for the proper functioning of the biological tool. 
+                 Failure to include these files or placing them incorrectly may result in the tool's inability to execute or yield 
+                 inaccurate results. Ensure both FASTQ files are present and correctly located to facilitate the accurate and successful execution of the tool.</p>
         </div>
-        <div class="output">
-            <span class="step_2">02</span>
-            <div class="text">
-                <span class="title"><b>Output a CSV file </b></span>
-                <p class="content">The output comprises a CSV file containing the selected list of results chosen by the user. This file serves as a concise overview, and for 
-                    lengthy result strings, we restrict the characters to a maximum of 50. To access the complete set of results, users can download the file for comprehensive 
-                    examination.</p>
-            </div>
-            <div class="img">
-                <img src="../static/images/output.jpg" alt="Input file fastq" class="input_img">
-            </div>
+        <div class="text ">
+            <h3 class="content-title step-2">Output a CSV file </h3>
+            <p class="content-text step-2">The output comprises a CSV file containing the selected list of results chosen by the user. 
+                This file serves as a concise overview, and for lengthy result strings, we restrict the characters to a maximum of 50.
+                 To access the complete set of results, users can download the file for comprehensive examination.</p>
+        </div>
+    </div>
+    <div class="img_content">
+        <div class="input img">
+            <img src="../static/images/input.jpg" alt="Input file fastq" class="input_img">
+        </div>
+        <div class="output img">
+            <img src="../static/images/output.jpg" alt="Input file fastq" class="input_img">
         </div>
     </div>
     <div class="form_wrap">
         <div class="form_1 data_info">
                 <h2>Step 1: Create new folder</h2>
-                <div class="vid">
-                    <img src="/static/Vid demo/Step_1-ezgif.com-video-to-gif-converter.gif" alt="">
-
+                <div class="box-vid">
+                    <div class="vid">
+                        <img src="/static/Vid demo/Step_1-ezgif.com-video-to-gif-converter.gif" alt="" class="img-vid">
+                    </div>
                 </div>
                 
                 
             </div>
             <div class="form_2 data_info">
                 <h2>Step 2: Upload file fastq</h2>
-                <div class="vid">
-
-                    <img src="/static/Vid demo/Step_2-ezgif.com-video-to-gif-converter.gif" alt="">
+                <div class="box-vid">
+                    <div class="vid">
+                        <img src="/static/Vid demo/Step_2-ezgif.com-video-to-gif-converter.gif" alt="" class="img-vid">
+                    </div>
                 </div>
             </div>
             <div class="form_3 data_info">
                 <h2>Step 3: Execute file fastq</h2>
-                <div class="vid">
-                    <img src="/static/Vid demo/Step_3-ezgif.com-video-to-gif-converter.gif" alt="">
-
+                <div class="box-vid">
+                    <div class="vid">
+                        <img src="/static/Vid demo/Step_3-ezgif.com-video-to-gif-converter.gif" alt="" class="img-vid">
+                        
+                    </div>
                 </div>
         </div>
     </div>
@@ -71,6 +86,5 @@
         </div>
     </div>
 
-<a href="{{url_for('pipeline')}}" class="arrow" id="pipeline">&#10132; Go to Pipeline</a>
 <script src="../static/demo.js"></script>
 {% endblock %}

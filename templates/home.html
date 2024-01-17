@@ -4,12 +4,24 @@
 <link rel="stylesheet" href="../static/home.css">
 <div class="form">
   <br>
-  <h2>Folders:</h2>
-  <ul>
+  <div class="head">
+    <h2 class="title">Folders list</h2>
+      <!-- Create new folder -->
+    <form action="/folder" method="post">
+      <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
+
+      <button type="submit" class="btn btn-primary">Create Folder</button>
+  </form>
+  </div>
+  </div>
+  <ul class="form">
+    <div class="file-list">
+      <li>Name</li>
+    </div>
     {% for folder in folders %}
     {% if folder.parent_folder_id is none %}
             <div class="file-list">
-              <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}">{{ folder.name }}</a></li>
+              <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}" class="link">{{ folder.name }}</a></li>
               <button type="button" class="close" onclick="deleteFolder('{{ folder.id }}')">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -19,11 +31,5 @@
       </ul>
   
   
-  <!-- Create new folder -->
-  <form action="/folder" method="post">
-      <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
-  
-      <button type="submit" class="btn btn-primary">Create Folder</button>
-  </form>
-</div>
+
 {% endblock %}
