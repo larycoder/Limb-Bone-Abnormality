@@ -490,6 +490,7 @@ def delete_folder_recursive(folder_id):
 def delete_files_in_folder(folder_id):
     files = File.query.filter_by(folder_id=folder_id).all()
     for file in files:
+        os.remove(file.path)
         db.session.delete(file)
     db.session.commit()
 
