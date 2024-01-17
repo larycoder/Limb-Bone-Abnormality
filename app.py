@@ -53,7 +53,7 @@ def login():
                 role=user.role
                 if role==2:
                         flash('Logged in successfully!', category='success')
-                        login_user(user, remember=True)
+                        login_user(user, remember=False)
                         return redirect(url_for('home'))
                 elif role==1:
                     login_user(user,remember=False)
@@ -62,6 +62,7 @@ def login():
                 flash('Incorrect password! Try again!', category='error')
         else:
             flash('User does not exist!', category='error')
+    current_user.role=0
     return render_template("login.html")
 
 @app.route('/sign-up', methods=['GET', 'POST'])
@@ -105,7 +106,6 @@ def sign_up():
                 db.session.commit()
                 # Create a folder for the new user
                 
-
                 login_user(new_user, remember=True)
                 flash('Sign up successful!', category='success')
                 return redirect(url_for('login'))
@@ -283,6 +283,10 @@ def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
 
+@app.route('/create_user',methods=['POST'])
+def create_user():
+    return render_template("admin.html")
+
 @app.route('/delete-user', methods=['POST'])
 def rm_user():
     try:
@@ -310,7 +314,6 @@ def rm_user():
 @app.route('/delete', methods = ['POST'])
 def delete():
     try:
-
         even = json.loads(request.data)
         id = even['Id']
         folder=Folder.query.filter_by(id = id, user_id=current_user.id).first()
@@ -400,6 +403,15 @@ def forgot():
             return render_template('forgot.html')
     
     return render_template('forgot.html')
+
+@app.route('/reset',methods=['POST','GET'])
+def reset():
+    if request.method=='POST':
+        password=request.form["password"]
+        user=User.query.filter_by(username=current_user.username).first()
+        if check_password_hash(user.password, password):
+            return redirect(url_for('reset_password', email=user.email))
+    return render_template("reset.html")
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_password():

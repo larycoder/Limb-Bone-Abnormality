@@ -31,18 +31,8 @@ form{
 
 #re-password,
 #password{
-    width: 92%;
-   border: none;
-}
-
-#re-togglePassword,
-#togglePassword {
-    cursor: pointer;
-    border: 0;
-    user-select: none;
-    width: fit-content;
-    background-color: transparent;
-    position: relative;
+    width: 95%;
+    border: none;
 }
 
 #password_container{

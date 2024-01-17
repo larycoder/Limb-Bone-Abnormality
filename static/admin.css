@@ -1,4 +1,4 @@
-body{
+.admin_body{
     margin: 0 10%;
 }
 
@@ -32,38 +32,8 @@ th, td {
     border-radius: 3px;
 }
 
-#logout{
-    position: absolute;
-    right: 0;
-}
-
-#logout:hover{
-    background-color: #05F;
-    color: white!important;
-    border-radius: 4px;
-}
-
-#create_user input{
-    border: none;
-    outline: none;
-    text-align: center;
-    width: 80%;
-}
-
-#togglePassword{
-    cursor: pointer;
-    border: 0;
-    user-select: none;
-    width: fit-content;
-    background-color: transparent;
-    position: absolute;
-    float: calc(right - 50px);
-}
-
-#create_new_user{
-    background-color: rgb(24, 163, 24);
+.navbar-nav .nav-item:last-child{
+    pointer-events: none;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
+    user-select: none;
 }

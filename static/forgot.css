@@ -11,14 +11,6 @@ form{
     margin-left: 35%;
 }
 
-.form-control:focus,
-.form-control{
-    width: 60%;
-    border: 1px solid lightgray;
-    outline: 0;
-    box-shadow: none;
-}
-
 .btn:hover,
 .btn:focus,
 .btn{
