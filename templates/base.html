@@ -24,16 +24,41 @@
             <span class="navbar-toggler-icon" style="color: black;"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
-            <div class="navbar-nav">
-                {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if current_user.role==1%}
-                    <img src="/static/images/usth.png" alt="usth logo">
-                    <a href="/logout" class="nav-item nav-link " id="logout" style="color: black;">Log Out</a>
-                {% elif message=="Logged in successfully!"%}
-                    {% if current_user.role==2%}
-                        <a href="/logout" class="nav-item nav-link " id="logout" style="color: black;">Log Out</a>
-                        <a href="/home" class="nav-item nav-link" id="home" style="color: black;">Home</a>
-                    {%endif%}
+                    <div class="navbar-nav">
+                        <a href="{{url_for('admin')}}" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
+                        <a href="{{url_for('ourstory')}}" class="nav-item nav-link nav-link-spacing" id="admin">Admin</a>
+                        <a href="{{url_for('pipeline')}}" class="nav-item nav-link nav-link-spacing " id="add_user">Add user</a>
+                        <a href="{{url_for('demo')}}" class="nav-item nav-link nav-link-spacing " id="demo" >Demo</a>
+                    </div>
+                    <div class="nav-right">
+                        <a href="{{url_for('logout')}}" class="nav-item nav-link nav-link-spacing " id="logout">Log out</a>
+                    </div>
+                
+                {% elif current_user.role==2%}
+                        <div class="navbar-nav">
+                            <a href="{{url_for('home')}}" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
+                            <a href="{{url_for('ourstory')}}" class="nav-item nav-link nav-link-spacing" id="ourstory">About us</a>
+                            <a href="{{url_for('pipeline')}}" class="nav-item nav-link nav-link-spacing " id="pipeline"> Bioinformatics Pipelines </a>
+                            <a href="{{url_for('demo')}}" class="nav-item nav-link nav-link-spacing " id="demo" >Demo</a>
+                        </div>
+                        <div class="nav-right">
+                            <div class="menu_account">
+                                <div class="icon_account">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 3C14.7614 3 17 5.23858 17 8C17 9.88196 15.9603 11.5211 14.4239 12.3742C17.5815 13.3762 19.8902 16.2864 19.9962 19.7508L20 20V21H19V20L18.9959 19.7593C18.8691 16.0048 15.7855 13 12 13C8.21455 13 5.1309 16.0048 5.00406 19.7593L5 20V21H4V20L4.00381 19.7508C4.1098 16.2864 6.41847 13.3762 9.57667 12.3736C8.03975 11.5211 7 9.88196 7 8C7 5.23858 9.23858 3 12 3ZM12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4Z" fill="#1A1A1A"/>
+                                </svg>
+                                </div>
+                        
+                                <div class="name_account" data-toggle="dropdown">
+                                <p class="nav-link">{{ user.username }}</p>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="/reset" id="reset">Reset Password</a>
+                                    <a href="/logout" class="dropdown-item" id="logout">Log Out</a>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                 {% else %}
                 <div class="navbar-nav ">
                     <a href="{{url_for('homepage')}}" class="nav-link-spacing logo"><img src="/static/images/usth.png" alt="usth logo"></a>
@@ -47,29 +72,42 @@
                     <a href="/sign-up" class="nav-item nav-link nav-link-spacing" id="sign-up" >Sign Up</a>
                 </div>
                 {% endif %}
-            </div>
+        </div>
         </div>
     </nav>
-    {% endwith %}
-        {% block content %}
-        {% endblock %}
+    {% block content %}
+    {% endblock %}
     <script
     src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"
-  ></script>
-  <script
+    ></script>
+    <script
     src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"
-  ></script>
-  <script
+    ></script>
+    <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"
-  ></script>
-  <script type="text/javascript"
-  src="{{url_for('static', filename= 'index.js')}}">
-  </script>
+    ></script>
+    <script type="text/javascript"
+    src="{{url_for('static', filename= 'index.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+        $('.name_account').dropdown();
+    
+        $('#logout').click(function(e) {
+            e.preventDefault();
+            window.location.href = "/logout";
+        });
+    
+        $('#reset').click(function(e){
+            e.preventDefault();
+            window.location.href = "/reset";
+        });
+        });
+    </script>
 </body>
 </html>
