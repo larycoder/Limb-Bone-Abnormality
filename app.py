@@ -465,15 +465,18 @@ def execute_fatsq():
         # Handle case when there are not enough files
         return jsonify({"error": "Not enough files in the folder"})
     
-    output_file_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}",f"{folder.name}.csv")
+    output_file_path1 = os.path.join(f"../folder_data/{current_user.username}",f"{folder.name}.indels.hg19_multianno.csv")
+    output_file_path2 = os.path.join(f"../folder_data/{current_user.username}",f"{folder.name}.SNPs.hg19_multianno.csv")
     folder_id = folder.id
-    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {file1_name[0]} {file2_name[0]} > {output_file_path}"
+    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {file1_name[0]} {file2_name[0]}"
 
     # Execute the command
     subprocess.run(command, shell=True)
     
     # Add the output file to the database
-    new_file = File(name=f"{folder.name}.csv", path=output_file_path, user_id=current_user.id, folder_id=folder_id)
+    new_file = File(name=f"{folder.name}.indels.hg19_multianno.csv", path=output_file_path1, user_id=current_user.id, folder_id=folder_id)
+    db.session.add(new_file)
+    new_file = File(name=f"{folder.name}.SNPs.hg19_multianno.csv", path=output_file_path2, user_id=current_user.id, folder_id=folder_id)
     db.session.add(new_file)
     db.session.commit()
     return jsonify({"success": True})
