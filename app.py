@@ -450,22 +450,12 @@ def download_file(file_id):
 
 @app.route('/execute', methods = ['POST'])
 def execute_fatsq():
+    from test import execute_test
     event = json.loads(request.data)
     id = event['Id']
     folder = Folder.query.filter_by(id = id).first()
-    command = f"../folder_data/{current_user.username}/whole_genome_script_for_server.sh {folder.name}"
-    command = f"screen -dm -S {folder.name} bash -c '{command}'"
-    # Execute the command
-    subprocess.run(command, shell=True)
-    output_file_path1 = os.path.join(f"../folder_data/{current_user.username}",f"{folder.name}.indels.hg19_multianno.csv")
-    output_file_path2 = os.path.join(f"../folder_data/{current_user.username}",f"{folder.name}.SNPs.hg19_multianno.csv")
-    
-    # Add the output file to the database
-    new_file = File(name=f"{folder.name}.indels.csv", path=output_file_path1, user_id=current_user.id, folder_id=folder.id)
-    db.session.add(new_file)
-    new_file = File(name=f"{folder.name}.SNPs.csv", path=output_file_path2, user_id=current_user.id, folder_id=folder.id)
-    db.session.add(new_file)
-    db.session.commit()
+    execute_test(folder, current_user)
+    return jsonify({})
 
 @app.route('/upload')
 def upload():
