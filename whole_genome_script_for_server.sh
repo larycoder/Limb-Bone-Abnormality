@@ -5,7 +5,7 @@
 #GLOBAL SETTING#
 ################
 
-sample_id = $1
+sample_id=$1
 # Prepare environment
 conda activate student10
 
