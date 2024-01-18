@@ -1,10 +1,14 @@
 body {
-    font-family: Source Sans Pro;
     background-color: #f8f9fa;
 }
 
 h2 {
     color: #007bff;
+}
+
+.form {
+    max-width: 70%;
+    margin: 0 auto;
 }
 
 table {
