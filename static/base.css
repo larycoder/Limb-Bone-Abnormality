@@ -78,7 +78,6 @@ body{
     flex-shrink: 0;
     color: var(--black-text, var(--normal-text, #222));
     text-align: center;
-    font-family: Source Sans Pro;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;

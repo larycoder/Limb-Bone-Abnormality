@@ -4,9 +4,9 @@
 <link rel="stylesheet" href="../static/display_columns.css">
 <br>
     <div class="form">
-        <h1>File: {{ file.name }}</h1>
+        <h1>File: Ehlers-Danlos.csv</h1>
 
-            <h2>Display Selected Columns</h2>
+            <h2>Display Attribute Columns</h2>
             {{ table_html | safe }}
 
         <a href="{{url_for('download_file', file_id=file.id)}}"><button>Download</button></a>

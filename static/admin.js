@@ -8,15 +8,17 @@ function deleteUser(customerId){
     });
 }
 
-// document.getElementById("togglePassword").onclick=()=>{
-//   const passwordInput=document.getElementById("password");
-//   const toggleButton=document.getElementById("togglePassword");
-//   if(passwordInput.type === "password"){
-//     passwordInput.type = "text";
-//     toggleButton.textContent = "Hide";
-//   } 
-//   else{
-//     passwordInput.type = "password";
-//     toggleButton.textContent = "Show";
-//   }
-// }
+function toggleSlide(slideId) {
+    var sliderContent = document.getElementById('sliderContent');
+    let btnA=document.getElementById("user_btn")
+    let btnB=document.getElementById("admin_btn")
+    if (slideId === 'A') {
+        sliderContent.style.transform = 'translateX(0)';
+        btnA.classList.add("active");
+        btnB.classList.remove("active");
+    } else if (slideId === 'B') {
+        sliderContent.style.transform = 'translateX(-100%)';
+        btnB.classList.add("active");
+        btnA.classList.remove("active");
+    }
+}

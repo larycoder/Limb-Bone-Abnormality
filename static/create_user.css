@@ -1,0 +1,51 @@
+.navbar-nav .nav-item:last-child{
+    pointer-events: none;
+    color: white;
+    user-select: none;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 60px;
+}
+
+.form-group{
+    width: 60%;
+
+}
+
+.form-control:focus,
+.form-control{
+    width: 100%;
+    border: 1px solid lightgray;
+    outline: 0;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.btn:hover,
+.btn:focus,
+.btn{
+    width: 59%;
+    outline: 0;
+
+    color: white;
+}
+
+#re-password,
+#password{
+    width: 95%;
+    border: none;
+}
+
+#password_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    outline: 0;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+}

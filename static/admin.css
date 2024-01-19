@@ -2,6 +2,39 @@
     margin: 0 10%;
 }
 
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.slider-content {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+}
+
+button:focus,
+button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-family: sans-serif;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+}
+
+.active:focus,
+.active{
+    border-bottom: 2px solid #007bff;
+    font-weight: bold;
+    outline: none;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -17,7 +50,6 @@ th, td {
 
 #rm_btn {
     background-color: #ff6666;
-    color: #fff;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -26,10 +58,10 @@ th, td {
 
 #change_role{
     background-color: #05F;
-    color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .navbar-nav .nav-item:last-child{

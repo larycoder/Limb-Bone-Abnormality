@@ -68,47 +68,46 @@ def login():
 @app.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST':
-        
-            email = request.form.get('email')
-            username = request.form.get('username')
-            password = request.form.get('password')
-            re_password = request.form.get('re-password')
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        re_password = request.form.get('re-password')
 
-            user = User.query.filter_by(username=username).first()
-            if user:
-                flash('Username already exists', category='error')
-            elif len(email) < 4:
-                flash('Email must be greater than 4 characters', category='error')
-            elif len(username) < 2:
-                flash('Username must be greater than 1 character', category='error')
-            elif password != re_password:
-                flash('Passwords do not match!', category='error')
-            elif len(password) < 7:
-                flash('Password must be greater than 7 characters', category='error')
+        user = User.query.filter_by(username=username).first()
+        if user:
+            flash('Username already exists', category='error')
+        elif len(email) < 4:
+            flash('Email must be greater than 4 characters', category='error')
+        elif len(username) < 2:
+            flash('Username must be greater than 1 character', category='error')
+        elif password != re_password:
+            flash('Passwords do not match!', category='error')
+        elif len(password) < 7:
+            flash('Password must be greater than 7 characters', category='error')
+        else:
+            folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], username)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+                print('Created folder successs')
+                source_file_path="whole_genome_script_for_server.sh"
+                destination_folder_path=folder_path
+                copy_and_paste_file(source_file_path, destination_folder_path)
+                source_file_path="hg38.fa"
+                copy_and_paste_file(source_file_path, destination_folder_path)
             else:
-                folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], username)
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-                    print('Created folder successs')
-                    source_file_path="whole_genome_script_for_server.sh"
-                    destination_folder_path=folder_path
-                    copy_and_paste_file(source_file_path, destination_folder_path)
-                    source_file_path="hg38.fa"
-                    copy_and_paste_file(source_file_path, destination_folder_path)
-                else:
-                    print('Folder already exists')
-                new_user = User(
-                    email=email,
-                    username=username,
-                    password=generate_password_hash(password, method='pbkdf2:sha256')
-                )
-                db.session.add(new_user)
-                db.session.commit()
-                # Create a folder for the new user
-                
-                login_user(new_user, remember=True)
-                flash('Sign up successful!', category='success')
-                return redirect(url_for('login'))
+                print('Folder already exists')
+            new_user = User(
+                email=email,
+                username=username,
+                password=generate_password_hash(password, method='pbkdf2:sha256')
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            # Create a folder for the new user
+            
+            login_user(new_user, remember=True)
+            flash('Sign up successful!', category='success')
+            return redirect(url_for('login'))
 
     return render_template('sign_up.html', user=current_user)
 
@@ -283,9 +282,48 @@ def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
 
-@app.route('/create_user',methods=['POST'])
+@app.route('/create_user',methods=['POST','GET'])
 def create_user():
-    return render_template("admin.html")
+    if request.method == 'POST':
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        re_password = request.form.get('re-password')
+
+        user = User.query.filter_by(username=username).first()
+        if user:
+            flash('Username already exists', category='error')
+        elif len(email) < 4:
+            flash('Email must be greater than 4 characters', category='error')
+        elif len(username) < 2:
+            flash('Username must be greater than 1 character', category='error')
+        elif password != re_password:
+            flash('Passwords do not match!', category='error')
+        elif len(password) < 7:
+            flash('Password must be greater than 7 characters', category='error')
+        else:
+            folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], username)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+                source_file_path="whole_genome_script_for_server.sh"
+                destination_folder_path=folder_path
+                copy_and_paste_file(source_file_path, destination_folder_path)
+            new_user = User(
+                email=email,
+                username=username,
+                password=generate_password_hash(password, method='pbkdf2:sha256')
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            # Create a folder for the new user
+            
+            login_user(new_user, remember=True)
+            flash('Sign up successful!', category='success')
+            return redirect(url_for('admin'))
+
+    return render_template('add_user.html', user=current_user)
+
+        
 
 @app.route('/delete-user', methods=['POST'])
 def rm_user():
