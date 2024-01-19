@@ -49,7 +49,7 @@ th, td {
 }
 
 #rm_btn {
-    background-color: #ff6666;
+    background-color: transparent;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -57,11 +57,15 @@ th, td {
 }
 
 #change_role{
-    background-color: #05F;
+    background-color: transparent;
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
+}
+
+button img{
+    width: 30px;
 }
 
 .navbar-nav .nav-item:last-child{
