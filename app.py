@@ -276,6 +276,7 @@ def updateFile(file_id):
     
 # Admin
 @app.route('/admin', methods=['POST','GET'])
+@login_required
 def admin():
     admin=User.query.filter(User.role!=1).all()
     return render_template('admin.html',user=admin)
