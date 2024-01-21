@@ -21,11 +21,11 @@ th, td {
     border: 1px solid black;
     padding: 8px;
     text-align: left;
-    max-height: 100px; /* Set a maximum height for each table cell */
+    max-height: 100px;
+    max-width: 100px;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; /* Display an ellipsis (...) when text overflows */
-
+    text-overflow: ellipsis;
 }
 
 th {

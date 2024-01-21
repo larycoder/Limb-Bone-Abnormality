@@ -33,6 +33,7 @@ def pipeline():
     return render_template('pipeline.html')
 @app.route('/homepage')
 def homepage():
+    current_user.role=0
     return render_template('index.html')
 @app.route('/ourstory')
 def ourstory():
@@ -62,7 +63,6 @@ def login():
                 flash('Incorrect password! Try again!', category='error')
         else:
             flash('User does not exist!', category='error')
-    current_user.role=0
     return render_template("login.html")
 
 @app.route('/sign-up', methods=['GET', 'POST'])
@@ -103,9 +103,7 @@ def sign_up():
             )
             db.session.add(new_user)
             db.session.commit()
-            # Create a folder for the new user
-            
-            login_user(new_user, remember=True)
+           
             flash('Sign up successful!', category='success')
             return redirect(url_for('login'))
 
@@ -314,21 +312,7 @@ def create_user():
             )
             db.session.add(new_user)
             db.session.commit()
-            # Create a folder for the new user
-            
-            login_user(new_user, remember=True)
-            username = 'admin'
-            password = 'password'
-            user = User.query.filter_by(username=username).first()
-            if user:
-                if check_password_hash(user.password, password):
-                    flash('Sign up successful!', category='success')
-                    login_user(user,remember=False)
-                    return redirect(url_for("admin"))
-                else:
-                    flash('Incorrect password! Try again!', category='error')
-            else:
-                flash('User does not exist!', category='error')
+
         return redirect(url_for('admin'))
 
     return render_template('add_user.html', user=current_user)
