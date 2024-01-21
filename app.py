@@ -316,8 +316,19 @@ def create_user():
             # Create a folder for the new user
             
             login_user(new_user, remember=True)
-            flash('Sign up successful!', category='success')
-            return redirect(url_for('admin'))
+            username = 'admin'
+            password = 'password'
+            user = User.query.filter_by(username=username).first()
+            if user:
+                if check_password_hash(user.password, password):
+                    flash('Sign up successful!', category='success')
+                    login_user(user,remember=False)
+                    return redirect(url_for("admin"))
+                else:
+                    flash('Incorrect password! Try again!', category='error')
+            else:
+                flash('User does not exist!', category='error')
+        return redirect(url_for('admin'))
 
     return render_template('add_user.html', user=current_user)
 
