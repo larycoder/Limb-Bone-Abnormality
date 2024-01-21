@@ -109,7 +109,7 @@ def sign_up():
             flash('Sign up successful!', category='success')
             return redirect(url_for('login'))
 
-    return render_template('sign_up.html', user=current_user)
+    return render_template('sign_up.html')
 
 @app.route('/home')
 @login_required
@@ -248,23 +248,21 @@ def get_file(file_id):
 
     df = pd.read_csv(file_path)
     if request.method == 'POST':
-        # Lấy danh sách các cột được chọn từ form
+        # Take requests from form
         selected_columns = request.form.getlist('columns')
-
-        # Tạo DataFrame mới chỉ với các cột được chọn
-        selected_df = df[selected_columns]
+        
+        # Create dataframe for all the columns have choosed
+        selected_df=df[selected_columns]
+        temp_file_path = f'../folder_data/{current_user.username}/temp_selected_data.csv'
+        selected_df.to_csv(temp_file_path, index=False)
         selected_df=selected_df.head(20)
 
-        # Chuyển đổi DataFrame thành HTML
-        table_html = selected_df.to_html(classes='table table-striped', index=False)
+        # Conver dataframe to html
+        table_html=selected_df.to_html(classes='table table-striped', index=False)
 
-        # Render template với dữ liệu HTML
-        return render_template('display_columns.html', table_html=table_html, columns=df.columns, user = current_user, file = file)
-
-    # Nếu là request GET, hiển thị form chọn cột
+        # Send data to user
+        return render_template('display_columns.html', table_html=table_html, columns=df.columns, user=current_user, file=file)
     return render_template('select_columns.html', columns=df.columns,user = current_user)
-
-
     
 @app.route('/file/<file_id>/updateFile', methods=['GET', 'POST'])
 def updateFile(file_id):
@@ -333,7 +331,6 @@ def rm_user():
         user_to_delete=User.query.filter_by(id=rm_user).first()
         file_to_delete=File.query.filter_by(user_id=rm_user).all()
         folder_to_delete=Folder.query.filter_by(user_id=rm_user).all()
-        # print(f"user: {user_to_delete}")
         if user_to_delete:
             for file_obj in file_to_delete:
                 db.session.delete(file_obj)
@@ -479,13 +476,10 @@ def reset_password():
     
     return render_template('reset_password.html', email=email)
 
-@app.route('/download/<file_id>')
+@app.route('/download/<file_id>',methods=['GET'])
 def download_file(file_id):
-    file = File.query.get_or_404(file_id)
-    file_path = file.path
-    print(file_path)
-    return send_file(file_path, as_attachment=True, mimetype='application/pdf')
-
+    return send_file(path_or_file=f"../folder_data/{current_user.username}/temp_selected_data.csv", as_attachment=True, mimetype="text/csv")
+    
 @app.route('/execute', methods = ['POST'])
 def execute_fatsq():
     event = json.loads(request.data)

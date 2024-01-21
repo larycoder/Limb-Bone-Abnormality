@@ -17,10 +17,9 @@ function checkURL(){
     });
 }
 
-document.getElementById("icon").onclick=(event)=>{
+document.getElementById("icon").onclick=()=>{
     const passwordInput=document.getElementById("password");
     const toggleButton=document.getElementById("icon");
-    event.preventDefault()
     if(passwordInput.type === "password"){
         passwordInput.type = "text";
         toggleButton.src="../static/images/eye-close.png";
