@@ -28,8 +28,7 @@ body{
 
 .nav-right{
     position: absolute;
-    right: 0;
-
+    right: 16px;
 }
 .nav-link-spacing{
     margin-right: 30px;
@@ -116,4 +115,10 @@ body{
     border: none;
     outline: 0;
     box-shadow: none;
+}
+.username{
+    min-width: 130px;
+    min-height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
