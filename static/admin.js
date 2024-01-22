@@ -8,6 +8,16 @@ function deleteUser(customerId){
     });
 }
 
+function changeRole(customerId){
+    fetch(`/change_role`,{
+        method: 'POST',
+        body: JSON.stringify({userId: customerId}),
+    }).then((_res) =>{
+	    window.location.href="/admin";
+        window.location.reload();
+    });
+}
+
 function toggleSlide(slideId) {
     var sliderContent = document.getElementById('sliderContent');
     let btnA=document.getElementById("user_btn")

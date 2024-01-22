@@ -7,7 +7,7 @@
     --next-btn-hover: #0044ff;
     --back-btn-hover: #8b8c8c;
     --hover: #27408B;
-  }
+}
 
 body{
     font-family: sans-serif;
@@ -15,15 +15,15 @@ body{
 .navbar-nav img{
     width: 100%;
 }
-.navbar .logo{
-    width: 10%;
-}
 .navbar{
     position: sticky;
     top: 0;
     z-index: 9999999;
     width: 100%;
     min-height: 5vh;
+}
+.logo{
+    width: 73px;
 }
 
 .nav-right{

@@ -1,5 +1,5 @@
 function checkURL(){
-    let arr=['ourstory', 'pipeline', 'demo','login','sign-up','admin','add_user','home','create_user']
+    let arr=['ourstory', 'pipeline', 'demo','login','sign-up','admin','add_user','home','create_user','admin']
     var currentURL=window.location.href;
     url=currentURL.split("/")
     url_now=url[url.length-1]

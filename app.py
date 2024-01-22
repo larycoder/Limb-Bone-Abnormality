@@ -52,7 +52,7 @@ def login():
         if user:
             if check_password_hash(user.password, password):
                 role=user.role
-                if role==2:
+                if role==2 or role==3:
                         flash('Logged in successfully!', category='success')
                         login_user(user, remember=False)
                         return redirect(url_for('home'))
@@ -317,7 +317,21 @@ def create_user():
 
     return render_template('add_user.html', user=current_user)
 
-        
+@app.route("/change_role", methods=["POST"])
+def change_role():
+    try:
+        user_data=json.loads(request.data)
+        user_id=user_data['userId']
+        user=User.query.filter_by(id=user_id).first()
+        if user.role==2:
+            user.role=3
+        elif user.role==3:
+            user.role=2
+        db.session.commit()
+        return jsonify({"Status":"Successfully"})
+    except Exception as e:
+        print(f"Error removing user: {e}")
+        return jsonify({'error': 'An error occurred while removing the user.'}), 500
 
 @app.route('/delete-user', methods=['POST'])
 def rm_user():

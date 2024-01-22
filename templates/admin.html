@@ -59,14 +59,12 @@
                             <td>{{ customer.username }}</td>
                             <td>{{ customer.email }}</td>
                             <td>
-                                <td>
-                                    <button title="Delete user" id="rm_btn" onclick="deleteUser('{{ customer.id }}')">
-                                        <img src="../static/images/delete.png" alt="">
-                                    </button>
-                                    <button title="Change role" id="change_role" onclick="changeRole('{{ customer.id }}')">
-                                        <img src="../static/images/change_role.png" alt="">
-                                    </button>
-                                </td>
+                                <button title="Delete user" id="rm_btn" onclick="deleteUser('{{ customer.id }}')">
+                                    <img src="../static/images/delete.png" alt="">
+                                </button>
+                                <button title="Change role" id="change_role" onclick="changeRole('{{ customer.id }}')">
+                                    <img src="../static/images/change_role.png" alt="">
+                                </button>
                             </td>
                         </tr>
                         {%endif%}
