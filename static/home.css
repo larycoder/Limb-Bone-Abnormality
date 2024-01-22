@@ -59,4 +59,32 @@
     font-size: 30px;
     display: block;
   }
+.input{
+  display: flex;
+}
+#folderName{
+  position: relative;
+  height: 70%;
+  width: 60%;
+  right: 10%;
+}
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 70%; 
+  background-color: #05F;
+  color: #fff;
 
+}
+.icon-folder{
+  padding-right: 1%;
+}
+.file-list:not(.title-folder) {
+  transition: background-color 0.2s ease-in;
+}
+
+.file-list:not(.title-folder):hover {
+  background-color: lightblue;
+}

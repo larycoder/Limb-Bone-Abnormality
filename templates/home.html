@@ -7,21 +7,21 @@
   <div class="head">
     <h2 class="title">Folders list</h2>
       <!-- Create new folder -->
-    <form action="/folder" method="post">
+    <form action="/folder" method="post" class="input">
       <input type="text" id="folderName" name="folderName" placeholder="Enter folder name">
 
-      <button type="submit" class="btn btn-primary">Create Folder</button>
+      <button type="submit" class="btn">Create Folder</button>
   </form>
   </div>
   </div>
   <ul class="form">
-    <div class="file-list">
+    <div class="file-list title-folder">
       <li>Name</li>
     </div>
     {% for folder in folders %}
     {% if folder.parent_folder_id is none %}
             <div class="file-list">
-              <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}" class="link">{{ folder.name }}</a></li>
+              <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}" class="link"><img src="/static//images/Folder.png" class="icon-folder">{{ folder.name }}</a></li>
               <button type="button" class="close" onclick="deleteFolder('{{ folder.id }}')">
                 <span aria-hidden="true">&times;</span>
               </button>
