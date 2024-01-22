@@ -492,33 +492,16 @@ def download_file(file_id):
     
 @app.route('/execute', methods = ['POST'])
 def execute_fatsq():
-    event = json.loads(request.data)
-    id = event['Id']
-    folder = Folder.query.filter_by(id = id).first()
-    files = File.query.filter_by(folder_id = folder.id).order_by(File.name).all()
+    from executing import execute_file
+    event=json.loads(request.data)
+    id=event['Id']
+    folder=Folder.query.filter_by(id = id).first()
+    try:
+        execute_file(folder, current_user)
+        return jsonify({"Status":"True"})
+    except:
+        return jsonify({"Status":"False"})
 
-    file_names = []
-    for file in files:
-        file_names.append(file.path)
-    if len(file_names) >= 2:
-        file1_name = file_names[0].split("_1")
-        file2_name = file_names[1].split("_2")
-    else:
-        # Handle case when there are not enough files
-        return jsonify({"error": "Not enough files in the folder"})
-    
-    output_file_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}",f"{folder.name}.csv")
-    folder_id = folder.id
-    command = f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}/whole_genome_script_for_server.sh {file1_name[0]} {file2_name[0]} > {output_file_path}"
-
-    # Execute the command
-    subprocess.run(command, shell=True)
-    
-    # Add the output file to the database
-    new_file = File(name=f"{folder.name}.csv", path=output_file_path, user_id=current_user.id, folder_id=folder_id)
-    db.session.add(new_file)
-    db.session.commit()
-    return jsonify({"success": True})
 
 @app.route('/upload')
 def upload():
