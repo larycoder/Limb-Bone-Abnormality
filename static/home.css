@@ -78,6 +78,10 @@
   color: #fff;
 
 }
+.btn:hover{
+  background-color: #27408B;
+  color: #fff;
+}
 .icon-folder{
   padding-right: 1%;
 }
