@@ -21,7 +21,12 @@
     {% for folder in folders %}
     {% if folder.parent_folder_id is none %}
             <div class="file-list">
-              <li><a href="{{ url_for('get_folder', folder_id=folder.id) }}" class="link"><img src="/static//images/Folder.png" class="icon-folder">{{ folder.name }}</a></li>
+              <a href="{{ url_for('get_folder', folder_id=folder.id) }}" class="link">
+                <li>
+                  <img src="/static//images/Folder.png" class="icon-folder">
+                  {{ folder.name }}
+                </li>
+              </a>
               <button type="button" class="close" onclick="deleteFolder('{{ folder.id }}')">
                 <span aria-hidden="true">&times;</span>
               </button>

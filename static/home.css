@@ -17,48 +17,61 @@
   justify-content: space-between;
 }
 .file-list {
-    position: relative;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    align-items: center;
-    gap: 4px;
-    align-self: stretch;
-  }
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 5px;
+  align-items: center;
+  gap: 4px;
+}
 .title{
   font-size: 32px;
   font-style: normal;
   font-weight: 600;
   line-height: 28px;
 }
+.link li{
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  max-width: 1000px;
+  min-width: 400px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  gap: 4px;
+  align-items: center;
+}
 .link, .link:hover{
+  width: 100%;
   color: #000;
   text-decoration: none;
+  padding: 10px 0;
 }
-  .file-list ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+.file-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-  .file-list li {
-    margin-bottom: 10px;
-    list-style-type: none;
-  }
+.file-list li {
+  /* margin-bottom: 10px; */
+  list-style-type: none;
+}
 
-  .file-list .close {
-    position: absolute;
-    top: 25%;
-    left: 95%;
-    transform: translateX(-50%);
-    border: none;
-    background-color: transparent;
-    color: #999;
-    cursor: pointer;
-    font-size: 30px;
-    display: block;
-  }
+.file-list .close {
+  position: absolute;
+  top: 25%;
+  left: 95%;
+  transform: translateX(-50%);
+  border: none;
+  background-color: transparent;
+  color: #999;
+  cursor: pointer;
+  font-size: 30px;
+  display: block;
+}
 .input{
   display: flex;
 }
