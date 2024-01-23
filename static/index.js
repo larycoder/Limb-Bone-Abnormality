@@ -54,8 +54,12 @@ function deleteSubFolder(Id, parent_folder_id) {
         console.error(error);
     });
 }
-
+function changeColor(){
+    let step2 = document.getElementById('step-2')
+    step2.src = "../static/images/step2_color.png"
+}
 function executeF(Id){
+    changeColor()
     fetch('/execute',{
         method: 'POST',
         body: JSON.stringify({Id: Id}),

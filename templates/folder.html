@@ -4,16 +4,19 @@
 <link rel="stylesheet" href="../static/folder.css">
   <div class="form">
     <div class="step">
-      <div class="step-1">
-        <img src="../static/images/step1.png" alt="Step 1">
-      </div>
-      <div class="step-2">
-        <img src="../static/images/step2.png" alt="Step 2">
-        
-      </div>
-      <div class="step-3">
-        <img src="../static/images/step3.png" alt="Step 3">
-      </div>
+      {% set sorted_subfiles = subfiles | sort(attribute='name') %}
+      {% if sorted_subfiles |length == 2 %}
+        <img src="../static/images/step1_color.png" alt="Step 1" class="step-1 step-image">
+      {% else %}
+        <img src="../static/images/step1.png" alt="Step 1" class="step-1 step-image">
+      {% endif %}
+      {% if output |length != 0 %}
+        <img src="../static/images/step2_color.png" alt="Step 2" class="step-2 step-image" id="step-2">
+        <img src="../static/images/step3_color.png" alt="Step 3" class="step-3 step-image">
+      {% else %}
+        <img src="../static/images/step2.png" alt="Step 2" class="step-2 step-image" id="step-2">
+        <img src="../static/images/step3.png" alt="Step 3" class="step-3 step-image">
+      {% endif %}
     </div>
 
     <h2 class="title head">Folder: {{ folder.name }}</h2>
@@ -22,7 +25,6 @@
     <h2 class="title head">Upload files:</h2>
     <p class="title"><i>Upload 2 fastq.gz files</i></p>
     <ul>
-      {% set sorted_subfiles = subfiles | sort(attribute='name') %}
 
       {% for subfile in sorted_subfiles %}
 
@@ -85,5 +87,10 @@
       </ul>
     </div>
   </div>
+
+  <script>
+
+
+  </script>
 {% endblock %}
 
