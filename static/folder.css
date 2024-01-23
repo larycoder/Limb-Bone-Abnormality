@@ -41,10 +41,11 @@
     width: 80%;
 
   }
-#inputFile1, #inputFile2{
-  position: absolute;
-  bottom: 40%;
-  left: 40%;
+
+.box-list{
+  display: flex;
+  align-items: center;
+  /* justify-self: center; */
 }
 .file-list ul {
     margin: 0;
@@ -53,7 +54,6 @@
   }
 
   .file-list li {
-    margin-bottom: 20px;
     list-style-type: none;
   }
 

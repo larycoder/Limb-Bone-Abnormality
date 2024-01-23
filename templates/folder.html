@@ -25,9 +25,7 @@
     <h2 class="title head">Upload files:</h2>
     <p class="title"><i>Upload 2 fastq.gz files</i></p>
     <ul>
-
-      {% for subfile in sorted_subfiles %}
-
+      {% for subfile in subfiles %}
         {% if subfile.name.endswith('.gz') %}
           <div class="file-list name-file">
             <li>{{ subfile.name }}</li>

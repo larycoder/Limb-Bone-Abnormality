@@ -92,8 +92,6 @@ def sign_up():
                 source_file_path="whole_genome_script_for_server.sh"
                 destination_folder_path=folder_path
                 copy_and_paste_file(source_file_path, destination_folder_path)
-                source_file_path="hg38.fa"
-                copy_and_paste_file(source_file_path, destination_folder_path)
             else:
                 print('Folder already exists')
             new_user = User(
@@ -166,17 +164,19 @@ def get_folder(folder_id):
                 flash("No file selected!", category='error')
             else:
                 file_name=f"{folder.name}_1.fastq.gz"
-                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                path+=f"/{file_name}"
-                # Save the uploaded file to the specified path
-                sub_file.save(path)
+                file=File.query.filter_by(name=file_name).first()
+                if file==None:
+                    path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                    path+=f"/{file_name}"
+                    # Save the uploaded file to the specified path
+                    sub_file.save(path)
 
-                # Add the file to the database
-                new_file = File(name=file_name, path=path, user_id=current_user.id, folder_id=folder.id)
-                db.session.add(new_file)
-                db.session.commit()
+                    # Add the file to the database
+                    new_file = File(name=file_name, path=path, user_id=current_user.id, folder_id=folder.id)
+                    db.session.add(new_file)
+                    db.session.commit()
 
-                flash('Subfile uploaded successfully!', category='success')
+                    flash('Subfile uploaded successfully!', category='success')
 
         if 'inputFile2' in request.files:
             sub_file = request.files['inputFile2']
@@ -185,18 +185,19 @@ def get_folder(folder_id):
                 flash("No file selected!", category='error')
             else:
                 file_name=f"{folder.name}_2.fastq.gz"
-                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                path+=f"/{file_name}"
-                # Save the uploaded file to the specified path
-                sub_file.save(path)
+                file=File.query.filter_by(name=file_name).first()
+                if file==None:
+                    path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                    path+=f"/{file_name}"
+                    # Save the uploaded file to the specified path
+                    sub_file.save(path)
 
-                # Add the file to the database
-                new_file = File(name=file_name, path=path, user_id=current_user.id, folder_id=folder.id)
-                db.session.add(new_file)
-                db.session.commit()
+                    # Add the file to the database
+                    new_file = File(name=file_name, path=path, user_id=current_user.id, folder_id=folder.id)
+                    db.session.add(new_file)
+                    db.session.commit()
 
-                flash('Subfile uploaded successfully!', category='success')
-
+                    flash('Subfile uploaded successfully!', category='success')
 
     subfolders = Folder.query.filter_by(parent_folder_id=folder.id).all()
     subfiles = File.query.filter_by(folder_id=folder.id).all()
