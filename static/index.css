@@ -9,6 +9,12 @@
     height: 100%;
     padding-bottom: 1%;
 }
+.alert{
+    z-index: 9999;
+    width: 100%;
+    position: absolute;
+    margin: 0;
+}
 a, a:hover{
     text-decoration: none;
 }

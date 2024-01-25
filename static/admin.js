@@ -4,7 +4,6 @@ function deleteUser(customerId){
         body: JSON.stringify({userId: customerId}),
     }).then((_res) =>{
 	    window.location.href="/admin";
-        window.location.reload();
     });
 }
 

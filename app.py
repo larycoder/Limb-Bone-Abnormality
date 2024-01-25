@@ -6,7 +6,6 @@ from function.connect import db
 from function.models import User,Folder,File
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import subprocess
 import pandas as pd
 
 app = Flask(__name__)
@@ -42,6 +41,18 @@ def ourstory():
 def about_us():
     return render_template('about_us.html')
 
+@app.route('/forgot', methods=['GET', 'POST'])
+def forgot():
+    if request.method == 'POST':
+        email = request.form["email"]
+        users = User.query.filter_by(email = email).first()
+        if users:
+            return redirect(url_for('reset_password', email=email))
+        else:
+            flash("The email does not match", category= 'error')
+            return render_template('forgot.html')
+    
+    return render_template('forgot.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -88,12 +99,9 @@ def sign_up():
             folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], username)
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
-                print('Created folder successs')
                 source_file_path="whole_genome_script_for_server.sh"
                 destination_folder_path=folder_path
                 copy_and_paste_file(source_file_path, destination_folder_path)
-            else:
-                print('Folder already exists')
             new_user = User(
                 email=email,
                 username=username,
@@ -104,7 +112,6 @@ def sign_up():
            
             flash('Sign up successful!', category='success')
             return redirect(url_for('login'))
-
     return render_template('sign_up.html')
 
 @app.route('/home')
@@ -130,23 +137,17 @@ def folder():
             if folder_name == '':
                 flash('No folder name provied!', category= 'error')
             else:
-                user_folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                if not os.path.exists(user_folder_path):
-                    os.makedirs(user_folder_path)
-                    print("Created folder successfully")
+                folder=Folder.query.filter_by(name=folder_name).first()
+                if folder==None:
+                    folder_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}", folder_name)
+
+                    # Add folder to database
+                    new_folder = Folder(path = folder_path,name= folder_name, user_id = current_user.id)
+                    db.session.add(new_folder)
+                    db.session.commit()
+                    flash("Folder create successfully", category= 'success')
                 else:
-                    print("Folder already exists")
-
-                #Create a folder name for user
-                folder_path = os.path.join(user_folder_path, folder_name)
-
-                # Add folder to database
-                new_folder = Folder(path = folder_path,name= folder_name, user_id = current_user.id)
-                db.session.add(new_folder)
-                db.session.commit()
-
-            
-                flash("Folder create successfully", category= 'success')
+                    flash("Folder already exists",category='error')
                 
     return redirect(url_for('home'))
 
@@ -198,6 +199,17 @@ def get_folder(folder_id):
                     db.session.commit()
 
                     flash('Subfile uploaded successfully!', category='success')
+    
+    if os.path.exists(f"{folder.path}.indels.hg19_multianno.csv"):
+        file=File.query.filter_by(name=f"{folder.name}.indels.hg19_multianno.csv").first()
+        if file==None:
+            output_file_path1=f"{folder.path}.indels.hg19_multianno.csv"
+            output_file_path2=f"{folder.path}.SNPs.hg19_multianno.csv"
+            new_file = File(name=f"{folder.name}.indels.hg19_multianno.csv", path=output_file_path1, user_id=current_user.id, folder_id=folder_id)
+            db.session.add(new_file)
+            new_file = File(name=f"{folder.name}.SNPs.hg19_multianno.csv", path=output_file_path2, user_id=current_user.id, folder_id=folder_id)
+            db.session.add(new_file)
+            db.session.commit()
 
     subfolders = Folder.query.filter_by(parent_folder_id=folder.id).all()
     subfiles = File.query.filter_by(folder_id=folder.id).all()
@@ -209,35 +221,6 @@ def get_folder(folder_id):
         else:
             files.append(file)
     return render_template('folder.html', folder=folder, subfolders=subfolders, file = file, subfiles = files, output=output, user = current_user)
-        
-@app.route('/upload-file', methods=['POST', 'GET'])
-@login_required
-def upload_file():
-    if request.method == 'POST':
-        if 'inputFile' in request.files:
-            file = request.files['inputFile']
-            print(f"file: {file}")
-            print(f"file name: {file.filename}")
-            
-            if file.filename == '':
-                flash('No file selected!', category='error')
-            else:
-                # Create the user's folder path
-                user_file_path = os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                print(f"path: {user_file_path}")
-                if os.path.exists(user_file_path):
-                    # Save the uploaded file to the user's folder
-                    file_path = os.path.join(user_file_path, file.filename)
-                    print(file_path)
-                    file.save(file_path)
-
-                    # Add the file to the database
-                    new_file = File(name=file.filename,path = file_path, user_id = current_user.id)
-                    db.session.add(new_file)
-                    db.session.commit()
-
-            flash('File uploaded successfully!', category='success')
-    return redirect(url_for('home'))
 
 @app.route('/file/<file_id>', methods = ['GET', 'POST'])
 @login_required
@@ -263,16 +246,107 @@ def get_file(file_id):
         return render_template('display_columns.html', table_html=table_html, columns=df.columns, user=current_user, file=file)
     return render_template('select_columns.html', columns=df.columns,user = current_user)
     
-@app.route('/file/<file_id>/updateFile', methods=['GET', 'POST'])
-def updateFile(file_id):
-    file=File.query.filter_by(id=file_id).first()
-    print(f"file id: {file.id}")
-    file_path=file.path
-    data=json.loads(request.data)['data']
-    with open(file_path,'w', encoding='utf-8') as file_obj:
-        file_obj.write(data)
-    return jsonify({})
+@app.route('/delete-subfile', methods=['POST'])
+@login_required
+def delete_subfile():
+    try:
+        event = json.loads(request.data)
+        file_id = event['Id']
+        file = File.query.filter_by(id=file_id, user_id=current_user.id).first()
+
+        if file:
+            if file.user_id == current_user.id:
+                folder = Folder.query.get(file.folder_id)
+                if folder and is_file_in_folder(file, folder):
+                    file_to_delete = file.path
+                    if os.path.exists(file_to_delete):
+                        os.remove(file_to_delete)
+                        flash('File deleted from folder successfully',category='success')
+                        db.session.delete(file)
+                        db.session.commit()
+                    else:
+                        flash('File not found in folder',category='error')
+                else:
+                    flash('File not found in folder',category='error')
+            else:
+                flash('You do not have permission to delete this file',category='error')
+        else:
+            raise ValueError('File not found')
+
+        return jsonify({})
+    except Exception as e:
+        flash(f"Error deleting file: {e}",category='error')
+        return jsonify({'Status': 'Error occurred while deleting the file.'}), 500
     
+@app.route('/delete-folder', methods=['POST'])
+@login_required
+def delete_folder():
+    try:
+        event = json.loads(request.data)
+        folder_id = event['Id']
+        delete_folder_recursive(folder_id)
+        flash('Delete successfully',category='success')
+        return jsonify({'Status':'Success to delete folder'})
+    except Exception as e:
+        flash(f"Error deleting folder: {e}",category='error')
+        return jsonify({'Status': 'Error occurred while deleting the folder.'}), 500
+
+@app.route('/reset',methods=['POST','GET'])
+@login_required
+def reset():
+    if request.method=='POST':
+        password=request.form["password"]
+        user=User.query.filter_by(username=current_user.username).first()
+        if check_password_hash(user.password, password):
+            return redirect(url_for('reset_password', email=user.email))
+    return render_template("reset.html")
+
+@app.route('/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    email = request.args.get('email')
+    
+    if request.method == 'POST':
+        # Handle the password reset form submission
+        password = request.form['password']
+        re_password = request.form['re-password']
+        
+        # Validate the password and re_password
+        if password != re_password:
+            flash('Passwords do not match!', category='error')
+        elif len(password) < 7:
+            flash('Password must be greater than 7 characters', category='error')
+        else:
+            # Update the user's password in the database
+            user = User.query.filter_by(email=email).first()
+            if user:
+                hashed_password = generate_password_hash(password)
+                user.password = hashed_password
+                db.session.commit()
+                flash("Your password has been reset successfully.", category='success')
+                return redirect(url_for('login'))
+            else:
+                flash("User not found.", category='error')
+    
+    return render_template('reset_password.html', email=email)
+
+@app.route('/download/<file_id>',methods=['GET'])
+@login_required
+def download_file(file_id):
+    return send_file(path_or_file=f"../folder_data/{current_user.username}/temp_selected_data.csv", as_attachment=True, mimetype="text/csv")
+    
+@app.route('/execute', methods = ['POST'])
+@login_required
+def execute_fatsq():
+    from executing import execute_file
+    event=json.loads(request.data)
+    id=event['Id']
+    folder=Folder.query.filter_by(id = id).first()
+    try:
+        execute_file(folder, current_user)
+        return jsonify({"Status":"True"})
+    except:
+        return jsonify({"Status":"False"})
+
 # Admin
 @app.route('/admin', methods=['POST','GET'])
 @login_required
@@ -281,6 +355,7 @@ def admin():
     return render_template('admin.html',user=admin)
 
 @app.route('/create_user',methods=['POST','GET'])
+@login_required
 def create_user():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -319,6 +394,7 @@ def create_user():
     return render_template('add_user.html', user=current_user)
 
 @app.route("/change_role", methods=["POST"])
+@login_required
 def change_role():
     try:
         user_data=json.loads(request.data)
@@ -335,6 +411,7 @@ def change_role():
         return jsonify({'error': 'An error occurred while removing the user.'}), 500
 
 @app.route('/delete-user', methods=['POST'])
+@login_required
 def rm_user():
     try:
         user_data = json.loads(request.data)
@@ -350,167 +427,12 @@ def rm_user():
             db.session.delete(user_to_delete)
             db.session.commit()
             shutil.rmtree(f"../folder_data/{user_to_delete.username}")
-            return jsonify({})
+            return jsonify({"Status":"Delete success"})
         else:
             raise ValueError(f"User with id {rm_user} not found")
     except Exception as e:
-        print(f"Error removing user: {e}")
-        return jsonify({'error': 'An error occurred while removing the user.'}), 500
-    
-@app.route('/delete', methods = ['POST'])
-def delete():
-    try:
-        even = json.loads(request.data)
-        id = even['Id']
-        folder=Folder.query.filter_by(id = id, user_id=current_user.id).first()
-        file = File.query.filter_by(id = id, user_id=current_user.id).first()
-        if file:
-            if file.user_id == current_user.id and file.folder_id is None:
-                file_to_delete=file.path
-                # Delete the file from the user's folder
-                if os.path.exists(file_to_delete):
-                    os.remove(file_to_delete)
-                    print('File deleted from folder successfully')
-                    # Delete the file entry from the database
-                    db.session.delete(file)
-                    db.session.commit()
-                else:
-                    print('File not found in folder')
-        elif folder:
-            if folder.user_id==current_user.id:
-                folder_to_delete=folder.path
-                if os.path.exists(folder_to_delete):
-                    shutil.rmtree(folder_to_delete)
-                    print('Folder deleted successfully')
-                    db.session.delete(folder)
-                    db.session.commit()
-                else:
-                    print('Folder can not find')
-
-        else:
-            raise ValueError("File not found")
-
-        return jsonify({})
-    except Exception as e:
-        print(f"Error deleting file: {e}")
-        return jsonify({'error': 'An error occurred while deleting the file.'}), 500
-    
-@app.route('/delete-subfile', methods=['POST'])
-def delete_subfile():
-    try:
-        event = json.loads(request.data)
-        file_id = event['Id']
-        file = File.query.filter_by(id=file_id, user_id=current_user.id).first()
-
-        if file:
-            if file.user_id == current_user.id:
-                folder = Folder.query.get(file.folder_id)
-                if folder and is_file_in_folder(file, folder):
-                    file_to_delete = file.path
-                    if os.path.exists(file_to_delete):
-                        os.remove(file_to_delete)
-                        print('File deleted from folder successfully')
-                        db.session.delete(file)
-                        db.session.commit()
-                    else:
-                        print('File not found in folder')
-                else:
-                    print('You do not have permission to delete this file')
-            else:
-                print('You do not have permission to delete this file')
-        else:
-            raise ValueError('File not found')
-
-        return jsonify({})
-    except Exception as e:
-        print(f"Error deleting file: {e}")
-        return jsonify({'error': 'An error occurred while deleting the file.'}), 500
-    
-@app.route('/delete-folder', methods=['POST'])
-def delete_folder():
-    try:
-        event = json.loads(request.data)
-        folder_id = event['Id']
-        delete_folder_recursive(folder_id)
-    except Exception as e:
-        print(f"Error deleting folder: {e}")
-        return jsonify({'error': 'An error occurred while deleting the folder.'}), 500
-    return jsonify({})
-
-@app.route('/forgot', methods=['GET', 'POST'])
-def forgot():
-    if request.method == 'POST':
-        email = request.form["email"]
-        users = User.query.filter_by(email = email).first()
-        if users:
-            return redirect(url_for('reset_password', email=email))
-        else:
-            flash("The email does not match", category= 'error')
-            return render_template('forgot.html')
-    
-    return render_template('forgot.html')
-
-@app.route('/reset',methods=['POST','GET'])
-def reset():
-    if request.method=='POST':
-        password=request.form["password"]
-        user=User.query.filter_by(username=current_user.username).first()
-        if check_password_hash(user.password, password):
-            return redirect(url_for('reset_password', email=user.email))
-    return render_template("reset.html")
-
-@app.route('/reset-password', methods=['GET', 'POST'])
-def reset_password():
-    email = request.args.get('email')
-    
-    if request.method == 'POST':
-        # Handle the password reset form submission
-        password = request.form['password']
-        re_password = request.form['re-password']
-        
-        # Validate the password and re_password
-        if password != re_password:
-            flash('Passwords do not match!', category='error')
-        elif len(password) < 7:
-            flash('Password must be greater than 7 characters', category='error')
-        else:
-            # Update the user's password in the database
-            user = User.query.filter_by(email=email).first()
-            if user:
-                hashed_password = generate_password_hash(password)
-                user.password = hashed_password
-                db.session.commit()
-                flash("Your password has been reset successfully.", category='success')
-                return redirect(url_for('login'))
-            else:
-                flash("User not found.", category='error')
-    
-    return render_template('reset_password.html', email=email)
-
-@app.route('/download/<file_id>',methods=['GET'])
-def download_file(file_id):
-    return send_file(path_or_file=f"../folder_data/{current_user.username}/temp_selected_data.csv", as_attachment=True, mimetype="text/csv")
-    
-@app.route('/execute', methods = ['POST'])
-def execute_fatsq():
-    from executing import execute_file
-    event=json.loads(request.data)
-    id=event['Id']
-    folder=Folder.query.filter_by(id = id).first()
-    try:
-        execute_file(folder, current_user)
-        return jsonify({"Status":"True"})
-    except:
-        return jsonify({"Status":"False"})
-
-
-@app.route('/upload')
-def upload():
-    return render_template('upload_file.html', user = current_user)
-@app.route('/sub-upload/<folder_id>')
-def subupload(folder_id):
-    folder = Folder.query.get_or_404(folder_id)
-    return render_template('upload_subfile.html', user = current_user, folder = folder)
+        flash("Error removing user: {e}",category='error')
+        return jsonify({'Status': 'Error occurred while removing the user.'}), 500
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders

@@ -12,6 +12,16 @@
 body{
     font-family: sans-serif;
 }
+.alert{
+    z-index: 9999;
+    width: 100%;
+    height: fit-content;
+    margin: 0;
+}
+.fade:not(.show){
+    display: none;
+}
+
 .navbar-nav img{
     width: 100%;
 }

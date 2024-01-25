@@ -17,6 +17,12 @@ function checkURL(){
     });
 }
 
+setTimeout(function(){
+    let alert=document.getElementById("alert");
+    alert.classList.remove("show");
+    alert.classList.add("hide")
+},3000)
+
 document.getElementById("icon").onclick=()=>{
     const passwordInput=document.getElementById("password");
     const toggleButton=document.getElementById("icon");
