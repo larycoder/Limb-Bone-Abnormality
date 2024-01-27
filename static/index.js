@@ -58,8 +58,7 @@ function changeColor(){
     let step2 = document.getElementById('step-2')
     step2.src = "../static/images/step2_color.png"
 }
-function executeF(Id){
-    changeColor()
+function executeF(Id, name){
     fetch('/execute',{
         method: 'POST',
         body: JSON.stringify({Id: Id}),
@@ -69,10 +68,27 @@ function executeF(Id){
         }
         return response.json();
     }).then(data=>{
-        window.location.href="/folder/"+ Id;})
+        window.location.href="/folder/"+ Id;
+        if(check_screen_session(name)){
+            changeColor()
+        }
+    })
     }
 
+function check_screen_session(name){
+    const { exec } = require('child_process');
 
+    const screenName = name; // Replace with the actual screen name
+
+    exec(`screen -list | grep "${screenName}"`, (error, stdout, stderr) => {
+    if (stdout.includes(screenName)) {
+        return true;
+    } else {
+        return false;
+    }
+});
+
+}
 
 function executeSubF(Id,folder_id){
     fetch('/executeSubF',{

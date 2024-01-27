@@ -161,9 +161,7 @@ def get_folder(folder_id):
         if 'inputFile1' in request.files:
             sub_file = request.files['inputFile1']
             
-            if sub_file.filename == '':
-                flash("No file selected!", category='error')
-            else:
+            if sub_file.filename != '':
                 file_name=f"{folder.name}_1.fastq.gz"
                 file=File.query.filter_by(name=file_name).first()
                 if file==None:
@@ -182,9 +180,7 @@ def get_folder(folder_id):
         if 'inputFile2' in request.files:
             sub_file = request.files['inputFile2']
             
-            if sub_file.filename == '':
-                flash("No file selected!", category='error')
-            else:
+            if sub_file.filename != '':
                 file_name=f"{folder.name}_2.fastq.gz"
                 file=File.query.filter_by(name=file_name).first()
                 if file==None:

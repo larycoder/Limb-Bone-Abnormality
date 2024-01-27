@@ -42,7 +42,7 @@
  <form action="/folder/{{ folder.id }}" method="post" enctype="multipart/form-data" id="uploadForm">
   <div id="fileInputContainer">
 	  {% if subfiles|length>=2 %}
-      <button type="button" class="btn-primary btn execute-button" id="addFileBtn" onclick="executeF('{{ folder.id }}')">Analyze FastQ files</button>
+      <button type="button" class="btn-primary btn execute-button" id="addFileBtn" onclick="executeF('{{ folder.id }}','{{ folder.name }}')">Analyze FastQ files</button>
     {% else %}
     <ul>
       {%if subfiles|length==0%}

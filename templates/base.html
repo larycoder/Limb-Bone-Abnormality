@@ -90,22 +90,30 @@
         </div>
         </div>
     </nav>
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-        messages %} {% for category, message in messages %} {% if category == 'error' %}
-        <div class="alert alert-danger alter-dismissable fade show" role="alert" id="alert">
-          {{ message }}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {# Get the last message #}
+      {% set last_message = messages[-1] %}
+  
+      {# Check the category of the last message #}
+      {% if last_message[0] == 'error' %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+          {{ last_message[1] }}
           <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        {% else %}
-        <div class="alert alert-success alter-dismissable fade show" role="alert" id="alert">
-          {{ message }}
+      {% else %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="alert">
+          {{ last_message[1] }}
           <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        {% endif %} {% endfor %} {% endif %} {% endwith %}
+      {% endif %}
+    {% endif %}
+  {% endwith %}
+  
     {% block content %}
     {% endblock %}
     <script
