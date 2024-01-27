@@ -49,3 +49,7 @@ document.getElementById("re-icon").onclick=(event)=>{
         toggleButton.src="../static/images/eye-show.png";
     }
 }
+
+function AutoRefresh(referesh) {
+    setTimeout("location.reload(true);", referesh)
+}

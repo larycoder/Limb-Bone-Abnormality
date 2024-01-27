@@ -67,18 +67,12 @@ function executeF(folderId, folderName) {
     })
     .then(data => {
         console.log('Execution successful:', data);
-        // After execution, check for updates with a delay
-        setTimeout(() => checkForUpdates(folderId), 1000);
+        window.location.href = "/folder/"+ folderId;
     })
     .catch(error => console.error('Error executing:', error));
 }
 
-function checkForUpdates(folderId) {
-    // Use setInterval to reload the page every 5 seconds
-    setInterval(() => {
-        window.location.href = "/folder/" + folderId;
-    }, 5000);
-}
+
 
 
 
