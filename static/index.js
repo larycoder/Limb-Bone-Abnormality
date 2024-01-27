@@ -54,7 +54,7 @@ function deleteSubFolder(Id, parent_folder_id) {
         console.error(error);
     });
 }
-function executeF(Id, name){
+function executeF(Id){
     fetch('/execute',{
         method: 'POST',
         body: JSON.stringify({Id: Id}),
@@ -64,7 +64,7 @@ function executeF(Id, name){
         }
         return response.json();
     }).then(data=>{
-        window.location.reload();
+        window.location.href = "/folder/"+ folder_id;
     })
 }
 
