@@ -74,20 +74,10 @@ function executeF(folderId, folderName) {
 }
 
 function checkForUpdates(folderId) {
-    fetch(`/folder/${folderId}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log('Folder data:', data);
-            // If an update is detected, reload the page
-            if (data.updated) {
-                console.log('Reloading page...');
-                setTimeout(() => location.reload(), 1000);
-            } else {
-                // If no update, continue checking for updates
-                setTimeout(() => checkForUpdates(folderId), 5000);
-            }
-        })
-        .catch(error => console.error('Error checking for updates:', error));
+    // Use setInterval to reload the page every 5 seconds
+    setInterval(() => {
+        window.location.href = "/folder/" + folderId;
+    }, 5000);
 }
 
 
