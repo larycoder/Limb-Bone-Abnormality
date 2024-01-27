@@ -63,10 +63,16 @@ function executeF(Id){
             throw new Error("HTTP error! Status:",response.status);
         }
         return response.json();
-    }).then(data=>{
+    }).then((res) => res.json)
+    .then(data=>{
+        if(data.updated){
+            location.reload
+        }
         window.location.href = "/folder/"+ folder_id;
     })
+    .catch(error => console.error('Error checking for updates:', error));
 }
+setInterval(executeF, 300000)
 
 function executeSubF(Id,folder_id){
     fetch('/executeSubF',{
