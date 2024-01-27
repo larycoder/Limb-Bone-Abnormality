@@ -54,31 +54,36 @@ function deleteSubFolder(Id, parent_folder_id) {
         console.error(error);
     });
 }
-function executeF(Id){
-    fetch('/execute',{
+function executeF(Id) {
+    fetch('/execute', {
         method: 'POST',
-        body: JSON.stringify({Id: Id}),
-    }).then((response) =>{
-        if(!response.ok){
-            throw new Error("HTTP error! Status:",response.status);
-        }
-        return response.json();
-    }).then(data=>{
-        window.location.href = "/folder/"+ folder_id;
+        body: JSON.stringify({ Id: Id }),
     })
-
-    fetch('/folder/'+Id)  // Update the endpoint to match your route
-    .then(response => response.json())
-    .then(data => {
-      if (data.updated) {
-        // If an update is detected, reload the page
-        location.reload();
-      }
-    })
-    .catch(error => console.error('Error checking for updates:', error));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("HTTP error! Status:", response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            checkForUpdates(Id);
+        })
+        .catch(error => console.error('Error executing:', error));
 }
-  // Check for updates every 5 seconds (adjust the interval as needed)
-setInterval(executeF, 5000);
+executeF(Id);
+function checkForUpdates(Id) {
+    fetch(`/check_updates/${Id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.updated) {
+                // If an update is detected, reload the page
+                location.reload();
+            }
+        })
+        .catch(error => console.error('Error checking for updates:', error));
+}
+  // Check for updates every 5 seconds 
+setInterval(() => checkForUpdates(Id), 5000);
 
 function executeSubF(Id,folder_id){
     fetch('/executeSubF',{

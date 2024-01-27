@@ -44,6 +44,13 @@ def about_us():
 def reload():
     return redirect(current_page)
 
+@app.route('/check_updates/<folder_id>')
+@login_required
+def check_updates(folder_id):
+    folder = Folder.query.get_or_404(folder_id)
+    csv_file = File.query.filter_by(name=f"{folder.name}.indels.hg19_multianno.csv").first()
+    return jsonify({'updated': csv_file is not None})
+
 @app.route('/forgot', methods=['GET', 'POST'])
 def forgot():
     if request.method == 'POST':
