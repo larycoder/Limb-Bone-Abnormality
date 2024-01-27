@@ -50,6 +50,3 @@ document.getElementById("re-icon").onclick=(event)=>{
     }
 }
 
-function AutoRefresh(referesh) {
-    setTimeout("location.reload(true);", referesh)
-}
