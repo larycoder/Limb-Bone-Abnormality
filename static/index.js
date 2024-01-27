@@ -54,10 +54,6 @@ function deleteSubFolder(Id, parent_folder_id) {
         console.error(error);
     });
 }
-function changeColor(){
-    let step2 = document.getElementById('step-2')
-    step2.src = "../static/images/step2_color.png"
-}
 function executeF(Id, name){
     fetch('/execute',{
         method: 'POST',
@@ -68,26 +64,8 @@ function executeF(Id, name){
         }
         return response.json();
     }).then(data=>{
-        window.location.href="/folder/"+ Id;
-        if(check_screen_session(name)){
-            changeColor()
-        }
+        window.location.reload();
     })
-    }
-
-function check_screen_session(name){
-    const { exec } = require('child_process');
-
-    const screenName = name; // Replace with the actual screen name
-
-    exec(`screen -list | grep "${screenName}"`, (error, stdout, stderr) => {
-    if (stdout.includes(screenName)) {
-        return true;
-    } else {
-        return false;
-    }
-});
-
 }
 
 function executeSubF(Id,folder_id){

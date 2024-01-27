@@ -14,7 +14,7 @@
         <img src="../static/images/step2_color.png" alt="Step 2" class="step-2 step-image" id="step-2">
         <img src="../static/images/step3_color.png" alt="Step 3" class="step-3 step-image">
       {% else %}
-        <img src="../static/images/step2.png" alt="Step 2" class="step-2 step-image" id="step-2">
+        <img src="../static/images/step2.png" alt="Step 2" class="step-2 non_color step-image" id="step-2">
         <img src="../static/images/step3.png" alt="Step 3" class="step-3 step-image">
       {% endif %}
     </div>
@@ -29,7 +29,7 @@
         {% if subfile.name.endswith('.gz') %}
           <div class="file-list name-file">
             <li>{{ subfile.name }}</li>
-            <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
+            <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
