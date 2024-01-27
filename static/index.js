@@ -66,25 +66,28 @@ function executeF(Id) {
             return response.json();
         })
         .then(data => {
-            // delay 1 second before checking for updates
+ 
             setTimeout(() => checkForUpdates(Id), 1000);
         })
         .catch(error => console.error('Error executing:', error));
 }
-executeF(Id);
 
 function checkForUpdates(Id) {
+
     fetch(`/folder/${Id}`)
         .then(response => response.json())
         .then(data => {
-            // If an update is detected, reload the page
-            window.location.href = "/folder/" + Id;
+            setTimeout(() => location.reload(), 1000);
         })
         .catch(error => console.error('Error checking for updates:', error));
 }
 
+
+executeF(Id);
+
 // Check for updates every 5 seconds
 setInterval(() => checkForUpdates(Id), 5000);
+
 
 function executeSubF(Id,folder_id){
     fetch('/executeSubF',{
