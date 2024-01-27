@@ -40,6 +40,9 @@ def ourstory():
 @app.route("/aboutus")
 def about_us():
     return render_template('about_us.html')
+@app.route("/reload")
+def reload():
+    return redirect(url_for("get_folder"))
 
 @app.route('/forgot', methods=['GET', 'POST'])
 def forgot():
