@@ -72,13 +72,11 @@ function executeF(Id) {
 }
 executeF(Id);
 function checkForUpdates(Id) {
-    fetch(`/check_updates/${Id}`)
+    fetch(`/folder/${Id}`)
         .then(response => response.json())
         .then(data => {
-            if (data.updated) {
                 // If an update is detected, reload the page
-                location.reload();
-            }
+                window.location.href = "/folder/"+ Id;
         })
         .catch(error => console.error('Error checking for updates:', error));
 }
