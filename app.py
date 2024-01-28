@@ -164,10 +164,10 @@ def get_folder(folder_id):
             
             if sub_file.filename != '':
                 file_name=f"{folder.name}_1.fastq.gz"
-                file=File.query.filter_by(name=file_name).first()
+                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                path+=f"/{file_name}"
+                file=File.query.filter_by(path=path).first()
                 if file==None:
-                    path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                    path+=f"/{file_name}"
                     # Save the uploaded file to the specified path
                     sub_file.save(path)
 
@@ -183,10 +183,10 @@ def get_folder(folder_id):
             
             if sub_file.filename != '':
                 file_name=f"{folder.name}_2.fastq.gz"
-                file=File.query.filter_by(name=file_name).first()
+                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                path+=f"/{file_name}"
+                file=File.query.filter_by(path=path).first()
                 if file==None:
-                    path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
-                    path+=f"/{file_name}"
                     # Save the uploaded file to the specified path
                     sub_file.save(path)
 
