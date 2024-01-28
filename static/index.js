@@ -54,26 +54,21 @@ function deleteSubFolder(Id, parent_folder_id) {
         console.error(error);
     });
 }
-function executeF(folderId, folderName) {
-    fetch('/execute', {
+function executeF(Id){
+    fetch('/execute',{
         method: 'POST',
-        body: JSON.stringify({ Id: folderId }),
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error("HTTP error! Status:", response.status);
+        body: JSON.stringify({Id: Id}),
+    }).then((response) =>{
+        if(!response.ok){
+            throw new Error("HTTP error! Status:",response.status);
         }
         return response.json();
+    }).then((res) => res.json)
+    .then(data=>{
+        window.location.href = "/folder/"+ folder_id;
     })
-    .then(data => {
-        console.log('Execution successful:', data);
-        window.location.href = "/folder/"+ folderId;
-    })
-    .catch(error => console.error('Error executing:', error));
+
 }
-
-
-
 
 
 function executeSubF(Id,folder_id){

@@ -40,9 +40,7 @@ def ourstory():
 @app.route("/aboutus")
 def about_us():
     return render_template('about_us.html')
-@app.route("/reload",methods=["POST"])
-def reload():
-    return redirect(current_page)
+
 
 @app.route('/forgot', methods=['GET', 'POST'])
 def forgot():
@@ -157,8 +155,6 @@ def folder():
 @app.route('/folder/<folder_id>', methods=['GET', 'POST'])
 @login_required
 def get_folder(folder_id):
-    global current_page
-    current_page=request.url
     folder = Folder.query.get_or_404(folder_id)
     file = File.query.filter_by(folder_id=folder.id).first()
     if request.method == 'POST':

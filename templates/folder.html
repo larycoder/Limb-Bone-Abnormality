@@ -28,7 +28,7 @@
         {% if subfile.name.endswith('.gz') %}
           <div class="file-list name-file">
             <li>{{ subfile.name }}</li>
-            <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}')">
+            <button type="button" class="close" onclick="deleteSubFile('{{ subfile.id }}','{{ subfile.folder_id }}')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -41,7 +41,7 @@
  <form action="/folder/{{ folder.id }}" method="post" enctype="multipart/form-data" id="uploadForm">
   <div id="fileInputContainer">
 	  {% if subfiles|length>=2 %}
-      <button type="button" class="btn-primary btn execute-button" id="addFileBtn" onclick="executeF('{{ folder.id }}','{{ folder.name }}')">Analyze FastQ files</button>
+    <button type="button" class="btn-primary btn execute-button" id="addFileBtn" onclick="executeF('{{ folder.id }}')">Analyze FastQ files</button>
     {% else %}
     <ul>
       {%if subfiles|length==0%}
