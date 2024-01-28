@@ -138,9 +138,9 @@ def folder():
             if folder_name == '':
                 flash('No folder name provied!', category= 'error')
             else:
-                folder=Folder.query.filter_by(name=folder_name).first()
+                folder_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}", folder_name)
+                folder=Folder.query.filter_by(path=folder_path).first()
                 if folder==None:
-                    folder_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}", folder_name)
 
                     # Add folder to database
                     new_folder = Folder(path = folder_path,name= folder_name, user_id = current_user.id)
