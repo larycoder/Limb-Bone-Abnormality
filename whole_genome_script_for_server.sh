@@ -23,7 +23,7 @@ annovar_convert="$TOOLS_PATH/annovar/convert2annovar.pl"
 annovar="$TOOLS_PATH/annovar/annotate_variation.pl"
 annovar_table="$TOOLS_PATH/annovar/table_annovar.pl"
 humandb="$TOOLS_PATH/annovar/humandb"
-G_REF="/storage/student10/hg19.fa" 
+G_REF="/storage/student10/hg38.fa" 
 
 #########################
 #SAMPLE DATA PREPARATION#
