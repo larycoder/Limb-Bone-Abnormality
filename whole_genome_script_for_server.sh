@@ -288,7 +288,7 @@ echo "=================="
 #$humandb \
 #--outfile ${sample_id}.SNPs 
 
-$annovar_table ${sample_id}.SNPs.PASS.avinput $humandb -buildver hg19 \
+$annovar_table ${sample_id}.SNPs.PASS.avinput $humandb -buildver hg38 \
 -out ${sample_id}.SNPs -remove -protocol refGene,avsnp150 \
 -operation g,f -nastring . \
 -csvout -polish --otherinfo
@@ -298,7 +298,7 @@ $annovar_table ${sample_id}.SNPs.PASS.avinput $humandb -buildver hg19 \
 #$humandb \
 #--outfile ${sample_id}.indels
 
-$annovar_table ${sample_id}.indels.PASS.avinput $humandb -buildver hg19 \
+$annovar_table ${sample_id}.indels.PASS.avinput $humandb -buildver hg38 \
 -out ${sample_id}.indels \
 -remove -protocol refGene,avsnp150 \
 -operation g,f -nastring . \
