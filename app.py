@@ -11,7 +11,9 @@ import pandas as pd
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Account.db'
-app.config['CREATE FOLDER FOR USER'] = '../folder_data'
+folder_data_dir = '../folder_data'
+source_file_path="whole_genome_script_for_server.sh"
+
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -97,10 +99,9 @@ def sign_up():
         elif len(password) < 7:
             flash('Password must be greater than 7 characters', category='error')
         else:
-            folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], username)
+            folder_path = os.path.join(folder_data_dir, username)
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
-                source_file_path="whole_genome_script_for_server.sh"
                 destination_folder_path=folder_path
                 copy_and_paste_file(source_file_path, destination_folder_path)
             new_user = User(
@@ -138,7 +139,7 @@ def folder():
             if folder_name == '':
                 flash('No folder name provied!', category= 'error')
             else:
-                folder_path = os.path.join(f"{app.config['CREATE FOLDER FOR USER']}/{current_user.username}", folder_name)
+                folder_path = os.path.join(f"{folder_data_dir}/{current_user.username}", folder_name)
                 folder=Folder.query.filter_by(path=folder_path).first()
                 if folder==None:
 
@@ -164,7 +165,7 @@ def get_folder(folder_id):
             
             if sub_file.filename != '':
                 file_name=f"{folder.name}_1.fastq.gz"
-                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                path=os.path.join(folder_data_dir, current_user.username)
                 path+=f"/{file_name}"
                 file=File.query.filter_by(path=path).first()
                 if file==None:
@@ -183,7 +184,7 @@ def get_folder(folder_id):
             
             if sub_file.filename != '':
                 file_name=f"{folder.name}_2.fastq.gz"
-                path=os.path.join(app.config['CREATE FOLDER FOR USER'], current_user.username)
+                path=os.path.join(folder_data_dir, current_user.username)
                 path+=f"/{file_name}"
                 file=File.query.filter_by(path=path).first()
                 if file==None:
@@ -232,7 +233,7 @@ def get_file(file_id):
         
         # Create dataframe for all the columns have choosed
         selected_df=df[selected_columns]
-        temp_file_path = f'../folder_data/{current_user.username}/temp_selected_data.csv'
+        temp_file_path = f'{folder_data_dir}/{current_user.username}/temp_selected_data.csv'
         selected_df.to_csv(temp_file_path, index=False)
         selected_df=selected_df.head(20)
 
@@ -329,7 +330,7 @@ def reset_password():
 @app.route('/download/<file_id>',methods=['GET'])
 @login_required
 def download_file(file_id):
-    return send_file(path_or_file=f"../folder_data/{current_user.username}/temp_selected_data.csv", as_attachment=True, mimetype="text/csv")
+    return send_file(path_or_file=f"{folder_data_dir}/{current_user.username}/temp_selected_data.csv", as_attachment=True, mimetype="text/csv")
     
 @app.route('/execute', methods = ['POST'])
 @login_required
@@ -372,7 +373,7 @@ def create_user():
         elif len(password) < 7:
             flash('Password must be greater than 7 characters', category='error')
         else:
-            folder_path = os.path.join(app.config['CREATE FOLDER FOR USER'], username)
+            folder_path = os.path.join(folder_data_dir, username)
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
                 source_file_path="whole_genome_script_for_server.sh"
@@ -423,7 +424,7 @@ def rm_user():
                 db.session.delete(folder_obj)
             db.session.delete(user_to_delete)
             db.session.commit()
-            shutil.rmtree(f"../folder_data/{user_to_delete.username}")
+            shutil.rmtree(f"{folder_data_dir}/{user_to_delete.username}")
             return jsonify({"Status":"Delete success"})
         else:
             raise ValueError(f"User with id {rm_user} not found")
