@@ -303,5 +303,3 @@ $annovar_table ${sample_id}.indels.PASS.avinput $humandb -buildver hg38 \
 -remove -protocol refGene,avsnp150 \
 -operation g,f -nastring . \
 -csvout -polish --otherinfo
-
-curl -X POST -v http://127.0.0.1:5000/reload

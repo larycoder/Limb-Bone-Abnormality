@@ -403,10 +403,11 @@ def change_role():
         elif user.role==3:
             user.role=2
         db.session.commit()
-        return jsonify({"Status":"Successfully"})
+        flash("Update successfully", category='Success')
+        return redirect(url_for("admin"))
     except Exception as e:
-        print(f"Error removing user: {e}")
-        return jsonify({'error': 'An error occurred while removing the user.'}), 500
+        flash(f"Error removing user: {e}", category='error')
+        return redirect(url_for("admin"))
 
 @app.route('/delete-user', methods=['POST'])
 @login_required
@@ -425,12 +426,13 @@ def rm_user():
             db.session.delete(user_to_delete)
             db.session.commit()
             shutil.rmtree(f"{folder_data_dir}/{user_to_delete.username}")
-            return jsonify({"Status":"Delete success"})
+            flash("Deleted successfully", category='success')
+            return redirect(url_for("admin"))
         else:
             raise ValueError(f"User with id {rm_user} not found")
     except Exception as e:
         flash("Error removing user: {e}",category='error')
-        return jsonify({'Status': 'Error occurred while removing the user.'}), 500
+        return redirect(url_for("/admin"))
 
 def is_file_in_folder(file, folder):
     # Check if the file's folder matches the specified folder or any of its subfolders
