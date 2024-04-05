@@ -376,7 +376,6 @@ def create_user():
             folder_path = os.path.join(folder_data_dir, username)
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
-                source_file_path="whole_genome_script_for_server.sh"
                 destination_folder_path=folder_path
                 copy_and_paste_file(source_file_path, destination_folder_path)
             new_user = User(
