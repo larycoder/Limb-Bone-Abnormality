@@ -11,7 +11,8 @@ import pandas as pd
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a secrect key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Account.db'
-folder_data_dir = '../folder_data'
+#folder_data_dir = '../folder_data'
+folder_data_dir = './deployment/folder_data'
 source_file_path="whole_genome_script_for_server.sh"
 
 db.init_app(app)
